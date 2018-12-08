@@ -26,10 +26,16 @@ extern "C" {
 void BOARD_InitBootPins(void);
 
 /*!
- * @brief Configures pin routing and optionally pin electrical features.
+ * @brief Configures pin routing and optionally pin electrical features for the Ethernet.
  *
  */
-void BOARD_InitPins(void);
+void BOARD_InitENET(void);
+
+/*!
+ * @brief Configures pin routing and optionally pin electrical features for the LEDs.
+ *
+ */
+void BOARD_InitLEDs(void);
 
 #if defined(__cplusplus)
 }
