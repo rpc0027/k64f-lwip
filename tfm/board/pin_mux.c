@@ -12,6 +12,10 @@ processor: MK64FN1M0xxx12
 package_id: MK64FN1M0VLL12
 mcu_data: ksdk2_0
 processor_version: 4.0.1
+pin_labels:
+- {pin_num: '68', pin_signal: PTB22/SPI2_SOUT/FB_AD29/CMP2_OUT, label: LED_RED, identifier: LED_RED}
+- {pin_num: '67', pin_signal: PTB21/SPI2_SCK/FB_AD30/CMP1_OUT, label: LED_BLUE, identifier: LED_BLUE}
+- {pin_num: '33', pin_signal: PTE26/ENET_1588_CLKIN/UART4_CTS_b/RTC_CLKOUT/USB_CLKIN, label: LED_GREEN, identifier: LED_GREEN}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -146,35 +150,35 @@ void BOARD_InitLEDs(void)
     /* Port E Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortE);
 
-    gpio_pin_config_t gpiob_pin67_config = {
+    gpio_pin_config_t LED_BLUE_config = {
         .pinDirection = kGPIO_DigitalOutput,
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTB21 (pin 67)  */
-    GPIO_PinInit(GPIOB, 21U, &gpiob_pin67_config);
+    GPIO_PinInit(BOARD_INITLEDS_LED_BLUE_GPIO, BOARD_INITLEDS_LED_BLUE_PIN, &LED_BLUE_config);
 
-    gpio_pin_config_t gpiob_pin68_config = {
+    gpio_pin_config_t LED_RED_config = {
         .pinDirection = kGPIO_DigitalOutput,
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTB22 (pin 68)  */
-    GPIO_PinInit(GPIOB, 22U, &gpiob_pin68_config);
+    GPIO_PinInit(BOARD_INITLEDS_LED_RED_GPIO, BOARD_INITLEDS_LED_RED_PIN, &LED_RED_config);
 
-    gpio_pin_config_t gpioe_pin33_config = {
+    gpio_pin_config_t LED_GREEN_config = {
         .pinDirection = kGPIO_DigitalOutput,
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTE26 (pin 33)  */
-    GPIO_PinInit(GPIOE, 26U, &gpioe_pin33_config);
+    GPIO_PinInit(BOARD_INITLEDS_LED_GREEN_GPIO, BOARD_INITLEDS_LED_GREEN_PIN, &LED_GREEN_config);
 
     /* PORTB21 (pin 67) is configured as PTB21 */
-    PORT_SetPinMux(PORTB, 21U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(BOARD_INITLEDS_LED_BLUE_PORT, BOARD_INITLEDS_LED_BLUE_PIN, kPORT_MuxAsGpio);
 
     /* PORTB22 (pin 68) is configured as PTB22 */
-    PORT_SetPinMux(PORTB, 22U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(BOARD_INITLEDS_LED_RED_PORT, BOARD_INITLEDS_LED_RED_PIN, kPORT_MuxAsGpio);
 
     /* PORTE26 (pin 33) is configured as PTE26 */
-    PORT_SetPinMux(PORTE, 26U, kPORT_MuxAsGpio);
+    PORT_SetPinMux(BOARD_INITLEDS_LED_GREEN_PORT, BOARD_INITLEDS_LED_GREEN_PIN, kPORT_MuxAsGpio);
 }
 /***********************************************************************************************************************
  * EOF

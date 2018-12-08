@@ -95,15 +95,15 @@ outputs:
 - {id: Flash_clock.outFreq, value: 24 MHz}
 - {id: FlexBus_clock.outFreq, value: 40 MHz}
 - {id: LPO_clock.outFreq, value: 1 kHz}
-- {id: MCGFFCLK.outFreq, value: 625 kHz}
-- {id: OSCERCLK.outFreq, value: 20 MHz}
+- {id: MCGFFCLK.outFreq, value: 1.5625 MHz}
+- {id: OSCERCLK.outFreq, value: 50 MHz}
 - {id: System_clock.outFreq, value: 120 MHz}
 settings:
 - {id: MCGMode, value: PEE}
 - {id: MCG.FRDIV.scale, value: '32'}
 - {id: MCG.IREFS.sel, value: MCG.FRDIV}
 - {id: MCG.PLLS.sel, value: MCG.PLL}
-- {id: MCG.PRDIV.scale, value: '8', locked: true}
+- {id: MCG.PRDIV.scale, value: '20', locked: true}
 - {id: MCG.VDIV.scale, value: '48', locked: true}
 - {id: MCG_C2_RANGE0_CFG, value: Very_high}
 - {id: MCG_C2_RANGE0_FRDIV_CFG, value: Very_high}
@@ -112,7 +112,7 @@ settings:
 - {id: SIM.OUTDIV3.scale, value: '3'}
 - {id: SIM.OUTDIV4.scale, value: '5'}
 sources:
-- {id: OSC.OSC.outFreq, value: 20 MHz, enabled: true}
+- {id: OSC.OSC.outFreq, value: 50 MHz, enabled: true}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -132,7 +132,7 @@ const mcg_config_t mcgConfig_BOARD_BootClockRUN =
         .pll0Config =
             {
                 .enableMode = MCG_PLL_DISABLE,    /* MCGPLLCLK disabled */
-                .prdiv = 0x7U,                    /* PLL Reference divider: divided by 8 */
+                .prdiv = 0x13U,                   /* PLL Reference divider: divided by 20 */
                 .vdiv = 0x18U,                    /* VCO divider: multiplied by 48 */
             },
     };
@@ -144,7 +144,7 @@ const sim_clock_config_t simConfig_BOARD_BootClockRUN =
     };
 const osc_config_t oscConfig_BOARD_BootClockRUN =
     {
-        .freq = 20000000U,                        /* Oscillator frequency: 20000000Hz */
+        .freq = 50000000U,                        /* Oscillator frequency: 50000000Hz */
         .capLoad = (OSC_CAP0P),                   /* Oscillator capacity load: 0pF */
         .workMode = kOSC_ModeExt,                 /* Use external clock */
         .oscerConfig =

@@ -3,6 +3,7 @@
    <common>
       <processor>MK64FN1M0xxx12</processor>
       <package>MK64FN1M0VLL12</package>
+      <board></board>
       <mcu_data>ksdk2_0</mcu_data>
       <cores selected="core0">
          <core name="Cortex-M4F" id="core0" description="M4 core"/>
@@ -137,7 +138,7 @@
                   </dependency>
                </dependencies>
                <clock_sources>
-                  <clock_source id="OSC.OSC.outFreq" value="20 MHz" locked="false" enabled="true"/>
+                  <clock_source id="OSC.OSC.outFreq" value="50 MHz" locked="false" enabled="true"/>
                </clock_sources>
                <clock_outputs>
                   <clock_output id="Bus_clock.outFreq" value="60 MHz" locked="false" accuracy=""/>
@@ -145,8 +146,8 @@
                   <clock_output id="Flash_clock.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="FlexBus_clock.outFreq" value="40 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_clock.outFreq" value="1 kHz" locked="false" accuracy=""/>
-                  <clock_output id="MCGFFCLK.outFreq" value="625 kHz" locked="false" accuracy=""/>
-                  <clock_output id="OSCERCLK.outFreq" value="20 MHz" locked="false" accuracy=""/>
+                  <clock_output id="MCGFFCLK.outFreq" value="1.5625 MHz" locked="false" accuracy=""/>
+                  <clock_output id="OSCERCLK.outFreq" value="50 MHz" locked="false" accuracy=""/>
                   <clock_output id="System_clock.outFreq" value="120 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
@@ -154,7 +155,7 @@
                   <setting id="MCG.FRDIV.scale" value="32" locked="false"/>
                   <setting id="MCG.IREFS.sel" value="MCG.FRDIV" locked="false"/>
                   <setting id="MCG.PLLS.sel" value="MCG.PLL" locked="false"/>
-                  <setting id="MCG.PRDIV.scale" value="8" locked="true"/>
+                  <setting id="MCG.PRDIV.scale" value="20" locked="true"/>
                   <setting id="MCG.VDIV.scale" value="48" locked="true"/>
                   <setting id="MCG_C2_RANGE0_CFG" value="Very_high" locked="false"/>
                   <setting id="MCG_C2_RANGE0_FRDIV_CFG" value="Very_high" locked="false"/>
