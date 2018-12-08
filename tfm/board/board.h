@@ -41,7 +41,10 @@
 /**
  * @brief	The board name 
  */
-#define BOARD_NAME "board"
+#define BOARD_NAME "FRDM-K64F"
+
+/*! @brief The ENET PHY address. */
+#define BOARD_ENET0_PHY_ADDRESS (0x00U) /* Phy address of enet port 0. */
 
 #if defined(__cplusplus)
 extern "C" {
