@@ -38,13 +38,14 @@
 /*! @brief Stack size of the temporary lwIP initialization thread. */
 #define STACK_INIT_THREAD_STACKSIZE 1024
 
-/*! @brief Priority of the temporary lwIP initialization thread. */
-#define STACK_INIT_THREAD_PRIO DEFAULT_THREAD_PRIO
-
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
 static void stack_init_thread(void *);
+static void toggle_leds_thread(void *);
+void toggle_red(void);
+void toggle_green(void);
+void toggle_blue(void);
 
 /*******************************************************************************
  * Variables
@@ -73,7 +74,7 @@ int main(void)
 	base->CESR &= ~SYSMPU_CESR_VLD_MASK;
 
 	/* Initialize lwIP from thread */
-	if (sys_thread_new("main", stack_init_thread, NULL, STACK_INIT_THREAD_STACKSIZE, STACK_INIT_THREAD_PRIO) == NULL)
+	if (sys_thread_new("main", stack_init_thread, NULL, STACK_INIT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
 	{
 		LWIP_ASSERT("main(): Stack init thread creation failed.", 0);
 	}
@@ -124,9 +125,116 @@ static void stack_init_thread(void *arg)
 			PRINTF(" IPv4 Subnet mask : %s\r\n",     ipaddr_ntoa(&netif->netmask));
 			PRINTF(" IPv4 Gateway     : %s\r\n\r\n", ipaddr_ntoa(&netif->gw));
 
+			/* Initialize toggle_leds_thread */
+			if (sys_thread_new("stack_init_thread", toggle_leds_thread, NULL, DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
+			{
+				LWIP_ASSERT("stack_init_thread(): toggle leds thread creation failed.", 0);
+			}
+
 			vTaskDelete(NULL);
 		}
 
 		sys_msleep(20U);
 	}
+}
+
+/*!
+ * @brief Toggles the LED indicated in a TCP package.
+ *
+ */
+static void toggle_leds_thread(void *arg)
+{
+	struct netconn *conn, *newconn;
+	err_t err, accept_err;
+	char buffer[1024];
+	struct netbuf *buf;
+	void *data;
+	u16_t len;
+	err_t recv_err;
+
+	/* Create a new TCP connection identifier. */
+	conn = netconn_new(NETCONN_TCP);
+
+	if (conn != NULL)
+	{
+		/* Bind connection to well known port number 1234. */
+		err = netconn_bind(conn, NULL, 1234);
+		if (err == ERR_OK)
+		{
+			/* Tell connection to go into listening mode. */
+			netconn_listen(conn);
+
+			PRINTF("Ready to toggle LEDs");
+
+			while (1)
+			{
+				/* Grab new connection. */
+				accept_err = netconn_accept(conn, &newconn);
+				/* Process the new connection. */
+				if (accept_err == ERR_OK)
+				{
+					while (( recv_err = netconn_recv(newconn, &buf)) == ERR_OK)
+					{
+						do
+						{
+							netbuf_copy(buf, buffer, sizeof(buffer));
+							buffer[buf->p->tot_len] = '\0';
+							netbuf_data(buf, &data, &len);
+
+							if (strcmp(buffer, "red") == 0)
+							{
+								toggle_red();
+							}
+							else if (strcmp(buffer, "green") == 0)
+							{
+								toggle_green();
+							}
+							else if (strcmp(buffer, "blue") == 0)
+							{
+								toggle_blue();
+							}
+						}
+						while (netbuf_next(buf) >= 0);
+						netbuf_delete(buf);
+					}
+					/* Close connection and discard connection identifier. */
+					netconn_close(newconn);
+					netconn_delete(newconn);
+				}
+			}
+		}
+		else
+		{
+			netconn_delete(newconn);
+			PRINTF("Can not bind TCP netconn.");
+		}
+	}
+	else
+	{
+		PRINTF("Can not create TCP netconn.");
+	}
+}
+
+/*!
+ * @brief0 Toggles red LED.
+ */
+void toggle_red(void)
+{
+	GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_RED_GPIO, 1 <<  BOARD_INITLEDS_LED_RED_PIN);
+}
+
+/*!
+ * @brief Toggles green LED.
+ */
+void toggle_green(void)
+{
+	GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_GREEN_GPIO, 1 <<  BOARD_INITLEDS_LED_GREEN_PIN);
+}
+
+/*!
+ * @brief Toggles blue LED.
+ */
+void toggle_blue(void)
+{
+	GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_BLUE_GPIO, 1 <<  BOARD_INITLEDS_LED_BLUE_PIN);
 }
