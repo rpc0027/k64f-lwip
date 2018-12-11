@@ -13,6 +13,7 @@
 #include "fsl_i2c.h"
 #include "fsl_uart.h"
 #include "fsl_clock.h"
+#include "fsl_ftm.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -33,12 +34,21 @@ extern "C" {
 #define UART_0_PERIPHERAL UART0
 /* Definition of the clock source frequency */
 #define UART_0_CLOCK_SOURCE CLOCK_GetFreq(UART0_CLK_SRC)
+/* Definition of peripheral ID */
+#define FTM_0_PERIPHERAL FTM0
+/* Definition of the clock source frequency */
+#define FTM_0_CLOCK_SOURCE CLOCK_GetFreq(kCLOCK_BusClk)
+/* FTM_0 interrupt vector ID (number). */
+#define FTM_0_IRQN FTM0_IRQn
+/* FTM_0 interrupt handler identifier. */
+#define FTM_0_IRQHANDLER FTM0_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
 extern const i2c_master_config_t I2C_0_config;
 extern const uart_config_t UART_0_config;
+extern const ftm_config_t FTM_0_config;
 
 /***********************************************************************************************************************
  * Initialization functions

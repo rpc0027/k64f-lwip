@@ -116,7 +116,7 @@
                </pins>
             </function>
             <function name="BOARD_InitSerial">
-               <description>Configures pin routing and optionally pin electrical features.&amp;lt;br/&amp;gt;</description>
+               <description>Configures pin routing and optionally pin electrical features for serial comm.&amp;lt;br/&amp;gt;</description>
                <options>
                   <callFromInitBoot>true</callFromInitBoot>
                   <coreID>core0</coreID>
@@ -165,6 +165,34 @@
                   </pin>
                   <pin peripheral="UART0" signal="RX" pin_num="62" pin_signal="PTB16/SPI1_SOUT/UART0_RX/FTM_CLKIN0/FB_AD17/EWM_IN"/>
                   <pin peripheral="UART0" signal="TX" pin_num="63" pin_signal="PTB17/SPI1_SIN/UART0_TX/FTM_CLKIN1/FB_AD16/EWM_OUT_b"/>
+               </pins>
+            </function>
+            <function name="BOARD_InitPWM">
+               <description>Configures pin routing and optionally pin electrical features for PWM.&amp;lt;br/&amp;gt;</description>
+               <options>
+                  <callFromInitBoot>true</callFromInitBoot>
+                  <coreID>core0</coreID>
+                  <enableClock>true</enableClock>
+               </options>
+               <dependencies>
+                  <dependency resourceType="Peripheral" resourceId="FTM0" description="Peripheral FTM0 is not initialized" problem_level="1" source="Pins:BOARD_InitPWM">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD_InitPWM">
+                     <feature name="enabled" evaluation="equal" configuration="core0">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.port" description="Pins initialization requires the PORT Driver in the project." problem_level="2" source="Pins:BOARD_InitPWM">
+                     <feature name="enabled" evaluation="equal" configuration="core0">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+               </dependencies>
+               <pins>
+                  <pin peripheral="FTM0" signal="CH, 0" pin_num="71" pin_signal="ADC0_SE15/PTC1/LLWU_P6/SPI0_PCS3/UART1_RTS_b/FTM0_CH0/FB_AD13/I2S0_TXD0"/>
                </pins>
             </function>
          </functions_list>
@@ -222,16 +250,6 @@
       </clocks>
       <periphs name="Peripherals" version="4.1" enabled="true" update_project_code="true">
          <dependencies>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="UART Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="Unsupported version of the UART Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="compatible">
-                  <data type="Version">2.1.5</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.i2c" description="I2C Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -242,12 +260,32 @@
                   <data type="Version">2.0.5</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="UART Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.uart" description="Unsupported version of the UART Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="compatible">
+                  <data type="Version">2.1.5</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="FTM Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="Unsupported version of the FTM Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="compatible">
+                  <data type="Version">2.0.2</data>
+               </feature>
+            </dependency>
          </dependencies>
          <peripherals_profile>
             <processor_version>4.0.1</processor_version>
          </peripherals_profile>
          <functional_groups>
-            <functional_group name="BOARD_InitPeripherals" uuid="e22ef029-c064-4a7d-bba0-0e42c5cf39b4" called_from_default_init="true" id_prefix="" core="core0">
+            <functional_group name="BOARD_InitPeripherals" uuid="ccb1fcec-e44c-4346-b3db-2399148c6d08" called_from_default_init="true" id_prefix="" core="core0">
                <description></description>
                <options/>
                <dependencies>
@@ -281,8 +319,26 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
                </dependencies>
                <instances>
+                  <instance name="I2C_0" type="i2c" type_id="i2c_2566d7363e7e9aaedabb432110e372d7" mode="I2C_Polling" peripheral="I2C0" enabled="true">
+                     <config_set name="fsl_i2c" quick_selection="QS_I2C_1">
+                        <setting name="i2c_mode" value="kI2C_Master"/>
+                        <setting name="clockSource" value="BusInterfaceClock"/>
+                        <setting name="clockSourceFreq" value="GetFreq"/>
+                        <struct name="i2c_master_config">
+                           <setting name="enableMaster" value="true"/>
+                           <setting name="enableStopHold" value="false"/>
+                           <setting name="baudRate_Bps" value="100000"/>
+                           <setting name="glitchFilterWidth" value="0"/>
+                        </struct>
+                     </config_set>
+                  </instance>
                   <instance name="UART_0" type="uart" type_id="uart_cd31a12aa8c79051fda42cc851a27c37" mode="polling" peripheral="UART0" enabled="true">
                      <config_set name="uartConfig_t" quick_selection="QuickSelection1">
                         <struct name="uartConfig">
@@ -299,17 +355,50 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="I2C_0" type="i2c" type_id="i2c_2566d7363e7e9aaedabb432110e372d7" mode="I2C_Polling" peripheral="I2C0" enabled="true">
-                     <config_set name="fsl_i2c" quick_selection="QS_I2C_1">
-                        <setting name="i2c_mode" value="kI2C_Master"/>
-                        <setting name="clockSource" value="BusInterfaceClock"/>
-                        <setting name="clockSourceFreq" value="GetFreq"/>
-                        <struct name="i2c_master_config">
-                           <setting name="enableMaster" value="true"/>
-                           <setting name="enableStopHold" value="false"/>
-                           <setting name="baudRate_Bps" value="100000"/>
-                           <setting name="glitchFilterWidth" value="0"/>
+                  <instance name="FTM_0" type="ftm" type_id="ftm_5e037045c21cf6f361184c371dbbbab2" mode="EdgeAligned" peripheral="FTM0" enabled="true">
+                     <config_set name="ftm_main_config" quick_selection="QuickSelectionDefault">
+                        <struct name="ftm_config">
+                           <setting name="clockSource" value="kFTM_SystemClock"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="prescale" value="kFTM_Prescale_Divide_1"/>
+                           <setting name="timerFrequency" value="10000"/>
+                           <setting name="bdmMode" value="kFTM_BdmMode_0"/>
+                           <set name="pwmSyncMode">
+                              <selected>
+                                 <id>kFTM_SoftwareTrigger</id>
+                              </selected>
+                           </set>
+                           <set name="reloadPoints">
+                              <selected/>
+                           </set>
+                           <setting name="faultMode" value="kFTM_Fault_Disable"/>
+                           <setting name="faultFilterValue" value="0"/>
+                           <setting name="deadTimePrescale" value="kFTM_Deadtime_Prescale_1"/>
+                           <setting name="deadTimeValue" value="0"/>
+                           <set name="extTriggers">
+                              <selected/>
+                           </set>
+                           <set name="chnlInitState">
+                              <selected/>
+                           </set>
+                           <set name="chnlPolarity">
+                              <selected/>
+                           </set>
+                           <setting name="useGlobalTimeBase" value="false"/>
                         </struct>
+                        <set name="timer_interrupts">
+                           <selected/>
+                        </set>
+                        <setting name="enable_irq" value="false"/>
+                        <struct name="ftm_interrupt">
+                           <setting name="IRQn" value="FTM0_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="EnableTimerInInit" value="true"/>
+                     </config_set>
+                     <config_set name="ftm_edge_aligned_mode">
+                        <array name="ftm_edge_aligned_channels_config"/>
                      </config_set>
                   </instance>
                </instances>

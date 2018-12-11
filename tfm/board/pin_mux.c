@@ -36,6 +36,7 @@ void BOARD_InitBootPins(void)
     BOARD_InitENET();
     BOARD_InitLEDs();
     BOARD_InitSerial();
+    BOARD_InitPWM();
 }
 
 /* clang-format off */
@@ -201,7 +202,7 @@ BOARD_InitSerial:
 /* FUNCTION ************************************************************************************************************
  *
  * Function Name : BOARD_InitSerial
- * Description   : Configures pin routing and optionally pin electrical features.
+ * Description   : Configures pin routing and optionally pin electrical features for serial comm.
  *
  * END ****************************************************************************************************************/
 void BOARD_InitSerial(void)
@@ -271,6 +272,32 @@ void BOARD_InitSerial(void)
 
                   /* UART 0 transmit data source select: UART0_TX pin. */
                   | SIM_SOPT5_UART0TXSRC(SOPT5_UART0TXSRC_UART_TX));
+}
+
+/* clang-format off */
+/*
+ * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+BOARD_InitPWM:
+- options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
+- pin_list:
+  - {pin_num: '71', peripheral: FTM0, signal: 'CH, 0', pin_signal: ADC0_SE15/PTC1/LLWU_P6/SPI0_PCS3/UART1_RTS_b/FTM0_CH0/FB_AD13/I2S0_TXD0}
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
+ */
+/* clang-format on */
+
+/* FUNCTION ************************************************************************************************************
+ *
+ * Function Name : BOARD_InitPWM
+ * Description   : Configures pin routing and optionally pin electrical features for PWM.
+ *
+ * END ****************************************************************************************************************/
+void BOARD_InitPWM(void)
+{
+    /* Port C Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortC);
+
+    /* PORTC1 (pin 71) is configured as FTM0_CH0 */
+    PORT_SetPinMux(PORTC, 1U, kPORT_MuxAlt4);
 }
 /***********************************************************************************************************************
  * EOF
