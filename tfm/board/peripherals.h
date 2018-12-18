@@ -10,10 +10,10 @@
  * Included files
  **********************************************************************************************************************/
 #include "fsl_common.h"
-#include "fsl_i2c.h"
 #include "fsl_uart.h"
 #include "fsl_clock.h"
 #include "fsl_ftm.h"
+#include "fsl_i2c.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -23,13 +23,6 @@ extern "C" {
  * Definitions
  **********************************************************************************************************************/
 /* Definitions for BOARD_InitPeripherals functional group */
-/* BOARD_InitPeripherals defines for I2C0 */
-/* Definition of peripheral ID */
-#define I2C_0_PERIPHERAL I2C0
-/* Definition of the clock source */
-#define I2C_0_CLOCK_SOURCE I2C0_CLK_SRC
-/* Definition of the clock source frequency */
-#define I2C_0_CLK_FREQ CLOCK_GetFreq(I2C_0_CLOCK_SOURCE)
 /* Definition of peripheral ID */
 #define UART_0_PERIPHERAL UART0
 /* Definition of the clock source frequency */
@@ -42,13 +35,20 @@ extern "C" {
 #define FTM_0_IRQN FTM0_IRQn
 /* FTM_0 interrupt handler identifier. */
 #define FTM_0_IRQHANDLER FTM0_IRQHandler
+/* BOARD_InitPeripherals defines for I2C1 */
+/* Definition of peripheral ID */
+#define I2C_1_PERIPHERAL I2C1
+/* Definition of the clock source */
+#define I2C_1_CLOCK_SOURCE I2C1_CLK_SRC
+/* Definition of the clock source frequency */
+#define I2C_1_CLK_FREQ CLOCK_GetFreq(I2C_1_CLOCK_SOURCE)
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
-extern const i2c_master_config_t I2C_0_config;
 extern const uart_config_t UART_0_config;
 extern const ftm_config_t FTM_0_config;
+extern const i2c_master_config_t I2C_1_config;
 
 /***********************************************************************************************************************
  * Initialization functions

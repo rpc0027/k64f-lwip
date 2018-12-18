@@ -189,12 +189,11 @@ void BOARD_InitLEDs(void)
 BOARD_InitSerial:
 - options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
 - pin_list:
-  - {pin_num: '31', peripheral: I2C0, signal: SCL, pin_signal: ADC0_SE17/PTE24/UART4_TX/I2C0_SCL/EWM_OUT_b, slew_rate: fast, open_drain: enable, drive_strength: low,
-    pull_select: up, pull_enable: enable}
-  - {pin_num: '32', peripheral: I2C0, signal: SDA, pin_signal: ADC0_SE18/PTE25/UART4_RX/I2C0_SDA/EWM_IN, slew_rate: fast, open_drain: enable, drive_strength: low,
-    pull_select: up, pull_enable: enable}
   - {pin_num: '62', peripheral: UART0, signal: RX, pin_signal: PTB16/SPI1_SOUT/UART0_RX/FTM_CLKIN0/FB_AD17/EWM_IN}
   - {pin_num: '63', peripheral: UART0, signal: TX, pin_signal: PTB17/SPI1_SIN/UART0_TX/FTM_CLKIN1/FB_AD16/EWM_OUT_b}
+  - {pin_num: '82', peripheral: I2C1, signal: SCL, pin_signal: ADC1_SE6b/PTC10/I2C1_SCL/FTM3_CH6/I2S0_RX_FS/FB_AD5, open_drain: enable, pull_select: up, pull_enable: enable}
+  - {pin_num: '83', peripheral: I2C1, signal: SDA, pin_signal: ADC1_SE7b/PTC11/LLWU_P11/I2C1_SDA/FTM3_CH7/I2S0_RXD1/FB_RW_b, open_drain: enable, pull_select: up,
+    pull_enable: enable}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -209,8 +208,8 @@ void BOARD_InitSerial(void)
 {
     /* Port B Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortB);
-    /* Port E Clock Gate Control: Clock enabled */
-    CLOCK_EnableClock(kCLOCK_PortE);
+    /* Port C Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortC);
 
     /* PORTB16 (pin 62) is configured as UART0_RX */
     PORT_SetPinMux(PORTB, 16U, kPORT_MuxAlt3);
@@ -218,53 +217,35 @@ void BOARD_InitSerial(void)
     /* PORTB17 (pin 63) is configured as UART0_TX */
     PORT_SetPinMux(PORTB, 17U, kPORT_MuxAlt3);
 
-    /* PORTE24 (pin 31) is configured as I2C0_SCL */
-    PORT_SetPinMux(PORTE, 24U, kPORT_MuxAlt5);
+    /* PORTC10 (pin 82) is configured as I2C1_SCL */
+    PORT_SetPinMux(PORTC, 10U, kPORT_MuxAlt2);
 
-    PORTE->PCR[24] =
-        ((PORTE->PCR[24] &
-          /* Mask bits to zero which are setting */
-          (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_SRE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))
+    PORTC->PCR[10] = ((PORTC->PCR[10] &
+                       /* Mask bits to zero which are setting */
+                       (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_ISF_MASK)))
 
-         /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the corresponding PE
-          * field is set. */
-         | (uint32_t)(kPORT_PullUp)
+                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                       * corresponding PE field is set. */
+                      | (uint32_t)(kPORT_PullUp)
 
-         /* Slew Rate Enable: Fast slew rate is configured on the corresponding pin, if the pin is configured as
-          * a digital output. */
-         | PORT_PCR_SRE(kPORT_FastSlewRate)
+                      /* Open Drain Enable: Open drain output is enabled on the corresponding pin, if the pin is
+                       * configured as a digital output. */
+                      | PORT_PCR_ODE(kPORT_OpenDrainEnable));
 
-         /* Open Drain Enable: Open drain output is enabled on the corresponding pin, if the pin is configured as
-          * a digital output. */
-         | PORT_PCR_ODE(kPORT_OpenDrainEnable)
+    /* PORTC11 (pin 83) is configured as I2C1_SDA */
+    PORT_SetPinMux(PORTC, 11U, kPORT_MuxAlt2);
 
-         /* Drive Strength Enable: Low drive strength is configured on the corresponding pin, if pin is
-          * configured as a digital output. */
-         | PORT_PCR_DSE(kPORT_LowDriveStrength));
+    PORTC->PCR[11] = ((PORTC->PCR[11] &
+                       /* Mask bits to zero which are setting */
+                       (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_ISF_MASK)))
 
-    /* PORTE25 (pin 32) is configured as I2C0_SDA */
-    PORT_SetPinMux(PORTE, 25U, kPORT_MuxAlt5);
+                      /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the
+                       * corresponding PE field is set. */
+                      | (uint32_t)(kPORT_PullUp)
 
-    PORTE->PCR[25] =
-        ((PORTE->PCR[25] &
-          /* Mask bits to zero which are setting */
-          (~(PORT_PCR_PS_MASK | PORT_PCR_PE_MASK | PORT_PCR_SRE_MASK | PORT_PCR_ODE_MASK | PORT_PCR_DSE_MASK | PORT_PCR_ISF_MASK)))
-
-         /* Pull Select: Internal pullup resistor is enabled on the corresponding pin, if the corresponding PE
-          * field is set. */
-         | (uint32_t)(kPORT_PullUp)
-
-         /* Slew Rate Enable: Fast slew rate is configured on the corresponding pin, if the pin is configured as
-          * a digital output. */
-         | PORT_PCR_SRE(kPORT_FastSlewRate)
-
-         /* Open Drain Enable: Open drain output is enabled on the corresponding pin, if the pin is configured as
-          * a digital output. */
-         | PORT_PCR_ODE(kPORT_OpenDrainEnable)
-
-         /* Drive Strength Enable: Low drive strength is configured on the corresponding pin, if pin is
-          * configured as a digital output. */
-         | PORT_PCR_DSE(kPORT_LowDriveStrength));
+                      /* Open Drain Enable: Open drain output is enabled on the corresponding pin, if the pin is
+                       * configured as a digital output. */
+                      | PORT_PCR_ODE(kPORT_OpenDrainEnable));
 
     SIM->SOPT5 = ((SIM->SOPT5 &
                    /* Mask bits to zero which are setting */
