@@ -7,6 +7,7 @@
  * Includes
  ******************************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "board.h"
 
@@ -30,6 +31,7 @@
 #include "ethernetif.h"
 
 #include "lcd.h"
+#include "pwm.h"
 
 /*******************************************************************************
  * Definitions
@@ -182,8 +184,6 @@ static void toggle_leds_thread(void *arg)
             /* Tell connection to go into listening mode. */
             netconn_listen(conn);
 
-            PRINTF("Ready to toggle LEDs");
-
             while (1)
             {
                 /* Grab new connection. */
@@ -226,6 +226,38 @@ static void toggle_leds_thread(void *arg)
                                 LCD_clear();
                                 LCD_setCursor(0, 1);
                                 LCD_printstr(second_row);
+                            }
+                            else if (strncmp(buffer, "pwmw:", 5) == 0)
+                            {
+                                char number[4];
+                                strncpy(number, buffer + 5, 3);
+                                number[3] = '\0';
+                                long percentage = strtol(number, NULL, 10);
+                                update_pwm_dutycyle(WHITE_PWM,  WHITE_CHANNEL,  (uint8_t) percentage);
+                            }
+                            else if (strncmp(buffer, "pwmg:", 5) == 0)
+                            {
+                                char number[4];
+                                strncpy(number, buffer + 5, 3);
+                                number[3] = '\0';
+                                long percentage = strtol(number, NULL, 10);
+                                update_pwm_dutycyle(GREEN_PWM,  GREEN_CHANNEL,  (uint8_t) percentage);
+                            }
+                            else if (strncmp(buffer, "pwmy:", 5) == 0)
+                            {
+                                char number[4];
+                                strncpy(number, buffer + 5, 3);
+                                number[3] = '\0';
+                                long percentage = strtol(number, NULL, 10);
+                                update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, (uint8_t) percentage);
+                            }
+                            else if (strncmp(buffer, "pwmr:", 5) == 0)
+                            {
+                                char number[4];
+                                strncpy(number, buffer + 5, 3);
+                                number[3] = '\0';
+                                long percentage = strtol(number, NULL, 10);
+                                update_pwm_dutycyle(RED_PWM,    RED_CHANNEL,     (uint8_t) percentage);
                             }
                         }
                         while (netbuf_next(buf) >= 0);

@@ -261,7 +261,10 @@ void BOARD_InitSerial(void)
 BOARD_InitPWM:
 - options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
 - pin_list:
-  - {pin_num: '71', peripheral: FTM0, signal: 'CH, 0', pin_signal: ADC0_SE15/PTC1/LLWU_P6/SPI0_PCS3/UART1_RTS_b/FTM0_CH0/FB_AD13/I2S0_TXD0}
+  - {pin_num: '72', peripheral: FTM0, signal: 'CH, 1', pin_signal: ADC0_SE4b/CMP1_IN0/PTC2/SPI0_PCS2/UART1_CTS_b/FTM0_CH1/FB_AD12/I2S0_TX_FS}
+  - {pin_num: '76', peripheral: FTM0, signal: 'CH, 3', pin_signal: PTC4/LLWU_P8/SPI0_PCS0/UART1_TX/FTM0_CH3/FB_AD11/CMP1_OUT}
+  - {pin_num: '93', peripheral: FTM3, signal: 'CH, 0', pin_signal: PTD0/LLWU_P12/SPI0_PCS0/UART2_RTS_b/FTM3_CH0/FB_ALE/FB_CS1_b/FB_TS_b}
+  - {pin_num: '95', peripheral: FTM3, signal: 'CH, 2', pin_signal: PTD2/LLWU_P13/SPI0_SOUT/UART2_RX/FTM3_CH2/FB_AD4/I2C0_SCL}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -276,9 +279,20 @@ void BOARD_InitPWM(void)
 {
     /* Port C Clock Gate Control: Clock enabled */
     CLOCK_EnableClock(kCLOCK_PortC);
+    /* Port D Clock Gate Control: Clock enabled */
+    CLOCK_EnableClock(kCLOCK_PortD);
 
-    /* PORTC1 (pin 71) is configured as FTM0_CH0 */
-    PORT_SetPinMux(PORTC, 1U, kPORT_MuxAlt4);
+    /* PORTC2 (pin 72) is configured as FTM0_CH1 */
+    PORT_SetPinMux(PORTC, 2U, kPORT_MuxAlt4);
+
+    /* PORTC4 (pin 76) is configured as FTM0_CH3 */
+    PORT_SetPinMux(PORTC, 4U, kPORT_MuxAlt4);
+
+    /* PORTD0 (pin 93) is configured as FTM3_CH0 */
+    PORT_SetPinMux(PORTD, 0U, kPORT_MuxAlt4);
+
+    /* PORTD2 (pin 95) is configured as FTM3_CH2 */
+    PORT_SetPinMux(PORTD, 2U, kPORT_MuxAlt4);
 }
 /***********************************************************************************************************************
  * EOF

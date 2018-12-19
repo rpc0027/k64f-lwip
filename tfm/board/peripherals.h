@@ -12,8 +12,8 @@
 #include "fsl_common.h"
 #include "fsl_uart.h"
 #include "fsl_clock.h"
-#include "fsl_ftm.h"
 #include "fsl_i2c.h"
+#include "fsl_ftm.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -27,14 +27,6 @@ extern "C" {
 #define UART_0_PERIPHERAL UART0
 /* Definition of the clock source frequency */
 #define UART_0_CLOCK_SOURCE CLOCK_GetFreq(UART0_CLK_SRC)
-/* Definition of peripheral ID */
-#define FTM_0_PERIPHERAL FTM0
-/* Definition of the clock source frequency */
-#define FTM_0_CLOCK_SOURCE CLOCK_GetFreq(kCLOCK_BusClk)
-/* FTM_0 interrupt vector ID (number). */
-#define FTM_0_IRQN FTM0_IRQn
-/* FTM_0 interrupt handler identifier. */
-#define FTM_0_IRQHANDLER FTM0_IRQHandler
 /* BOARD_InitPeripherals defines for I2C1 */
 /* Definition of peripheral ID */
 #define I2C_1_PERIPHERAL I2C1
@@ -42,13 +34,30 @@ extern "C" {
 #define I2C_1_CLOCK_SOURCE I2C1_CLK_SRC
 /* Definition of the clock source frequency */
 #define I2C_1_CLK_FREQ CLOCK_GetFreq(I2C_1_CLOCK_SOURCE)
+/* Definition of peripheral ID */
+#define FTM0_PERIPHERAL FTM0
+/* Definition of the clock source frequency */
+#define FTM0_CLOCK_SOURCE CLOCK_GetFreq(kCLOCK_BusClk)
+/* FTM0 interrupt vector ID (number). */
+#define FTM0_IRQN FTM0_IRQn
+/* FTM0 interrupt handler identifier. */
+#define FTM0_IRQHANDLER FTM0_IRQHandler
+/* Definition of peripheral ID */
+#define FTM3_PERIPHERAL FTM3
+/* Definition of the clock source frequency */
+#define FTM3_CLOCK_SOURCE CLOCK_GetFreq(kCLOCK_BusClk)
+/* FTM3 interrupt vector ID (number). */
+#define FTM3_IRQN FTM3_IRQn
+/* FTM3 interrupt handler identifier. */
+#define FTM3_IRQHANDLER FTM3_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
 extern const uart_config_t UART_0_config;
-extern const ftm_config_t FTM_0_config;
 extern const i2c_master_config_t I2C_1_config;
+extern const ftm_config_t FTM0_config;
+extern const ftm_config_t FTM3_config;
 
 /***********************************************************************************************************************
  * Initialization functions

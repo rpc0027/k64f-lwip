@@ -176,6 +176,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="FTM3" description="Peripheral FTM3 is not initialized" problem_level="1" source="Pins:BOARD_InitPWM">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD_InitPWM">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -188,7 +193,10 @@
                   </dependency>
                </dependencies>
                <pins>
-                  <pin peripheral="FTM0" signal="CH, 0" pin_num="71" pin_signal="ADC0_SE15/PTC1/LLWU_P6/SPI0_PCS3/UART1_RTS_b/FTM0_CH0/FB_AD13/I2S0_TXD0"/>
+                  <pin peripheral="FTM0" signal="CH, 1" pin_num="72" pin_signal="ADC0_SE4b/CMP1_IN0/PTC2/SPI0_PCS2/UART1_CTS_b/FTM0_CH1/FB_AD12/I2S0_TX_FS"/>
+                  <pin peripheral="FTM0" signal="CH, 3" pin_num="76" pin_signal="PTC4/LLWU_P8/SPI0_PCS0/UART1_TX/FTM0_CH3/FB_AD11/CMP1_OUT"/>
+                  <pin peripheral="FTM3" signal="CH, 0" pin_num="93" pin_signal="PTD0/LLWU_P12/SPI0_PCS0/UART2_RTS_b/FTM3_CH0/FB_ALE/FB_CS1_b/FB_TS_b"/>
+                  <pin peripheral="FTM3" signal="CH, 2" pin_num="95" pin_signal="PTD2/LLWU_P13/SPI0_SOUT/UART2_RX/FTM3_CH2/FB_AD4/I2C0_SCL"/>
                </pins>
             </function>
          </functions_list>
@@ -256,16 +264,6 @@
                   <data type="Version">2.1.5</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="FTM Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="Unsupported version of the FTM Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="compatible">
-                  <data type="Version">2.0.2</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.i2c" description="I2C Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -274,6 +272,16 @@
             <dependency resourceType="SWComponent" resourceId="platform.drivers.i2c" description="Unsupported version of the I2C Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
                <feature name="version" evaluation="compatible">
                   <data type="Version">2.0.5</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="FTM Driver not found in the toolchain/IDE project." problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.ftm" description="Unsupported version of the FTM Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="compatible">
+                  <data type="Version">2.0.2</data>
                </feature>
             </dependency>
          </dependencies>
@@ -300,11 +308,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="I2C1.i2c_scl" description="Signal serial clock of the peripheral I2C1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="">
                         <data type="Boolean">true</data>
@@ -318,6 +321,36 @@
                   <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.1" description="Signal CH1 of peripheral FTM0 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM0.tmr_ch.3" description="Signal CH3 of peripheral FTM0 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="Bus_clock" description="Bus clock is inactive." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM3.tmr_ch.0" description="Signal CH0 of peripheral FTM3 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="FTM3.tmr_ch.2" description="Signal CH2 of peripheral FTM3 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
                      </feature>
                   </dependency>
                </dependencies>
@@ -338,7 +371,20 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="FTM_0" type="ftm" type_id="ftm_5e037045c21cf6f361184c371dbbbab2" mode="EdgeAligned" peripheral="FTM0" enabled="true">
+                  <instance name="I2C_1" type="i2c" type_id="i2c_2566d7363e7e9aaedabb432110e372d7" mode="I2C_Polling" peripheral="I2C1" enabled="true">
+                     <config_set name="fsl_i2c" quick_selection="QS_I2C_1">
+                        <setting name="i2c_mode" value="kI2C_Master"/>
+                        <setting name="clockSource" value="BusInterfaceClock"/>
+                        <setting name="clockSourceFreq" value="GetFreq"/>
+                        <struct name="i2c_master_config">
+                           <setting name="enableMaster" value="true"/>
+                           <setting name="enableStopHold" value="false"/>
+                           <setting name="baudRate_Bps" value="100000"/>
+                           <setting name="glitchFilterWidth" value="0"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="FTM0" type="ftm" type_id="ftm_5e037045c21cf6f361184c371dbbbab2" mode="CenterAligned" peripheral="FTM0" enabled="true">
                      <config_set name="ftm_main_config" quick_selection="QuickSelectionDefault">
                         <struct name="ftm_config">
                            <setting name="clockSource" value="kFTM_SystemClock"/>
@@ -380,21 +426,80 @@
                         </struct>
                         <setting name="EnableTimerInInit" value="true"/>
                      </config_set>
-                     <config_set name="ftm_edge_aligned_mode">
-                        <array name="ftm_edge_aligned_channels_config"/>
+                     <config_set name="ftm_center_aligned_mode">
+                        <array name="ftm_center_aligned_channels_config">
+                           <struct name="0">
+                              <setting name="chnlNumber" value="kFTM_Chnl_1"/>
+                              <setting name="level" value="kFTM_LowTrue"/>
+                              <setting name="dutyCyclePercent" value="100"/>
+                              <setting name="enable_chan_irq" value="false"/>
+                           </struct>
+                           <struct name="1">
+                              <setting name="chnlNumber" value="kFTM_Chnl_3"/>
+                              <setting name="level" value="kFTM_LowTrue"/>
+                              <setting name="dutyCyclePercent" value="100"/>
+                              <setting name="enable_chan_irq" value="false"/>
+                           </struct>
+                        </array>
                      </config_set>
                   </instance>
-                  <instance name="I2C_1" type="i2c" type_id="i2c_2566d7363e7e9aaedabb432110e372d7" mode="I2C_Polling" peripheral="I2C1" enabled="true">
-                     <config_set name="fsl_i2c" quick_selection="QS_I2C_1">
-                        <setting name="i2c_mode" value="kI2C_Master"/>
-                        <setting name="clockSource" value="BusInterfaceClock"/>
-                        <setting name="clockSourceFreq" value="GetFreq"/>
-                        <struct name="i2c_master_config">
-                           <setting name="enableMaster" value="true"/>
-                           <setting name="enableStopHold" value="false"/>
-                           <setting name="baudRate_Bps" value="100000"/>
-                           <setting name="glitchFilterWidth" value="0"/>
+                  <instance name="FTM3" type="ftm" type_id="ftm_5e037045c21cf6f361184c371dbbbab2" mode="CenterAligned" peripheral="FTM3" enabled="true">
+                     <config_set name="ftm_main_config" quick_selection="QuickSelectionDefault">
+                        <struct name="ftm_config">
+                           <setting name="clockSource" value="kFTM_SystemClock"/>
+                           <setting name="clockSourceFreq" value="GetFreq"/>
+                           <setting name="prescale" value="kFTM_Prescale_Divide_1"/>
+                           <setting name="timerFrequency" value="10000"/>
+                           <setting name="bdmMode" value="kFTM_BdmMode_0"/>
+                           <set name="pwmSyncMode">
+                              <selected>
+                                 <id>kFTM_SoftwareTrigger</id>
+                              </selected>
+                           </set>
+                           <set name="reloadPoints">
+                              <selected/>
+                           </set>
+                           <setting name="faultMode" value="kFTM_Fault_Disable"/>
+                           <setting name="faultFilterValue" value="0"/>
+                           <setting name="deadTimePrescale" value="kFTM_Deadtime_Prescale_1"/>
+                           <setting name="deadTimeValue" value="0"/>
+                           <set name="extTriggers">
+                              <selected/>
+                           </set>
+                           <set name="chnlInitState">
+                              <selected/>
+                           </set>
+                           <set name="chnlPolarity">
+                              <selected/>
+                           </set>
+                           <setting name="useGlobalTimeBase" value="false"/>
                         </struct>
+                        <set name="timer_interrupts">
+                           <selected/>
+                        </set>
+                        <setting name="enable_irq" value="false"/>
+                        <struct name="ftm_interrupt">
+                           <setting name="IRQn" value="FTM3_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="EnableTimerInInit" value="true"/>
+                     </config_set>
+                     <config_set name="ftm_center_aligned_mode">
+                        <array name="ftm_center_aligned_channels_config">
+                           <struct name="0">
+                              <setting name="chnlNumber" value="kFTM_Chnl_0"/>
+                              <setting name="level" value="kFTM_LowTrue"/>
+                              <setting name="dutyCyclePercent" value="100"/>
+                              <setting name="enable_chan_irq" value="false"/>
+                           </struct>
+                           <struct name="1">
+                              <setting name="chnlNumber" value="kFTM_Chnl_2"/>
+                              <setting name="level" value="kFTM_LowTrue"/>
+                              <setting name="dutyCyclePercent" value="100"/>
+                              <setting name="enable_chan_irq" value="false"/>
+                           </struct>
+                        </array>
                      </config_set>
                   </instance>
                </instances>
