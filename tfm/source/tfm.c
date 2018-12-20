@@ -31,6 +31,7 @@
 #include "ethernetif.h"
 
 #include "lcd.h"
+#include "led.h"
 #include "pwm.h"
 
 /*******************************************************************************
@@ -42,14 +43,20 @@
 /*! @brief Stack size of the temporary lwIP initialization thread. */
 #define STACK_INIT_THREAD_STACKSIZE 1024
 
+/* Number of bytes used in commands name. */
+#define COMMAND_SIZE 4
+/* Name of the LED command. */
+#define LED_COMMAND "led:"
+/* Index of the color argument in the received command. */
+#define LED_COLOR_INDEX 4
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
 static void stack_init_thread(void *);
-static void toggle_leds_thread(void *);
-void toggle_red(void);
-void toggle_green(void);
-void toggle_blue(void);
+static void tcp_listener_thread(void *);
+void rx_command_check(char * buffer, uint16_t null_terminator_position);
+void led_change(char * buffer);
 
 /*******************************************************************************
  * Variables
@@ -58,7 +65,6 @@ void toggle_blue(void);
 /*******************************************************************************
  * Code
  ******************************************************************************/
-
 /*
  * @brief   Application entry point.
  */
@@ -77,11 +83,14 @@ int main(void)
     /* Disable SYSMPU. */
     base->CESR &= ~SYSMPU_CESR_VLD_MASK;
 
-    // Inicializa el LCD, indicando la dirección 0x3F para que funcione.
+    // LCD initialization.
+    //
     LCD_Init(0x3F, 16, 2, LCD_5x8DOTS);
     LCD_backlight();
     LCD_clear();
 
+    // First message.
+    //
     LCD_setCursor(0, 0);
     LCD_printstr("Obtaining IP");
     LCD_setCursor(0, 1);
@@ -139,12 +148,14 @@ static void stack_init_thread(void *arg)
             PRINTF(" IPv4 Subnet mask : %s\r\n",     ipaddr_ntoa(&netif->netmask));
             PRINTF(" IPv4 Gateway     : %s\r\n\r\n", ipaddr_ntoa(&netif->gw));
 
-            /* Initialize toggle_leds_thread */
-            if (sys_thread_new("stack_init_thread", toggle_leds_thread, NULL, DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
+            /* Initialize tcp_listener_thread */
+            if (sys_thread_new("stack_init_thread", tcp_listener_thread, NULL, DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
             {
-                LWIP_ASSERT("stack_init_thread(): toggle leds thread creation failed.", 0);
+                LWIP_ASSERT("stack_init_thread(): TCP listener thread creation failed.", 0);
             }
 
+            // Obtained IP address.
+            //
             LCD_clear();
             LCD_setCursor(0, 0);
             LCD_printstr("IPv4 Address:");
@@ -159,17 +170,15 @@ static void stack_init_thread(void *arg)
 }
 
 /*!
- * @brief Toggles the LED indicated in a TCP package.
+ * @brief Listens TCP packages.
  *
  */
-static void toggle_leds_thread(void *arg)
+static void tcp_listener_thread(void *arg)
 {
     struct netconn *conn, *newconn;
     err_t err, accept_err;
     char buffer[1024];
     struct netbuf *buf;
-    void *data;
-    u16_t len;
     err_t recv_err;
 
     /* Create a new TCP connection identifier. */
@@ -197,21 +206,10 @@ static void toggle_leds_thread(void *arg)
                         {
                             netbuf_copy(buf, buffer, sizeof(buffer));
                             buffer[buf->p->tot_len] = '\0';
-                            netbuf_data(buf, &data, &len);
 
-                            if (strcmp(buffer, "red") == 0)
-                            {
-                                toggle_red();
-                            }
-                            else if (strcmp(buffer, "green") == 0)
-                            {
-                                toggle_green();
-                            }
-                            else if (strcmp(buffer, "blue") == 0)
-                            {
-                                toggle_blue();
-                            }
-                            else if (strncmp(buffer, "msg0:", 5) == 0)
+                            rx_command_check(buffer, buf->p->tot_len);
+
+                            if (strncmp(buffer, "msg0:", 5) == 0)
                             {
                                 char first_row[16];
                                 strncpy(first_row, buffer + 5, 16);
@@ -281,26 +279,72 @@ static void toggle_leds_thread(void *arg)
     }
 }
 
-/*!
- * @brief0 Toggles red LED.
- */
-void toggle_red(void)
+void rx_command_check(char * buffer, uint16_t null_terminator_position)
 {
-    GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_RED_GPIO, 1 <<  BOARD_INITLEDS_LED_RED_PIN);
+    if (COMMAND_SIZE > null_terminator_position)
+    {
+        PRINTF("command too short\n");
+    }
+    else
+    {
+        if (strncmp(buffer, LED_COMMAND, COMMAND_SIZE) == 0)
+        {
+            led_change(buffer);
+        }
+        else if (strncmp(buffer, "msg:", COMMAND_SIZE) == 0)
+        {
+            //TODO
+        }
+        else if (strncmp(buffer, "pwm:", COMMAND_SIZE) == 0)
+        {
+            //TODO
+        }
+        else
+        {
+            PRINTF("wrong instruction\n");
+        }
+    }
 }
 
-/*!
- * @brief Toggles green LED.
- */
-void toggle_green(void)
+void led_change(char * buffer)
 {
-    GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_GREEN_GPIO, 1 <<  BOARD_INITLEDS_LED_GREEN_PIN);
+    switch (buffer[LED_COLOR_INDEX])
+    {
+        case 'r':
+        turn_on_red();
+        break;
+
+        case 'g':
+        turn_on_green();
+        break;
+
+        case 'b':
+        turn_on_blue();
+        break;
+
+        case 'y':
+        turn_on_yellow();
+        break;
+
+        case 'm':
+        turn_on_magenta();
+        break;
+
+        case 'c':
+        turn_on_cyan();
+        break;
+
+        case 'w':
+        turn_on_white();
+        break;
+
+        case 'o':
+        turn_off_leds();
+        break;
+
+        default:
+        PRINTF("wrong color \n");
+    }
 }
 
-/*!
- * @brief Toggles blue LED.
- */
-void toggle_blue(void)
-{
-    GPIO_TogglePinsOutput(BOARD_INITLEDS_LED_BLUE_GPIO, 1 <<  BOARD_INITLEDS_LED_BLUE_PIN);
-}
+/*** end of file ***/

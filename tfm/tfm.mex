@@ -74,6 +74,7 @@
                <description>Configures pin routing and optionally pin electrical features for the LEDs.&amp;lt;br/&amp;gt;</description>
                <options>
                   <callFromInitBoot>true</callFromInitBoot>
+                  <prefix></prefix>
                   <coreID>core0</coreID>
                   <enableClock>true</enableClock>
                </options>

@@ -130,7 +130,7 @@ void BOARD_InitENET(void)
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 BOARD_InitLEDs:
-- options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
+- options: {callFromInitBoot: 'true', prefix: '', coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: '33', peripheral: GPIOE, signal: 'GPIO, 26', pin_signal: PTE26/ENET_1588_CLKIN/UART4_CTS_b/RTC_CLKOUT/USB_CLKIN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: '67', peripheral: GPIOB, signal: 'GPIO, 21', pin_signal: PTB21/SPI2_SCK/FB_AD30/CMP1_OUT, direction: OUTPUT, gpio_init_state: 'true'}
@@ -157,30 +157,30 @@ void BOARD_InitLEDs(void)
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTB21 (pin 67)  */
-    GPIO_PinInit(BOARD_INITLEDS_LED_BLUE_GPIO, BOARD_INITLEDS_LED_BLUE_PIN, &LED_BLUE_config);
+    GPIO_PinInit(LED_BLUE_GPIO, LED_BLUE_PIN, &LED_BLUE_config);
 
     gpio_pin_config_t LED_RED_config = {
         .pinDirection = kGPIO_DigitalOutput,
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTB22 (pin 68)  */
-    GPIO_PinInit(BOARD_INITLEDS_LED_RED_GPIO, BOARD_INITLEDS_LED_RED_PIN, &LED_RED_config);
+    GPIO_PinInit(LED_RED_GPIO, LED_RED_PIN, &LED_RED_config);
 
     gpio_pin_config_t LED_GREEN_config = {
         .pinDirection = kGPIO_DigitalOutput,
         .outputLogic = 1U
     };
     /* Initialize GPIO functionality on pin PTE26 (pin 33)  */
-    GPIO_PinInit(BOARD_INITLEDS_LED_GREEN_GPIO, BOARD_INITLEDS_LED_GREEN_PIN, &LED_GREEN_config);
+    GPIO_PinInit(LED_GREEN_GPIO, LED_GREEN_PIN, &LED_GREEN_config);
 
     /* PORTB21 (pin 67) is configured as PTB21 */
-    PORT_SetPinMux(BOARD_INITLEDS_LED_BLUE_PORT, BOARD_INITLEDS_LED_BLUE_PIN, kPORT_MuxAsGpio);
+    PORT_SetPinMux(LED_BLUE_PORT, LED_BLUE_PIN, kPORT_MuxAsGpio);
 
     /* PORTB22 (pin 68) is configured as PTB22 */
-    PORT_SetPinMux(BOARD_INITLEDS_LED_RED_PORT, BOARD_INITLEDS_LED_RED_PIN, kPORT_MuxAsGpio);
+    PORT_SetPinMux(LED_RED_PORT, LED_RED_PIN, kPORT_MuxAsGpio);
 
     /* PORTE26 (pin 33) is configured as PTE26 */
-    PORT_SetPinMux(BOARD_INITLEDS_LED_GREEN_PORT, BOARD_INITLEDS_LED_GREEN_PIN, kPORT_MuxAsGpio);
+    PORT_SetPinMux(LED_GREEN_PORT, LED_GREEN_PIN, kPORT_MuxAsGpio);
 }
 
 /* clang-format off */
