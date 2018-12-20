@@ -75,6 +75,7 @@ void LCD_noAutoscroll(void);
 void LCD_createChar(uint8_t location, uint8_t charmap[]);
 void LCD_noBacklight(void);
 void LCD_backlight(void);
+void LCD_clear_row(uint8_t row);
 
 void LCD_command(uint8_t value);
 uint8_t LCD_write(uint8_t value);

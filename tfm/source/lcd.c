@@ -234,6 +234,13 @@ void LCD_backlight(void)
 	LCD_expanderWrite(0);
 }
 
+// Clear a single row.
+void LCD_clear_row(uint8_t row)
+{
+    LCD_setCursor(0, row);
+    LCD_printstr("                ");
+    LCD_setCursor(0, row);
+}
 
 
 // FUNCIONES DE ESCRITURA

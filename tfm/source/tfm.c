@@ -47,8 +47,18 @@
 #define COMMAND_SIZE 4
 /* Name of the LED command. */
 #define LED_COMMAND "led:"
-/* Index of the color argument in the received command. */
+/* Index of the color argument in the received LED command. */
 #define LED_COLOR_INDEX 4
+/* Name of the MSG command. */
+#define MSG_COMMAND "msg:"
+/* Index of the line in the received MSG command. */
+#define MSG_ROW_INDEX 4
+/* Index of the text in the received MSG command. */
+#define MSG_TXT_INDEX 6
+/* Top row of the LCD. */
+#define TOP_ROW 0U
+/* Bottom row of the LCD. */
+#define BOTTOM_ROW 1U
 
 /*******************************************************************************
  * Prototypes
@@ -57,6 +67,7 @@ static void stack_init_thread(void *);
 static void tcp_listener_thread(void *);
 void rx_command_check(char * buffer, uint16_t null_terminator_position);
 void led_change(char * buffer);
+void msg_show(char * buffer);
 
 /*******************************************************************************
  * Variables
@@ -209,23 +220,7 @@ static void tcp_listener_thread(void *arg)
 
                             rx_command_check(buffer, buf->p->tot_len);
 
-                            if (strncmp(buffer, "msg0:", 5) == 0)
-                            {
-                                char first_row[16];
-                                strncpy(first_row, buffer + 5, 16);
-                                LCD_clear();
-                                LCD_setCursor(0, 0);
-                                LCD_printstr(first_row);
-                            }
-                            else if (strncmp(buffer, "msg1:", 5) == 0)
-                            {
-                                char second_row[16];
-                                strncpy(second_row, buffer + 5, 16);
-                                LCD_clear();
-                                LCD_setCursor(0, 1);
-                                LCD_printstr(second_row);
-                            }
-                            else if (strncmp(buffer, "pwmw:", 5) == 0)
+                            if (strncmp(buffer, "pwmw:", 5) == 0)
                             {
                                 char number[4];
                                 strncpy(number, buffer + 5, 3);
@@ -291,9 +286,9 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
         {
             led_change(buffer);
         }
-        else if (strncmp(buffer, "msg:", COMMAND_SIZE) == 0)
+        else if (strncmp(buffer, MSG_COMMAND, COMMAND_SIZE) == 0)
         {
-            //TODO
+            msg_show(buffer);
         }
         else if (strncmp(buffer, "pwm:", COMMAND_SIZE) == 0)
         {
@@ -301,7 +296,7 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
         }
         else
         {
-            PRINTF("wrong instruction\n");
+            PRINTF("Invalid command.\n");
         }
     }
 }
@@ -343,7 +338,26 @@ void led_change(char * buffer)
         break;
 
         default:
-        PRINTF("wrong color \n");
+        PRINTF("Invalid color.\n");
+    }
+}
+
+void msg_show(char * buffer)
+{
+    if (buffer[MSG_ROW_INDEX] == '0')
+    {
+        LCD_clear_row(TOP_ROW);
+        LCD_printstr(buffer + MSG_TXT_INDEX);
+
+    }
+    else if (buffer[MSG_ROW_INDEX == '1'])
+    {
+        LCD_clear_row(BOTTOM_ROW);
+        LCD_printstr(buffer + MSG_TXT_INDEX);
+    }
+    else
+    {
+        PRINTF("Invalid line.\n");
     }
 }
 
