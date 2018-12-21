@@ -369,6 +369,11 @@ void pwm_update(char * buffer)
     }
 }
 
+/*!
+* @brief Truncate values lower than 0 and higher than 100.
+* @param[in] value The value to adjust.
+* @return The adjusted value.
+*/
 uint8_t range_adjust(long value)
 {
     uint8_t corrected_value;
