@@ -1,5 +1,5 @@
 /**
- * @file    tfm.c
+ * @file    main.c
  * @brief   Application entry point.
  */
 
