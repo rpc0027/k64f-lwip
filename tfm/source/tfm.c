@@ -59,6 +59,12 @@
 #define TOP_ROW 0U
 /* Bottom row of the LCD. */
 #define BOTTOM_ROW 1U
+/* Name of the PWM command. */
+#define PWM_COMMAND "pwm:"
+/* Index of the pwm device argument in the received PWM command. */
+#define PWM_DEVICE_INDEX 4
+/* Index of the percentage argument in the received PWM command. */
+#define PWM_PERCENTAGE_INDEX 6
 
 /*******************************************************************************
  * Prototypes
@@ -68,6 +74,8 @@ static void tcp_listener_thread(void *);
 void rx_command_check(char * buffer, uint16_t null_terminator_position);
 void led_change(char * buffer);
 void msg_show(char * buffer);
+void pwm_update(char * buffer);
+uint8_t range_adjust(long value);
 
 /*******************************************************************************
  * Variables
@@ -108,7 +116,8 @@ int main(void)
     LCD_printstr("Please wait...");
 
     /* Initialize lwIP from thread */
-    if (sys_thread_new("main", stack_init_thread, NULL, STACK_INIT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
+    if (sys_thread_new("main", stack_init_thread, NULL,
+            STACK_INIT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
     {
         LWIP_ASSERT("main(): Stack init thread creation failed.", 0);
     }
@@ -128,7 +137,9 @@ static void stack_init_thread(void *arg)
     struct dhcp *dhcp;
     ip4_addr_t fsl_netif0_ipaddr, fsl_netif0_netmask, fsl_netif0_gw;
     ethernetif_config_t fsl_enet_config0 = {
-            .phyAddress = BOARD_ENET0_PHY_ADDRESS, .clockName = kCLOCK_CoreSysClk, .macAddress = configMAC_ADDR,
+            .phyAddress = BOARD_ENET0_PHY_ADDRESS,
+            .clockName = kCLOCK_CoreSysClk,
+            .macAddress = configMAC_ADDR,
     };
 
     /* Default IP configuration. */
@@ -140,8 +151,8 @@ static void stack_init_thread(void *arg)
     tcpip_init(NULL, NULL);
 
     /* Set up the network interface. */
-    netif_add(&fsl_netif0, &fsl_netif0_ipaddr, &fsl_netif0_netmask, &fsl_netif0_gw, &fsl_enet_config0, ethernetif0_init,
-            tcpip_input);
+    netif_add(&fsl_netif0, &fsl_netif0_ipaddr, &fsl_netif0_netmask,
+            &fsl_netif0_gw, &fsl_enet_config0, ethernetif0_init, tcpip_input);
     netif_set_default(&fsl_netif0);
     netif_set_up(&fsl_netif0);
 
@@ -155,17 +166,18 @@ static void stack_init_thread(void *arg)
 
         if (dhcp != NULL && dhcp->state == DHCP_STATE_BOUND)
         {
-            PRINTF("\r\n IPv4 Address     : %s\r\n", ipaddr_ntoa(&netif->ip_addr));
-            PRINTF(" IPv4 Subnet mask : %s\r\n",     ipaddr_ntoa(&netif->netmask));
-            PRINTF(" IPv4 Gateway     : %s\r\n\r\n", ipaddr_ntoa(&netif->gw));
+            PRINTF("IPv4 Address : %s\n", ipaddr_ntoa(&netif->ip_addr));
+            PRINTF("IPv4 Netmask : %s\n", ipaddr_ntoa(&netif->netmask));
+            PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif->gw));
 
             /* Initialize tcp_listener_thread */
-            if (sys_thread_new("stack_init_thread", tcp_listener_thread, NULL, DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
+            if (sys_thread_new("stack_init_thread", tcp_listener_thread, NULL,
+                    DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
             {
-                LWIP_ASSERT("stack_init_thread(): TCP listener thread creation failed.", 0);
+                LWIP_ASSERT("tcp_listener_thread creation failed.", 0);
             }
 
-            // Obtained IP address.
+            // Show obtained IP address.
             //
             LCD_clear();
             LCD_setCursor(0, 0);
@@ -219,39 +231,6 @@ static void tcp_listener_thread(void *arg)
                             buffer[buf->p->tot_len] = '\0';
 
                             rx_command_check(buffer, buf->p->tot_len);
-
-                            if (strncmp(buffer, "pwmw:", 5) == 0)
-                            {
-                                char number[4];
-                                strncpy(number, buffer + 5, 3);
-                                number[3] = '\0';
-                                long percentage = strtol(number, NULL, 10);
-                                update_pwm_dutycyle(WHITE_PWM,  WHITE_CHANNEL,  (uint8_t) percentage);
-                            }
-                            else if (strncmp(buffer, "pwmg:", 5) == 0)
-                            {
-                                char number[4];
-                                strncpy(number, buffer + 5, 3);
-                                number[3] = '\0';
-                                long percentage = strtol(number, NULL, 10);
-                                update_pwm_dutycyle(GREEN_PWM,  GREEN_CHANNEL,  (uint8_t) percentage);
-                            }
-                            else if (strncmp(buffer, "pwmy:", 5) == 0)
-                            {
-                                char number[4];
-                                strncpy(number, buffer + 5, 3);
-                                number[3] = '\0';
-                                long percentage = strtol(number, NULL, 10);
-                                update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, (uint8_t) percentage);
-                            }
-                            else if (strncmp(buffer, "pwmr:", 5) == 0)
-                            {
-                                char number[4];
-                                strncpy(number, buffer + 5, 3);
-                                number[3] = '\0';
-                                long percentage = strtol(number, NULL, 10);
-                                update_pwm_dutycyle(RED_PWM,    RED_CHANNEL,     (uint8_t) percentage);
-                            }
                         }
                         while (netbuf_next(buf) >= 0);
                         netbuf_delete(buf);
@@ -278,7 +257,7 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
 {
     if (COMMAND_SIZE > null_terminator_position)
     {
-        PRINTF("command too short\n");
+        PRINTF("Invalid command: too short.\n");
     }
     else
     {
@@ -290,9 +269,9 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
         {
             msg_show(buffer);
         }
-        else if (strncmp(buffer, "pwm:", COMMAND_SIZE) == 0)
+        else if (strncmp(buffer, PWM_COMMAND, COMMAND_SIZE) == 0)
         {
-            //TODO
+            pwm_update(buffer);
         }
         else
         {
@@ -306,39 +285,39 @@ void led_change(char * buffer)
     switch (buffer[LED_COLOR_INDEX])
     {
         case 'r':
-        turn_on_red();
+            turn_on_red();
         break;
 
         case 'g':
-        turn_on_green();
+            turn_on_green();
         break;
 
         case 'b':
-        turn_on_blue();
+            turn_on_blue();
         break;
 
         case 'y':
-        turn_on_yellow();
+            turn_on_yellow();
         break;
 
         case 'm':
-        turn_on_magenta();
+            turn_on_magenta();
         break;
 
         case 'c':
-        turn_on_cyan();
+            turn_on_cyan();
         break;
 
         case 'w':
-        turn_on_white();
+            turn_on_white();
         break;
 
         case 'o':
-        turn_off_leds();
+            turn_off_leds();
         break;
 
         default:
-        PRINTF("Invalid color.\n");
+            PRINTF("Invalid LED color.\n");
     }
 }
 
@@ -357,8 +336,56 @@ void msg_show(char * buffer)
     }
     else
     {
-        PRINTF("Invalid line.\n");
+        PRINTF("Invalid LCD line.\n");
     }
+}
+
+void pwm_update(char * buffer)
+{
+    uint8_t percentage = range_adjust(
+            strtol(buffer + PWM_PERCENTAGE_INDEX, NULL, 10));
+
+    switch (buffer[PWM_DEVICE_INDEX])
+    {
+        case 'w':
+            update_pwm_dutycyle(WHITE_PWM, WHITE_CHANNEL, percentage);
+        break;
+
+        case 'g':
+            update_pwm_dutycyle(GREEN_PWM, GREEN_CHANNEL,  percentage);
+        break;
+
+        case 'y':
+            update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, percentage);
+        break;
+
+        case 'r':
+            update_pwm_dutycyle(RED_PWM, RED_CHANNEL, percentage);
+        break;
+
+        default:
+            PRINTF("Invalid PWM device.\n");
+    }
+}
+
+uint8_t range_adjust(long value)
+{
+    uint8_t corrected_value;
+
+    if (value < 0)
+    {
+        corrected_value = 0U;
+    }
+    else if (value > 100)
+    {
+        corrected_value = 100U;
+    }
+    else
+    {
+        corrected_value = (uint8_t) value;
+    }
+
+    return corrected_value;
 }
 
 /*** end of file ***/
