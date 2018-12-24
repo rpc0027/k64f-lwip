@@ -22,6 +22,9 @@
 #include "fsl_device_registers.h"
 #include "fsl_gpio.h"
 
+#include "FreeRTOS.h"
+#include "message_buffer.h"
+
 #include "lwip/opt.h"
 #include "lwip/dhcp.h"
 #include "lwip/ip_addr.h"
@@ -40,10 +43,10 @@
  ******************************************************************************/
 /* MAC address configuration. */
 #define configMAC_ADDR {0x02, 0x12, 0x13, 0x10, 0x15, 0x11}
-
-/*! @brief Stack size of the temporary lwIP initialization thread. */
-#define STACK_INIT_THREAD_STACKSIZE 1024
-
+/* Top row of the LCD. */
+#define TOP_ROW 0U
+/* Bottom row of the LCD. */
+#define BOTTOM_ROW 1U
 /* Number of bytes used in commands name. */
 #define COMMAND_SIZE 4
 /* Name of the LED command. */
@@ -56,10 +59,6 @@
 #define MSG_ROW_INDEX 4
 /* Index of the text in the received MSG command. */
 #define MSG_TXT_INDEX 6
-/* Top row of the LCD. */
-#define TOP_ROW 0U
-/* Bottom row of the LCD. */
-#define BOTTOM_ROW 1U
 /* Name of the PWM command. */
 #define PWM_COMMAND "pwm:"
 /* Index of the pwm device argument in the received PWM command. */
@@ -70,17 +69,31 @@
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
-static void stack_init_thread(void *);
-static void tcp_listener_thread(void *);
+void stack_init_thread(void * arg);
+void tcp_listener_thread(void * arg);
 void rx_command_check(char * buffer, uint16_t null_terminator_position);
-void led_change(char * buffer);
-void msg_show(char * buffer);
-void pwm_update(char * buffer);
+void led_thread(void * arg);
+void msg_thread(void * arg);
+void pwm_thread(void * arg);
 uint8_t range_adjust(long value);
 
 /*******************************************************************************
  * Variables
  ******************************************************************************/
+/* Handler for the messages for led_thread. */
+MessageBufferHandle_t led_handler;
+/* Handler for the messages for msg_thread. */
+MessageBufferHandle_t msg_handler;
+/* Handler for the messages for pwm_thread. */
+MessageBufferHandle_t pwm_handler;
+
+/* Number of bytes of the messages. */
+#define BUFFER_LENGTH 1400
+
+uint8_t messageBuffer[BUFFER_LENGTH];
+
+TaskHandle_t tcp_listener_handle;
+
 
 /*******************************************************************************
  * Code
@@ -90,9 +103,6 @@ uint8_t range_adjust(long value);
  */
 int main(void)
 {
-    /* Memory protection unit. */
-    SYSMPU_Type *base = SYSMPU;
-
     /* Init board hardware. */
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
@@ -100,27 +110,48 @@ int main(void)
     /* Init FSL debug console. */
     BOARD_InitDebugConsole();
 
-    /* Disable SYSMPU. */
-    base->CESR &= ~SYSMPU_CESR_VLD_MASK;
+    /* Disable Memory Protection Unit. */
+    SYSMPU->CESR &= ~SYSMPU_CESR_VLD_MASK;
 
-    // LCD initialization.
-    //
+    /* LCD initialization. */
     LCD_Init(0x3F, 16, 2, LCD_5x8DOTS);
-    LCD_backlight();
-    LCD_clear();
 
-    // First message.
-    //
-    LCD_setCursor(0, 0);
-    LCD_printstr("Obtaining IP");
-    LCD_setCursor(0, 1);
-    LCD_printstr("Please wait...");
+    /* Creation of the message buffers. */
+    led_handler = xMessageBufferCreate(BUFFER_LENGTH);
+    msg_handler = xMessageBufferCreate(BUFFER_LENGTH);
+    pwm_handler = xMessageBufferCreate(BUFFER_LENGTH);
 
-    /* Initialize lwIP from thread */
-    if (sys_thread_new("main", stack_init_thread, NULL,
-            STACK_INIT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
+    /* Tasks creation. */
+    if (xTaskCreate(stack_init_thread, "stack_init_thread",
+            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO, NULL) != pdPASS)
     {
-        LWIP_ASSERT("main(): Stack init thread creation failed.", 0);
+        PRINTF("stack_init_thread creation failed.\n");
+    }
+
+    if (xTaskCreate(tcp_listener_thread, "tcp_listener_thread",
+            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO , &tcp_listener_handle) != pdPASS)
+    {
+        PRINTF("tcp_listener_thread creation failed.\n");
+    }
+    /* Task suspended until the TCP/IP stack is initialized. */
+    vTaskSuspend(tcp_listener_handle);
+
+    if (xTaskCreate(led_thread, "led_thread",
+            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+    {
+        PRINTF("led_thread creation failed.\n");
+    }
+
+    if (xTaskCreate(msg_thread, "msg_thread",
+            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+    {
+        PRINTF("msg_thread creation failed.\n");
+    }
+
+    if (xTaskCreate(pwm_thread, "pwm_thread",
+            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+    {
+        PRINTF("pwm_thread creation failed.\n");
     }
 
     vTaskStartScheduler();
@@ -131,65 +162,57 @@ int main(void)
 /*!
  * @brief Initializes lwIP stack.
  */
-static void stack_init_thread(void *arg)
+void stack_init_thread(void * arg)
 {
-    static struct netif fsl_netif0;
-    struct netif *netif = (struct netif *)&fsl_netif0;
-    struct dhcp *dhcp;
-    ip4_addr_t fsl_netif0_ipaddr, fsl_netif0_netmask, fsl_netif0_gw;
-    ethernetif_config_t fsl_enet_config0 = {
+    LCD_clear_row(TOP_ROW);
+    LCD_printstr("Obtaining IP");
+    LCD_clear_row(BOTTOM_ROW);
+    LCD_printstr("Please wait...");
+
+    struct netif netif;
+    struct dhcp * dhcp;
+
+    ip4_addr_t ip_address;
+    ip4_addr_t netmask;
+    ip4_addr_t gateway;
+
+    ethernetif_config_t config =
+    {
             .phyAddress = BOARD_ENET0_PHY_ADDRESS,
             .clockName = kCLOCK_CoreSysClk,
             .macAddress = configMAC_ADDR,
     };
 
-    /* Default IP configuration. */
-    IP4_ADDR(&fsl_netif0_ipaddr, 0U, 0U, 0U, 0U);
-    IP4_ADDR(&fsl_netif0_netmask, 0U, 0U, 0U, 0U);
-    IP4_ADDR(&fsl_netif0_gw, 0U, 0U, 0U, 0U);
-
-    /* Initialization of the IP stack. */
+    /* Initialization of the TCP/IP stack. */
     tcpip_init(NULL, NULL);
 
     /* Set up the network interface. */
-    netif_add(&fsl_netif0, &fsl_netif0_ipaddr, &fsl_netif0_netmask,
-            &fsl_netif0_gw, &fsl_enet_config0, ethernetif0_init, tcpip_input);
-    netif_set_default(&fsl_netif0);
-    netif_set_up(&fsl_netif0);
+    netif_add(&netif, &ip_address, &netmask, &gateway, &config,
+            ethernetif0_init, tcpip_input);
+    netif_set_default(&netif);
+    netif_set_up(&netif);
 
-    /* Query of IP configuration to a local DHCP server. */
-    dhcp_start(&fsl_netif0);
+    /* Start DHCP negotiation. */
+    dhcp_start(&netif);
 
-    /* Check DHCP state. */
-    while (netif_is_up(netif))
+    for(;;)
     {
-        dhcp = netif_dhcp_data(netif);
+        dhcp = netif_dhcp_data(&netif);
 
-        if (dhcp != NULL && dhcp->state == DHCP_STATE_BOUND)
+        if (dhcp->state == DHCP_STATE_BOUND)
         {
-            PRINTF("IPv4 Address : %s\n", ipaddr_ntoa(&netif->ip_addr));
-            PRINTF("IPv4 Netmask : %s\n", ipaddr_ntoa(&netif->netmask));
-            PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif->gw));
+            PRINTF("IPv4 Address : %s\n", ipaddr_ntoa(&netif.ip_addr));
+            PRINTF("IPv4 Netmask : %s\n", ipaddr_ntoa(&netif.netmask));
+            PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif.gw));
 
-            /* Initialize tcp_listener_thread */
-            if (sys_thread_new("stack_init_thread", tcp_listener_thread, NULL,
-                    DEFAULT_THREAD_STACKSIZE, DEFAULT_THREAD_PRIO) == NULL)
-            {
-                LWIP_ASSERT("tcp_listener_thread creation failed.", 0);
-            }
-
-            // Show obtained IP address.
-            //
-            LCD_clear();
-            LCD_setCursor(0, 0);
+            LCD_clear_row(TOP_ROW);
             LCD_printstr("IPv4 Address:");
-            LCD_setCursor(0, 1);
-            LCD_printstr(ipaddr_ntoa(&netif->ip_addr));
+            LCD_clear_row(BOTTOM_ROW);
+            LCD_printstr(ipaddr_ntoa(&netif.ip_addr));
 
+            vTaskResume(tcp_listener_handle);
             vTaskDelete(NULL);
         }
-
-        sys_msleep(20U);
     }
 }
 
@@ -197,60 +220,36 @@ static void stack_init_thread(void *arg)
  * @brief Listens TCP packages.
  *
  */
-static void tcp_listener_thread(void *arg)
+void tcp_listener_thread(void * arg)
 {
-    struct netconn *conn, *newconn;
-    err_t err, accept_err;
-    char buffer[1024];
-    struct netbuf *buf;
-    err_t recv_err;
+    struct netbuf  * netbuf;
+    struct netconn * netconn;
+    struct netconn * newconn;
+    char buffer[BUFFER_LENGTH];
 
-    /* Create a new TCP connection identifier. */
-    conn = netconn_new(NETCONN_TCP);
+    netconn = netconn_new(NETCONN_TCP);
+    netconn_bind(netconn, NULL, 1234);
+    netconn_listen(netconn);
 
-    if (conn != NULL)
+    for (;;)
     {
-        /* Bind connection to well known port number 1234. */
-        err = netconn_bind(conn, NULL, 1234);
-        if (err == ERR_OK)
-        {
-            /* Tell connection to go into listening mode. */
-            netconn_listen(conn);
+        netconn_accept(netconn, &newconn);
 
-            while (1)
+        while (ERR_OK == netconn_recv(newconn, &netbuf))
+        {
+            do
             {
-                /* Grab new connection. */
-                accept_err = netconn_accept(conn, &newconn);
-                /* Process the new connection. */
-                if (accept_err == ERR_OK)
-                {
-                    while (( recv_err = netconn_recv(newconn, &buf)) == ERR_OK)
-                    {
-                        do
-                        {
-                            netbuf_copy(buf, buffer, sizeof(buffer));
-                            buffer[buf->p->tot_len] = '\0';
+                netbuf_copy(netbuf, buffer, sizeof(buffer));
+                buffer[netbuf->p->tot_len] = '\0';
 
-                            rx_command_check(buffer, buf->p->tot_len);
-                        }
-                        while (netbuf_next(buf) >= 0);
-                        netbuf_delete(buf);
-                    }
-                    /* Close connection and discard connection identifier. */
-                    netconn_close(newconn);
-                    netconn_delete(newconn);
-                }
+                rx_command_check(buffer, netbuf->p->tot_len);
             }
+            while (netbuf_next(netbuf) >= 0);
+
+            netbuf_delete(netbuf);
         }
-        else
-        {
-            netconn_delete(newconn);
-            PRINTF("Can not bind TCP netconn.");
-        }
-    }
-    else
-    {
-        PRINTF("Can not create TCP netconn.");
+
+        netconn_delete(newconn);
     }
 }
 
@@ -264,15 +263,15 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
     {
         if (strncmp(buffer, LED_COMMAND, COMMAND_SIZE) == 0)
         {
-            led_change(buffer);
+            xMessageBufferSend(led_handler, (void *) buffer, strlen(buffer), 0);
         }
         else if (strncmp(buffer, MSG_COMMAND, COMMAND_SIZE) == 0)
         {
-            msg_show(buffer);
+            xMessageBufferSend(msg_handler, (void *) buffer, strlen(buffer) + 1, 0);
         }
         else if (strncmp(buffer, PWM_COMMAND, COMMAND_SIZE) == 0)
         {
-            pwm_update(buffer);
+            xMessageBufferSend(pwm_handler, (void *) buffer, strlen(buffer), 0);
         }
         else
         {
@@ -281,99 +280,138 @@ void rx_command_check(char * buffer, uint16_t null_terminator_position)
     }
 }
 
-void led_change(char * buffer)
+void led_thread(void *arg)
 {
-    switch (buffer[LED_COLOR_INDEX])
+    char buffer[BUFFER_LENGTH];
+    size_t xReceivedBytes;
+    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
+
+    for (;;)
     {
-        case 'r':
-            turn_on_red();
-        break;
+        xReceivedBytes = xMessageBufferReceive(led_handler, (void *) buffer,
+                sizeof(buffer), xBlockTime);
 
-        case 'g':
-            turn_on_green();
-        break;
+        if (xReceivedBytes)
+        {
+            switch (buffer[LED_COLOR_INDEX])
+            {
+            case 'r':
+                turn_on_red();
+                break;
 
-        case 'b':
-            turn_on_blue();
-        break;
+            case 'g':
+                turn_on_green();
+                break;
 
-        case 'y':
-            turn_on_yellow();
-        break;
+            case 'b':
+                turn_on_blue();
+                break;
 
-        case 'm':
-            turn_on_magenta();
-        break;
+            case 'y':
+                turn_on_yellow();
+                break;
 
-        case 'c':
-            turn_on_cyan();
-        break;
+            case 'm':
+                turn_on_magenta();
+                break;
 
-        case 'w':
-            turn_on_white();
-        break;
+            case 'c':
+                turn_on_cyan();
+                break;
 
-        case 'o':
-            turn_off_leds();
-        break;
+            case 'w':
+                turn_on_white();
+                break;
 
-        default:
-            PRINTF("Invalid LED color.\n");
+            case 'o':
+                turn_off_leds();
+                break;
+
+            default:
+                PRINTF("Invalid LED color.\n");
+            }
+        }
     }
 }
 
-void msg_show(char * buffer)
+void msg_thread(void *arg)
 {
-    if (buffer[MSG_ROW_INDEX] == '0')
-    {
-        LCD_clear_row(TOP_ROW);
-        LCD_printstr(buffer + MSG_TXT_INDEX);
+    char buffer[BUFFER_LENGTH];
+    size_t xReceivedBytes;
+    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
 
-    }
-    else if (buffer[MSG_ROW_INDEX == '1'])
+    for (;;)
     {
-        LCD_clear_row(BOTTOM_ROW);
-        LCD_printstr(buffer + MSG_TXT_INDEX);
-    }
-    else
-    {
-        PRINTF("Invalid LCD line.\n");
+        xReceivedBytes = xMessageBufferReceive(msg_handler, (void *) buffer,
+                sizeof(buffer), xBlockTime);
+
+        if (xReceivedBytes)
+        {
+            if (buffer[MSG_ROW_INDEX] == '0')
+            {
+                LCD_clear_row(TOP_ROW);
+                LCD_printstr(buffer + MSG_TXT_INDEX);
+            }
+            else if (buffer[MSG_ROW_INDEX == '1'])
+            {
+                LCD_clear_row(BOTTOM_ROW);
+                LCD_printstr(buffer + MSG_TXT_INDEX);
+            }
+            else
+            {
+                PRINTF("Invalid LCD line.\n");
+            }
+        }
     }
 }
 
-void pwm_update(char * buffer)
+void pwm_thread(void *arg)
 {
-    uint8_t percentage = range_adjust(
-            strtol(buffer + PWM_PERCENTAGE_INDEX, NULL, 10));
+    char buffer[BUFFER_LENGTH];
+    size_t xReceivedBytes;
+    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
+    uint8_t percentage;
 
-    switch (buffer[PWM_DEVICE_INDEX])
+    for (;;)
     {
-        case 'w':
-            update_pwm_dutycyle(WHITE_PWM, WHITE_CHANNEL, percentage);
-        break;
+        xReceivedBytes = xMessageBufferReceive(pwm_handler, (void *) buffer,
+                sizeof(buffer), xBlockTime);
 
-        case 'g':
-            update_pwm_dutycyle(GREEN_PWM, GREEN_CHANNEL,  percentage);
-        break;
+        if (xReceivedBytes)
+        {
+            percentage = range_adjust(
+                    strtol(buffer + PWM_PERCENTAGE_INDEX, NULL, 10));
 
-        case 'y':
-            update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, percentage);
-        break;
+            switch (buffer[PWM_DEVICE_INDEX])
+            {
+            case 'w':
+                update_pwm_dutycyle(WHITE_PWM, WHITE_CHANNEL, percentage);
+                break;
 
-        case 'r':
-            update_pwm_dutycyle(RED_PWM, RED_CHANNEL, percentage);
-        break;
+            case 'g':
+                update_pwm_dutycyle(GREEN_PWM, GREEN_CHANNEL,  percentage);
+                break;
 
-        default:
-            PRINTF("Invalid PWM device.\n");
+            case 'y':
+                update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, percentage);
+                break;
+
+            case 'r':
+                update_pwm_dutycyle(RED_PWM, RED_CHANNEL, percentage);
+                break;
+
+            default:
+                PRINTF("Invalid PWM device.\n");
+            }
+        }
     }
 }
 
 /*!
-* @brief Truncate values lower than 0 and higher than 100.
-* @param[in] value The value to adjust.
-* @return The adjusted value.
-*/
+ * @brief Truncate values lower than 0 and higher than 100.
+ * @param[in] value The value to adjust.
+ * @return The adjusted value.
+ */
 uint8_t range_adjust(long value)
 {
     uint8_t corrected_value;
