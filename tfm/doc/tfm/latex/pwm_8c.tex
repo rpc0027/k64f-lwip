@@ -1,0 +1,44 @@
+\hypertarget{pwm_8c}{}\section{source/pwm.c File Reference}
+\label{pwm_8c}\index{source/pwm.\+c@{source/pwm.\+c}}
+
+
+Functions to adjust the duty cycle of L\+E\+Ds.  
+
+
+{\ttfamily \#include \char`\"{}pwm.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{pwm_8c_a97d0676545e3e35f19619c182037a07d}{update\+\_\+pwm\+\_\+dutycyle} (F\+T\+M\+\_\+\+Type $\ast$base, ftm\+\_\+chnl\+\_\+t chnl\+Number, uint8\+\_\+t duty\+Cycle\+Percent)
+\begin{DoxyCompactList}\small\item\em Adjusta the P\+WM duty cycle with the given percentage. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions to adjust the duty cycle of L\+E\+Ds. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{pwm_8c_a97d0676545e3e35f19619c182037a07d}\label{pwm_8c_a97d0676545e3e35f19619c182037a07d}} 
+\index{pwm.\+c@{pwm.\+c}!update\+\_\+pwm\+\_\+dutycyle@{update\+\_\+pwm\+\_\+dutycyle}}
+\index{update\+\_\+pwm\+\_\+dutycyle@{update\+\_\+pwm\+\_\+dutycyle}!pwm.\+c@{pwm.\+c}}
+\subsubsection{\texorpdfstring{update\+\_\+pwm\+\_\+dutycyle()}{update\_pwm\_dutycyle()}}
+{\footnotesize\ttfamily void update\+\_\+pwm\+\_\+dutycyle (\begin{DoxyParamCaption}\item[{F\+T\+M\+\_\+\+Type $\ast$}]{base,  }\item[{ftm\+\_\+chnl\+\_\+t}]{chnl\+Number,  }\item[{uint8\+\_\+t}]{duty\+Cycle\+Percent }\end{DoxyParamCaption})}
+
+
+
+Adjusta the P\+WM duty cycle with the given percentage. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em base} & A pointer to the F\+TM peripheral. \\
+\hline
+\mbox{\tt in}  & {\em chnl\+Number} & The specific channel to modify. \\
+\hline
+\mbox{\tt in}  & {\em duty\+Cycle\+Percent} & New percentage of the duty cycle. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 15 of file pwm.\+c.
+

@@ -1,0 +1,422 @@
+\hypertarget{main_8c}{}\section{source/main.c File Reference}
+\label{main_8c}\index{source/main.\+c@{source/main.\+c}}
+
+
+Controls remotely a F\+R\+D\+M-\/\+K64F development board.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}board.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}peripherals.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}pin\+\_\+mux.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}clock\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}M\+K64\+F12.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fsl\+\_\+debug\+\_\+console.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fsl\+\_\+device\+\_\+registers.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fsl\+\_\+gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Free\+R\+T\+O\+S.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}message\+\_\+buffer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/opt.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/dhcp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/ip\+\_\+addr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/prot/dhcp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/tcpip.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/api.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/sys.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ethernetif.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lcd.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}led.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}pwm.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{main_8c_a0cb4fc37d244ce985851dd2958ae0b94}{M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS}~\{0x02, 0x12, 0x13, 0x10, 0x15, 0x11\}
+\item 
+\#define \hyperlink{main_8c_a64e4660070ba4d18caf410c627cb877b}{R\+O\+W\+\_\+\+T\+OP}~0U
+\item 
+\#define \hyperlink{main_8c_aefffb238eec6132aa6f522ee4bfb5ae6}{R\+O\+W\+\_\+\+B\+O\+T\+T\+OM}~1U
+\item 
+\#define \hyperlink{main_8c_af7b7dc9a200cb1404c280bd500fd1551}{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}~1400
+\item 
+\#define \hyperlink{main_8c_a87738054f9a89f0ac29c6ee1fb7da08d}{C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE}~4
+\item 
+\#define \hyperlink{main_8c_abddb00d7e61d6be4876e855024b3cddf}{L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND}~\char`\"{}led\+:\char`\"{}
+\item 
+\#define \hyperlink{main_8c_a198edbd5cf40a54b365b9c646c293ebe}{L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX}~4
+\item 
+\#define \hyperlink{main_8c_a8c2dc9dd9262da4791267c7a455650d0}{M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND}~\char`\"{}msg\+:\char`\"{}
+\item 
+\#define \hyperlink{main_8c_aa9f9f8cbc98042822af894f8edb65c45}{M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX}~4
+\item 
+\#define \hyperlink{main_8c_ab1cbbaa816cdaf3e5b17c50ce98058e4}{M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX}~6
+\item 
+\#define \hyperlink{main_8c_abede9926c9c35e5563889b1bfd176cc1}{P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND}~\char`\"{}pwm\+:\char`\"{}
+\item 
+\#define \hyperlink{main_8c_a744f03a0654cb51dd297d3568cd0cbf4}{P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX}~4
+\item 
+\#define \hyperlink{main_8c_a9d16f67ad548b24c63e58d792c7aa431}{P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX}~6
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{main_8c_a847080a397f094996cacc5a0aa8baa6a}{stack\+\_\+init\+\_\+thread} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Initializes lw\+IP stack. \end{DoxyCompactList}\item 
+void \hyperlink{main_8c_a8739ea816f17696a12944dedf418f843}{tcp\+\_\+listener\+\_\+thread} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Listens T\+CP packages. \end{DoxyCompactList}\item 
+void \hyperlink{main_8c_a1a1174d2ef5582f658283378cba1582e}{rx\+\_\+command\+\_\+check} (char $\ast$buffer, uint16\+\_\+t null\+\_\+terminator\+\_\+position)
+\item 
+void \hyperlink{main_8c_a3a4b83ef3ac93b7e46296bcd7492cc9c}{led\+\_\+thread} (void $\ast$arg)
+\item 
+void \hyperlink{main_8c_af71fa88ce1241e011948cf04251bd128}{msg\+\_\+thread} (void $\ast$arg)
+\item 
+void \hyperlink{main_8c_aa3169a93dc16027b45a20d26601eb57a}{pwm\+\_\+thread} (void $\ast$arg)
+\item 
+uint8\+\_\+t \hyperlink{main_8c_ab6e05b657db52dcbc23536a1bbde0380}{range\+\_\+adjust} (long value)
+\begin{DoxyCompactList}\small\item\em Truncate values lower than 0 and higher than 100. \end{DoxyCompactList}\item 
+int \hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the hardware and create the tasks that use that HW. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+Message\+Buffer\+Handle\+\_\+t \hyperlink{main_8c_a4a71cc014f0c3c99d5855e5ac1881251}{led\+\_\+handler}
+\item 
+Message\+Buffer\+Handle\+\_\+t \hyperlink{main_8c_a54b5787f4330b3b7a0cf8f49dc469eb3}{msg\+\_\+handler}
+\item 
+Message\+Buffer\+Handle\+\_\+t \hyperlink{main_8c_ab6bdda8236790770b689881f11423df4}{pwm\+\_\+handler}
+\item 
+uint8\+\_\+t \hyperlink{main_8c_aa4bff0b99eff2ca44164d359ca234ea7}{message\+Buffer} \mbox{[}\hyperlink{main_8c_af7b7dc9a200cb1404c280bd500fd1551}{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}\mbox{]}
+\item 
+Task\+Handle\+\_\+t \hyperlink{main_8c_a1ae9a9ba0abfd9a20b6525c80ff4c065}{tcp\+\_\+listener\+\_\+handle}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Controls remotely a F\+R\+D\+M-\/\+K64F development board. 
+
+\begin{DoxyAuthor}{Author}
+R\+P\+C0027 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+December 2018 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+The code initializes several hardware peripherals of the F\+R\+D\+M-\/\+K64F board and allows to interact with them remotely. The board gains its ability to work remotely through the usage of the lw\+IP library using its T\+C\+P/\+IP stack.
+
+\begin{DoxySeeAlso}{See also}
+\href{https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-k64-k63-and-k24-mcus:FRDM-K64F}{\tt https\+://www.\+nxp.\+com/support/developer-\/resources/evaluation-\/and-\/development-\/boards/freedom-\/development-\/boards/mcu-\/boards/freedom-\/development-\/platform-\/for-\/kinetis-\/k64-\/k63-\/and-\/k24-\/mcus\+:\+F\+R\+D\+M-\/\+K64F} 
+
+\href{https://savannah.nongnu.org/projects/lwip/}{\tt https\+://savannah.\+nongnu.\+org/projects/lwip/} 
+\end{DoxySeeAlso}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{main_8c_af7b7dc9a200cb1404c280bd500fd1551}\label{main_8c_af7b7dc9a200cb1404c280bd500fd1551}} 
+\index{main.\+c@{main.\+c}!B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH@{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}}
+\index{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH@{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}{BUFFER\_LENGTH}}
+{\footnotesize\ttfamily \#define B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH~1400}
+
+Bytes of data in T\+CP packets. 
+
+Definition at line 57 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a87738054f9a89f0ac29c6ee1fb7da08d}\label{main_8c_a87738054f9a89f0ac29c6ee1fb7da08d}} 
+\index{main.\+c@{main.\+c}!C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE@{C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE}}
+\index{C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE@{C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE}{COMMAND\_SIZE}}
+{\footnotesize\ttfamily \#define C\+O\+M\+M\+A\+N\+D\+\_\+\+S\+I\+ZE~4}
+
+Characters used for commands name. 
+
+Definition at line 58 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a198edbd5cf40a54b365b9c646c293ebe}\label{main_8c_a198edbd5cf40a54b365b9c646c293ebe}} 
+\index{main.\+c@{main.\+c}!L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX@{L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX}}
+\index{L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX@{L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX}{LED\_COLOR\_INDEX}}
+{\footnotesize\ttfamily \#define L\+E\+D\+\_\+\+C\+O\+L\+O\+R\+\_\+\+I\+N\+D\+EX~4}
+
+Index of the color argument. 
+
+Definition at line 60 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_abddb00d7e61d6be4876e855024b3cddf}\label{main_8c_abddb00d7e61d6be4876e855024b3cddf}} 
+\index{main.\+c@{main.\+c}!L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND@{L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND}}
+\index{L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND@{L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND}{LED\_COMMAND}}
+{\footnotesize\ttfamily \#define L\+E\+D\+\_\+\+C\+O\+M\+M\+A\+ND~\char`\"{}led\+:\char`\"{}}
+
+Name of the L\+ED command. 
+
+Definition at line 59 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a0cb4fc37d244ce985851dd2958ae0b94}\label{main_8c_a0cb4fc37d244ce985851dd2958ae0b94}} 
+\index{main.\+c@{main.\+c}!M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS@{M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS}}
+\index{M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS@{M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS}{MAC\_ADDRESS}}
+{\footnotesize\ttfamily \#define M\+A\+C\+\_\+\+A\+D\+D\+R\+E\+SS~\{0x02, 0x12, 0x13, 0x10, 0x15, 0x11\}}
+
+Media access control address used for interface configuration. 
+
+Definition at line 54 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a8c2dc9dd9262da4791267c7a455650d0}\label{main_8c_a8c2dc9dd9262da4791267c7a455650d0}} 
+\index{main.\+c@{main.\+c}!M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND@{M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND}}
+\index{M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND@{M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND}{MSG\_COMMAND}}
+{\footnotesize\ttfamily \#define M\+S\+G\+\_\+\+C\+O\+M\+M\+A\+ND~\char`\"{}msg\+:\char`\"{}}
+
+Name of the M\+SG command. 
+
+Definition at line 61 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_aa9f9f8cbc98042822af894f8edb65c45}\label{main_8c_aa9f9f8cbc98042822af894f8edb65c45}} 
+\index{main.\+c@{main.\+c}!M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX@{M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX}}
+\index{M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX@{M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX}{MSG\_ROW\_INDEX}}
+{\footnotesize\ttfamily \#define M\+S\+G\+\_\+\+R\+O\+W\+\_\+\+I\+N\+D\+EX~4}
+
+Index of the row argument. 
+
+Definition at line 62 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_ab1cbbaa816cdaf3e5b17c50ce98058e4}\label{main_8c_ab1cbbaa816cdaf3e5b17c50ce98058e4}} 
+\index{main.\+c@{main.\+c}!M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX@{M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX}}
+\index{M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX@{M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX}{MSG\_TXT\_INDEX}}
+{\footnotesize\ttfamily \#define M\+S\+G\+\_\+\+T\+X\+T\+\_\+\+I\+N\+D\+EX~6}
+
+Index of the text argument. 
+
+Definition at line 63 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_abede9926c9c35e5563889b1bfd176cc1}\label{main_8c_abede9926c9c35e5563889b1bfd176cc1}} 
+\index{main.\+c@{main.\+c}!P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND@{P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND}}
+\index{P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND@{P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND}{PWM\_COMMAND}}
+{\footnotesize\ttfamily \#define P\+W\+M\+\_\+\+C\+O\+M\+M\+A\+ND~\char`\"{}pwm\+:\char`\"{}}
+
+Name of the P\+WM command. 
+
+Definition at line 64 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a744f03a0654cb51dd297d3568cd0cbf4}\label{main_8c_a744f03a0654cb51dd297d3568cd0cbf4}} 
+\index{main.\+c@{main.\+c}!P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX@{P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX}}
+\index{P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX@{P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX}{PWM\_DEVICE\_INDEX}}
+{\footnotesize\ttfamily \#define P\+W\+M\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+I\+N\+D\+EX~4}
+
+Index of the P\+WM device argument. 
+
+Definition at line 65 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a9d16f67ad548b24c63e58d792c7aa431}\label{main_8c_a9d16f67ad548b24c63e58d792c7aa431}} 
+\index{main.\+c@{main.\+c}!P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX@{P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX}}
+\index{P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX@{P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX}{PWM\_PERCENTAGE\_INDEX}}
+{\footnotesize\ttfamily \#define P\+W\+M\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+I\+N\+D\+EX~6}
+
+Index of the percentage argument. 
+
+Definition at line 66 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_aefffb238eec6132aa6f522ee4bfb5ae6}\label{main_8c_aefffb238eec6132aa6f522ee4bfb5ae6}} 
+\index{main.\+c@{main.\+c}!R\+O\+W\+\_\+\+B\+O\+T\+T\+OM@{R\+O\+W\+\_\+\+B\+O\+T\+T\+OM}}
+\index{R\+O\+W\+\_\+\+B\+O\+T\+T\+OM@{R\+O\+W\+\_\+\+B\+O\+T\+T\+OM}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{R\+O\+W\+\_\+\+B\+O\+T\+T\+OM}{ROW\_BOTTOM}}
+{\footnotesize\ttfamily \#define R\+O\+W\+\_\+\+B\+O\+T\+T\+OM~1U}
+
+Bottom row of the L\+CD. 
+
+Definition at line 56 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a64e4660070ba4d18caf410c627cb877b}\label{main_8c_a64e4660070ba4d18caf410c627cb877b}} 
+\index{main.\+c@{main.\+c}!R\+O\+W\+\_\+\+T\+OP@{R\+O\+W\+\_\+\+T\+OP}}
+\index{R\+O\+W\+\_\+\+T\+OP@{R\+O\+W\+\_\+\+T\+OP}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{R\+O\+W\+\_\+\+T\+OP}{ROW\_TOP}}
+{\footnotesize\ttfamily \#define R\+O\+W\+\_\+\+T\+OP~0U}
+
+Top row of the L\+CD. 
+
+Definition at line 55 of file main.\+c.
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{main_8c_a3a4b83ef3ac93b7e46296bcd7492cc9c}\label{main_8c_a3a4b83ef3ac93b7e46296bcd7492cc9c}} 
+\index{main.\+c@{main.\+c}!led\+\_\+thread@{led\+\_\+thread}}
+\index{led\+\_\+thread@{led\+\_\+thread}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{led\+\_\+thread()}{led\_thread()}}
+{\footnotesize\ttfamily void led\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Definition at line 279 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}} 
+\index{main.\+c@{main.\+c}!main@{main}}
+\index{main@{main}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialize the hardware and create the tasks that use that HW. 
+
+Initialize the hardware using the M\+C\+U\+Xpresso Config Tools generated code. This code allows to mux the microcontroller pins, gate the necessary clock signals and configure the enabled peripherals.
+
+\begin{DoxyReturn}{Returns}
+E\+X\+I\+T\+\_\+\+F\+A\+I\+L\+U\+RE if the task scheduler doesn\textquotesingle{}t start. 
+\end{DoxyReturn}
+Init board hardware.
+
+Init F\+SL debug console.
+
+Disable Memory Protection Unit.
+
+L\+CD initialization.
+
+Creation of the message buffers.
+
+Tasks creation.
+
+Task suspended until the T\+C\+P/\+IP stack is initialized. 
+
+Definition at line 100 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_af71fa88ce1241e011948cf04251bd128}\label{main_8c_af71fa88ce1241e011948cf04251bd128}} 
+\index{main.\+c@{main.\+c}!msg\+\_\+thread@{msg\+\_\+thread}}
+\index{msg\+\_\+thread@{msg\+\_\+thread}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{msg\+\_\+thread()}{msg\_thread()}}
+{\footnotesize\ttfamily void msg\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Definition at line 333 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_aa3169a93dc16027b45a20d26601eb57a}\label{main_8c_aa3169a93dc16027b45a20d26601eb57a}} 
+\index{main.\+c@{main.\+c}!pwm\+\_\+thread@{pwm\+\_\+thread}}
+\index{pwm\+\_\+thread@{pwm\+\_\+thread}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{pwm\+\_\+thread()}{pwm\_thread()}}
+{\footnotesize\ttfamily void pwm\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Definition at line 364 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_ab6e05b657db52dcbc23536a1bbde0380}\label{main_8c_ab6e05b657db52dcbc23536a1bbde0380}} 
+\index{main.\+c@{main.\+c}!range\+\_\+adjust@{range\+\_\+adjust}}
+\index{range\+\_\+adjust@{range\+\_\+adjust}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{range\+\_\+adjust()}{range\_adjust()}}
+{\footnotesize\ttfamily uint8\+\_\+t range\+\_\+adjust (\begin{DoxyParamCaption}\item[{long}]{value }\end{DoxyParamCaption})}
+
+
+
+Truncate values lower than 0 and higher than 100. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em value} & The value to adjust. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The adjusted value. 
+\end{DoxyReturn}
+
+
+Definition at line 411 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a1a1174d2ef5582f658283378cba1582e}\label{main_8c_a1a1174d2ef5582f658283378cba1582e}} 
+\index{main.\+c@{main.\+c}!rx\+\_\+command\+\_\+check@{rx\+\_\+command\+\_\+check}}
+\index{rx\+\_\+command\+\_\+check@{rx\+\_\+command\+\_\+check}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{rx\+\_\+command\+\_\+check()}{rx\_command\_check()}}
+{\footnotesize\ttfamily void rx\+\_\+command\+\_\+check (\begin{DoxyParamCaption}\item[{char $\ast$}]{buffer,  }\item[{uint16\+\_\+t}]{null\+\_\+terminator\+\_\+position }\end{DoxyParamCaption})}
+
+
+
+Definition at line 252 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a847080a397f094996cacc5a0aa8baa6a}\label{main_8c_a847080a397f094996cacc5a0aa8baa6a}} 
+\index{main.\+c@{main.\+c}!stack\+\_\+init\+\_\+thread@{stack\+\_\+init\+\_\+thread}}
+\index{stack\+\_\+init\+\_\+thread@{stack\+\_\+init\+\_\+thread}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{stack\+\_\+init\+\_\+thread()}{stack\_init\_thread()}}
+{\footnotesize\ttfamily void stack\+\_\+init\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Initializes lw\+IP stack. 
+
+
+
+Definition at line 161 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a8739ea816f17696a12944dedf418f843}\label{main_8c_a8739ea816f17696a12944dedf418f843}} 
+\index{main.\+c@{main.\+c}!tcp\+\_\+listener\+\_\+thread@{tcp\+\_\+listener\+\_\+thread}}
+\index{tcp\+\_\+listener\+\_\+thread@{tcp\+\_\+listener\+\_\+thread}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{tcp\+\_\+listener\+\_\+thread()}{tcp\_listener\_thread()}}
+{\footnotesize\ttfamily void tcp\+\_\+listener\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+Listens T\+CP packages. 
+
+
+
+Definition at line 219 of file main.\+c.
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{main_8c_a4a71cc014f0c3c99d5855e5ac1881251}\label{main_8c_a4a71cc014f0c3c99d5855e5ac1881251}} 
+\index{main.\+c@{main.\+c}!led\+\_\+handler@{led\+\_\+handler}}
+\index{led\+\_\+handler@{led\+\_\+handler}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{led\+\_\+handler}{led\_handler}}
+{\footnotesize\ttfamily Message\+Buffer\+Handle\+\_\+t led\+\_\+handler}
+
+Buffer handler of led\+\_\+thread. 
+
+Definition at line 82 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_aa4bff0b99eff2ca44164d359ca234ea7}\label{main_8c_aa4bff0b99eff2ca44164d359ca234ea7}} 
+\index{main.\+c@{main.\+c}!message\+Buffer@{message\+Buffer}}
+\index{message\+Buffer@{message\+Buffer}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{message\+Buffer}{messageBuffer}}
+{\footnotesize\ttfamily uint8\+\_\+t message\+Buffer\mbox{[}\hyperlink{main_8c_af7b7dc9a200cb1404c280bd500fd1551}{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}\mbox{]}}
+
+Buffer to be used by the threads. 
+
+Definition at line 85 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a54b5787f4330b3b7a0cf8f49dc469eb3}\label{main_8c_a54b5787f4330b3b7a0cf8f49dc469eb3}} 
+\index{main.\+c@{main.\+c}!msg\+\_\+handler@{msg\+\_\+handler}}
+\index{msg\+\_\+handler@{msg\+\_\+handler}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{msg\+\_\+handler}{msg\_handler}}
+{\footnotesize\ttfamily Message\+Buffer\+Handle\+\_\+t msg\+\_\+handler}
+
+Buffer handler of msg\+\_\+thread. 
+
+Definition at line 83 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_ab6bdda8236790770b689881f11423df4}\label{main_8c_ab6bdda8236790770b689881f11423df4}} 
+\index{main.\+c@{main.\+c}!pwm\+\_\+handler@{pwm\+\_\+handler}}
+\index{pwm\+\_\+handler@{pwm\+\_\+handler}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{pwm\+\_\+handler}{pwm\_handler}}
+{\footnotesize\ttfamily Message\+Buffer\+Handle\+\_\+t pwm\+\_\+handler}
+
+Buffer handler of pwm\+\_\+thread. 
+
+Definition at line 84 of file main.\+c.
+
+\mbox{\Hypertarget{main_8c_a1ae9a9ba0abfd9a20b6525c80ff4c065}\label{main_8c_a1ae9a9ba0abfd9a20b6525c80ff4c065}} 
+\index{main.\+c@{main.\+c}!tcp\+\_\+listener\+\_\+handle@{tcp\+\_\+listener\+\_\+handle}}
+\index{tcp\+\_\+listener\+\_\+handle@{tcp\+\_\+listener\+\_\+handle}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{tcp\+\_\+listener\+\_\+handle}{tcp\_listener\_handle}}
+{\footnotesize\ttfamily Task\+Handle\+\_\+t tcp\+\_\+listener\+\_\+handle}
+
+Task handle of tcp\+\_\+listener\+\_\+thread. 
+
+Definition at line 86 of file main.\+c.
+

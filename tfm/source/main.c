@@ -1,7 +1,18 @@
 /**
- * @file    main.c
+ * @file main.c
+ * @author RPC0027
+ * @date December 2018
+ * @version 1.0
  *
- * @brief   Application entry point.
+ * @brief Controls remotely a FRDM-K64F development board.
+ *
+ * The code initializes several hardware peripherals of the FRDM-K64F board
+ * and allows to interact with them remotely.
+ * The board gains its ability to work remotely through the usage
+ * of the lwIP library using its TCP/IP stack.
+ *
+ * @see https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-k64-k63-and-k24-mcus:FRDM-K64F
+ * @see https://savannah.nongnu.org/projects/lwip/
  */
 
 /*******************************************************************************
@@ -11,11 +22,9 @@
 #include <stdlib.h>
 
 #include "board.h"
-
 #include "peripherals.h"
 #include "pin_mux.h"
 #include "clock_config.h"
-
 #include "MK64F12.h"
 
 #include "fsl_debug_console.h"
@@ -41,37 +50,27 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-/* MAC address configuration. */
-#define configMAC_ADDR {0x02, 0x12, 0x13, 0x10, 0x15, 0x11}
-/* Top row of the LCD. */
-#define TOP_ROW 0U
-/* Bottom row of the LCD. */
-#define BOTTOM_ROW 1U
-/* Number of bytes used in commands name. */
-#define COMMAND_SIZE 4
-/* Name of the LED command. */
-#define LED_COMMAND "led:"
-/* Index of the color argument in the received LED command. */
-#define LED_COLOR_INDEX 4
-/* Name of the MSG command. */
-#define MSG_COMMAND "msg:"
-/* Index of the line in the received MSG command. */
-#define MSG_ROW_INDEX 4
-/* Index of the text in the received MSG command. */
-#define MSG_TXT_INDEX 6
-/* Name of the PWM command. */
-#define PWM_COMMAND "pwm:"
-/* Index of the pwm device argument in the received PWM command. */
-#define PWM_DEVICE_INDEX 4
-/* Index of the percentage argument in the received PWM command. */
-#define PWM_PERCENTAGE_INDEX 6
+/** Media access control address used for interface configuration. */
+#define MAC_ADDRESS {0x02, 0x12, 0x13, 0x10, 0x15, 0x11}
+#define ROW_TOP 0U /**< Top row of the LCD. */
+#define ROW_BOTTOM 1U /**< Bottom row of the LCD. */
+#define BUFFER_LENGTH 1400 /**< Bytes of data in TCP packets. */
+#define COMMAND_SIZE 4 /**< Characters used for commands name. */
+#define LED_COMMAND "led:" /**< Name of the LED command. */
+#define LED_COLOR_INDEX 4 /**< Index of the color argument. */
+#define MSG_COMMAND "msg:" /**< Name of the MSG command. */
+#define MSG_ROW_INDEX 4 /**< Index of the row argument. */
+#define MSG_TXT_INDEX 6 /**< Index of the text argument. */
+#define PWM_COMMAND "pwm:" /**< Name of the PWM command. */
+#define PWM_DEVICE_INDEX 4 /**< Index of the PWM device argument.*/
+#define PWM_PERCENTAGE_INDEX 6 /**< Index of the percentage argument. */
 
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
 void stack_init_thread(void * arg);
 void tcp_listener_thread(void * arg);
-void rx_command_check(char * buffer, uint16_t null_terminator_position);
+void rx_command_check(char * buffer, uint16_t null_terminator_pos);
 void led_thread(void * arg);
 void msg_thread(void * arg);
 void pwm_thread(void * arg);
@@ -80,356 +79,404 @@ uint8_t range_adjust(long value);
 /*******************************************************************************
  * Variables
  ******************************************************************************/
-/* Handler for the messages for led_thread. */
-MessageBufferHandle_t led_handler;
-/* Handler for the messages for msg_thread. */
-MessageBufferHandle_t msg_handler;
-/* Handler for the messages for pwm_thread. */
-MessageBufferHandle_t pwm_handler;
-
-/* Number of bytes of the messages. */
-#define BUFFER_LENGTH 1400
-
-uint8_t messageBuffer[BUFFER_LENGTH];
-
-TaskHandle_t tcp_listener_handle;
-
+MessageBufferHandle_t led_handler; /**< Buffer handler of led_thread. */
+MessageBufferHandle_t msg_handler; /**< Buffer handler of msg_thread. */
+MessageBufferHandle_t pwm_handler; /**< Buffer handler of pwm_thread. */
+uint8_t messageBuffer[BUFFER_LENGTH]; /**< Buffer to be used by the threads. */
+TaskHandle_t tcp_listener_handle; /**< Task handle of tcp_listener_thread. */
 
 /*******************************************************************************
  * Code
  ******************************************************************************/
-/*
- * @brief   Application entry point.
+/**
+ * @brief Initialize the hardware and create the tasks that use that HW.
+ *
+ * Initialize the hardware using the MCUXpresso Config Tools generated code.
+ * This code allows to mux the microcontroller pins, gate the necessary clock
+ * signals and configure the enabled peripherals.
+ *
+ * @return EXIT_FAILURE if the task scheduler doesn't start.
  */
 int main(void)
 {
-    /* Init board hardware. */
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-    /* Init FSL debug console. */
-    BOARD_InitDebugConsole();
+	/* Init board hardware. */
+	BOARD_InitBootPins();
+	BOARD_InitBootClocks();
+	BOARD_InitBootPeripherals();
+	/* Init FSL debug console. */
+	BOARD_InitDebugConsole();
 
-    /* Disable Memory Protection Unit. */
-    SYSMPU->CESR &= ~SYSMPU_CESR_VLD_MASK;
+	/* Disable Memory Protection Unit. */
+	SYSMPU->CESR &= ~SYSMPU_CESR_VLD_MASK;
 
-    /* LCD initialization. */
-    LCD_Init(0x3F, 16, 2, LCD_5x8DOTS);
+	/* LCD initialization. */
+	LCD_Init(0x3F, 16, 2, LCD_5x8DOTS);
 
-    /* Creation of the message buffers. */
-    led_handler = xMessageBufferCreate(BUFFER_LENGTH);
-    msg_handler = xMessageBufferCreate(BUFFER_LENGTH);
-    pwm_handler = xMessageBufferCreate(BUFFER_LENGTH);
+	/* Creation of the message buffers. */
+	led_handler = xMessageBufferCreate(BUFFER_LENGTH);
+	msg_handler = xMessageBufferCreate(BUFFER_LENGTH);
+	pwm_handler = xMessageBufferCreate(BUFFER_LENGTH);
 
-    /* Tasks creation. */
-    if (xTaskCreate(stack_init_thread, "stack_init_thread",
-            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO, NULL) != pdPASS)
-    {
-        PRINTF("stack_init_thread creation failed.\n");
-    }
+	/* Tasks creation. */
+	if (xTaskCreate(stack_init_thread, "stack_init_thread",
+			DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO, NULL) != pdPASS)
+	{
+		PRINTF("stack_init_thread creation failed.\n");
+	}
 
-    if (xTaskCreate(tcp_listener_thread, "tcp_listener_thread",
-            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO , &tcp_listener_handle) != pdPASS)
-    {
-        PRINTF("tcp_listener_thread creation failed.\n");
-    }
-    /* Task suspended until the TCP/IP stack is initialized. */
-    vTaskSuspend(tcp_listener_handle);
+	if (xTaskCreate(tcp_listener_thread, "tcp_listener_thread",
+			DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO , &tcp_listener_handle) != pdPASS)
+	{
+		PRINTF("tcp_listener_thread creation failed.\n");
+	}
+	/* Task suspended until the TCP/IP stack is initialized. */
+	vTaskSuspend(tcp_listener_handle);
 
-    if (xTaskCreate(led_thread, "led_thread",
-            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
-    {
-        PRINTF("led_thread creation failed.\n");
-    }
+	if (xTaskCreate(led_thread, "led_thread",
+			DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+	{
+		PRINTF("led_thread creation failed.\n");
+	}
 
-    if (xTaskCreate(msg_thread, "msg_thread",
-            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
-    {
-        PRINTF("msg_thread creation failed.\n");
-    }
+	if (xTaskCreate(msg_thread, "msg_thread",
+			DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+	{
+		PRINTF("msg_thread creation failed.\n");
+	}
 
-    if (xTaskCreate(pwm_thread, "pwm_thread",
-            DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
-    {
-        PRINTF("pwm_thread creation failed.\n");
-    }
+	if (xTaskCreate(pwm_thread, "pwm_thread",
+			DEFAULT_THREAD_STACKSIZE, NULL, DEFAULT_THREAD_PRIO - 1, NULL) != pdPASS)
+	{
+		PRINTF("pwm_thread creation failed.\n");
+	}
 
-    vTaskStartScheduler();
+	vTaskStartScheduler();
 
-    return 0 ;
+	return EXIT_FAILURE;
 }
 
-/*!
- * @brief Initializes lwIP stack.
+/**
+ * @brief Initialize the TCP/IP stack and obtain an IP address.
+ *
+ * Initialize the TCP/IP stack using lwIP which is a small footprint
+ * implementation of the TCP/IP protocol suite.
+ * After a successful initialization of the stack, set up the network interface
+ * of the board.
+ * When everything is ready try to negotiate an IP address using DHCP.
+ *
+ * @param[in] arg argument to the thread.
  */
 void stack_init_thread(void * arg)
 {
-    LCD_clear_row(TOP_ROW);
-    LCD_printstr("Obtaining IP");
-    LCD_clear_row(BOTTOM_ROW);
-    LCD_printstr("Please wait...");
+	LCD_clear_row(ROW_TOP);
+	LCD_printstr("Obtaining IP");
+	LCD_clear_row(ROW_BOTTOM);
+	LCD_printstr("Please wait...");
 
-    struct netif netif;
-    struct dhcp * dhcp;
+	struct netif netif;
+	struct dhcp * dhcp;
 
-    ip4_addr_t ip_address;
-    ip4_addr_t netmask;
-    ip4_addr_t gateway;
+	ip4_addr_t ip_address;
+	ip4_addr_t netmask;
+	ip4_addr_t gateway;
 
-    ethernetif_config_t config =
-    {
-            .phyAddress = BOARD_ENET0_PHY_ADDRESS,
-            .clockName = kCLOCK_CoreSysClk,
-            .macAddress = configMAC_ADDR,
-    };
+	ethernetif_config_t config =
+	{
+			.phyAddress = BOARD_ENET0_PHY_ADDRESS,
+			.clockName = kCLOCK_CoreSysClk,
+			.macAddress = MAC_ADDRESS,
+	};
 
-    /* Initialization of the TCP/IP stack. */
-    tcpip_init(NULL, NULL);
+	/* Initialization of the TCP/IP stack. */
+	tcpip_init(NULL, NULL);
 
-    /* Set up the network interface. */
-    netif_add(&netif, &ip_address, &netmask, &gateway, &config,
-            ethernetif0_init, tcpip_input);
-    netif_set_default(&netif);
-    netif_set_up(&netif);
+	/* Set up the network interface. */
+	netif_add(&netif, &ip_address, &netmask, &gateway, &config,
+			ethernetif0_init, tcpip_input);
+	netif_set_default(&netif);
+	netif_set_up(&netif);
 
-    /* Start DHCP negotiation. */
-    dhcp_start(&netif);
+	/* Start DHCP negotiation. */
+	dhcp_start(&netif);
 
-    for(;;)
-    {
-        dhcp = netif_dhcp_data(&netif);
+	for(;;)
+	{
+		dhcp = netif_dhcp_data(&netif);
 
-        if (dhcp->state == DHCP_STATE_BOUND)
-        {
-            PRINTF("IPv4 Address : %s\n", ipaddr_ntoa(&netif.ip_addr));
-            PRINTF("IPv4 Netmask : %s\n", ipaddr_ntoa(&netif.netmask));
-            PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif.gw));
+		if (dhcp->state == DHCP_STATE_BOUND)
+		{
+			PRINTF("IPv4 Address : %s\n", ipaddr_ntoa(&netif.ip_addr));
+			PRINTF("IPv4 Netmask : %s\n", ipaddr_ntoa(&netif.netmask));
+			PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif.gw));
 
-            LCD_clear_row(TOP_ROW);
-            LCD_printstr("IPv4 Address:");
-            LCD_clear_row(BOTTOM_ROW);
-            LCD_printstr(ipaddr_ntoa(&netif.ip_addr));
+			LCD_clear_row(ROW_TOP);
+			LCD_printstr("IPv4 Address:");
+			LCD_clear_row(ROW_BOTTOM);
+			LCD_printstr(ipaddr_ntoa(&netif.ip_addr));
 
-            vTaskResume(tcp_listener_handle);
-            vTaskDelete(NULL);
-        }
-    }
+			vTaskResume(tcp_listener_handle);
+			vTaskDelete(NULL);
+		}
+	}
 }
 
-/*!
- * @brief Listens TCP packages.
+/**
+ * @brief Listen for received TCP packages.
  *
+ * Establish a TCP connection in a given port.
+ * When a package is received,
+ * the first characters are checked looking for commands.
+ *
+ * @param[in] arg argument to the thread.
  */
 void tcp_listener_thread(void * arg)
 {
-    struct netbuf  * netbuf;
-    struct netconn * netconn;
-    struct netconn * newconn;
-    char buffer[BUFFER_LENGTH];
+	struct netbuf  * netbuf;
+	struct netconn * netconn;
+	struct netconn * newconn;
+	char buffer[BUFFER_LENGTH];
 
-    netconn = netconn_new(NETCONN_TCP);
-    netconn_bind(netconn, NULL, 1234);
-    netconn_listen(netconn);
+	netconn = netconn_new(NETCONN_TCP);
+	netconn_bind(netconn, NULL, 1234);
+	netconn_listen(netconn);
 
-    for (;;)
-    {
-        netconn_accept(netconn, &newconn);
+	for (;;)
+	{
+		netconn_accept(netconn, &newconn);
 
-        while (ERR_OK == netconn_recv(newconn, &netbuf))
-        {
-            do
-            {
-                netbuf_copy(netbuf, buffer, sizeof(buffer));
-                buffer[netbuf->p->tot_len] = '\0';
+		while (ERR_OK == netconn_recv(newconn, &netbuf))
+		{
+			do
+			{
+				netbuf_copy(netbuf, buffer, sizeof(buffer));
+				buffer[netbuf->p->tot_len] = '\0';
 
-                rx_command_check(buffer, netbuf->p->tot_len);
-            }
-            while (netbuf_next(netbuf) >= 0);
+				rx_command_check(buffer, netbuf->p->tot_len);
+			}
+			while (netbuf_next(netbuf) >= 0);
 
-            netbuf_delete(netbuf);
-        }
+			netbuf_delete(netbuf);
+		}
 
-        netconn_delete(newconn);
-    }
+		netconn_delete(newconn);
+	}
 }
 
-void rx_command_check(char * buffer, uint16_t null_terminator_position)
+/**
+ * @brief Look for commands in char buffers.
+ *
+ * The first characters are compared against the current available commands,
+ * if the comparison is successful a message is send to the specific thread.
+ *
+ * @param[in] buffer pointer to the char buffer.
+ * @param[in] null_terminator_pos position in the buffer of the null terminator.
+ */
+void rx_command_check(char * buffer, uint16_t null_terminator_pos)
 {
-    if (COMMAND_SIZE > null_terminator_position)
-    {
-        PRINTF("Invalid command: too short.\n");
-    }
-    else
-    {
-        if (strncmp(buffer, LED_COMMAND, COMMAND_SIZE) == 0)
-        {
-            xMessageBufferSend(led_handler, (void *) buffer, strlen(buffer), 0);
-        }
-        else if (strncmp(buffer, MSG_COMMAND, COMMAND_SIZE) == 0)
-        {
-            xMessageBufferSend(msg_handler, (void *) buffer, strlen(buffer) + 1, 0);
-        }
-        else if (strncmp(buffer, PWM_COMMAND, COMMAND_SIZE) == 0)
-        {
-            xMessageBufferSend(pwm_handler, (void *) buffer, strlen(buffer), 0);
-        }
-        else
-        {
-            PRINTF("Invalid command.\n");
-        }
-    }
+	if (COMMAND_SIZE > null_terminator_pos)
+	{
+		PRINTF("Invalid command: too short.\n");
+	}
+	else
+	{
+		if (strncmp(buffer, LED_COMMAND, COMMAND_SIZE) == 0)
+		{
+			xMessageBufferSend(led_handler, (void *) buffer, strlen(buffer), 0);
+		}
+		else if (strncmp(buffer, MSG_COMMAND, COMMAND_SIZE) == 0)
+		{
+			xMessageBufferSend(msg_handler, (void *) buffer, strlen(buffer) + 1, 0);
+		}
+		else if (strncmp(buffer, PWM_COMMAND, COMMAND_SIZE) == 0)
+		{
+			xMessageBufferSend(pwm_handler, (void *) buffer, strlen(buffer), 0);
+		}
+		else
+		{
+			PRINTF("Invalid command.\n");
+		}
+	}
 }
 
+/**
+ * @brief Modify the color of the on board RGB LED.
+ *
+ * Using a letter sent as the command argument turn on one of the available
+ * colors of the on board LED.
+ * Also, can turn off all the LEDs.
+ *
+ * @param[in] arg argument to the thread.
+ */
 void led_thread(void *arg)
 {
-    char buffer[BUFFER_LENGTH];
-    size_t xReceivedBytes;
-    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
+	char buffer[BUFFER_LENGTH];
+	size_t xReceivedBytes;
+	const TickType_t xBlockTime = pdMS_TO_TICKS(20);
 
-    for (;;)
-    {
-        xReceivedBytes = xMessageBufferReceive(led_handler, (void *) buffer,
-                sizeof(buffer), xBlockTime);
+	for (;;)
+	{
+		xReceivedBytes = xMessageBufferReceive(led_handler, (void *) buffer,
+				sizeof(buffer), xBlockTime);
 
-        if (xReceivedBytes)
-        {
-            switch (buffer[LED_COLOR_INDEX])
-            {
-            case 'r':
-                turn_on_red();
-                break;
+		if (xReceivedBytes)
+		{
+			switch (buffer[LED_COLOR_INDEX])
+			{
+			case 'r':
+				turn_on_red();
+				break;
 
-            case 'g':
-                turn_on_green();
-                break;
+			case 'g':
+				turn_on_green();
+				break;
 
-            case 'b':
-                turn_on_blue();
-                break;
+			case 'b':
+				turn_on_blue();
+				break;
 
-            case 'y':
-                turn_on_yellow();
-                break;
+			case 'y':
+				turn_on_yellow();
+				break;
 
-            case 'm':
-                turn_on_magenta();
-                break;
+			case 'm':
+				turn_on_magenta();
+				break;
 
-            case 'c':
-                turn_on_cyan();
-                break;
+			case 'c':
+				turn_on_cyan();
+				break;
 
-            case 'w':
-                turn_on_white();
-                break;
+			case 'w':
+				turn_on_white();
+				break;
 
-            case 'o':
-                turn_off_leds();
-                break;
+			case 'o':
+				turn_off_leds();
+				break;
 
-            default:
-                PRINTF("Invalid LED color.\n");
-            }
-        }
-    }
+			default:
+				PRINTF("Invalid LED color.\n");
+			}
+		}
+	}
 }
 
+/**
+ * @brief Show a message in the LCD using the I2C bus.
+ *
+ * Show in one of the rows of the display a message of 16 characters.
+ * The row must be selected using the adequate argument.
+ *
+ * @param[in] arg argument to the thread.
+ */
 void msg_thread(void *arg)
 {
-    char buffer[BUFFER_LENGTH];
-    size_t xReceivedBytes;
-    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
+	char buffer[BUFFER_LENGTH];
+	size_t xReceivedBytes;
+	const TickType_t xBlockTime = pdMS_TO_TICKS(20);
 
-    for (;;)
-    {
-        xReceivedBytes = xMessageBufferReceive(msg_handler, (void *) buffer,
-                sizeof(buffer), xBlockTime);
+	for (;;)
+	{
+		xReceivedBytes = xMessageBufferReceive(msg_handler, (void *) buffer,
+				sizeof(buffer), xBlockTime);
 
-        if (xReceivedBytes)
-        {
-            if (buffer[MSG_ROW_INDEX] == '0')
-            {
-                LCD_clear_row(TOP_ROW);
-                LCD_printstr(buffer + MSG_TXT_INDEX);
-            }
-            else if (buffer[MSG_ROW_INDEX == '1'])
-            {
-                LCD_clear_row(BOTTOM_ROW);
-                LCD_printstr(buffer + MSG_TXT_INDEX);
-            }
-            else
-            {
-                PRINTF("Invalid LCD line.\n");
-            }
-        }
-    }
+		if (xReceivedBytes)
+		{
+			if (buffer[MSG_ROW_INDEX] == '0')
+			{
+				LCD_clear_row(ROW_TOP);
+				LCD_printstr(buffer + MSG_TXT_INDEX);
+			}
+			else if (buffer[MSG_ROW_INDEX == '1'])
+			{
+				LCD_clear_row(ROW_BOTTOM);
+				LCD_printstr(buffer + MSG_TXT_INDEX);
+			}
+			else
+			{
+				PRINTF("Invalid LCD line.\n");
+			}
+		}
+	}
 }
 
+/**
+ * @brief Modify the intensity of the Basic I/O Shield LEDs using PWM.
+ *
+ * Using a letter sent as the command argument the user can select one
+ * of the LEDs on the Basic I/O.
+ * The other argument must indicate the desired intensity between 0% and 100%.
+ *
+ * @param[in] arg argument to the thread.
+ */
 void pwm_thread(void *arg)
 {
-    char buffer[BUFFER_LENGTH];
-    size_t xReceivedBytes;
-    const TickType_t xBlockTime = pdMS_TO_TICKS(20);
-    uint8_t percentage;
+	char buffer[BUFFER_LENGTH];
+	size_t xReceivedBytes;
+	const TickType_t xBlockTime = pdMS_TO_TICKS(20);
+	uint8_t percentage;
 
-    for (;;)
-    {
-        xReceivedBytes = xMessageBufferReceive(pwm_handler, (void *) buffer,
-                sizeof(buffer), xBlockTime);
+	for (;;)
+	{
+		xReceivedBytes = xMessageBufferReceive(pwm_handler, (void *) buffer,
+				sizeof(buffer), xBlockTime);
 
-        if (xReceivedBytes)
-        {
-            percentage = range_adjust(
-                    strtol(buffer + PWM_PERCENTAGE_INDEX, NULL, 10));
+		if (xReceivedBytes)
+		{
+			percentage = range_adjust(
+					strtol(buffer + PWM_PERCENTAGE_INDEX, NULL, 10));
 
-            switch (buffer[PWM_DEVICE_INDEX])
-            {
-            case 'w':
-                update_pwm_dutycyle(WHITE_PWM, WHITE_CHANNEL, percentage);
-                break;
+			switch (buffer[PWM_DEVICE_INDEX])
+			{
+			case 'w':
+				update_pwm_dutycyle(WHITE_PWM, WHITE_CHANNEL, percentage);
+				break;
 
-            case 'g':
-                update_pwm_dutycyle(GREEN_PWM, GREEN_CHANNEL,  percentage);
-                break;
+			case 'g':
+				update_pwm_dutycyle(GREEN_PWM, GREEN_CHANNEL,  percentage);
+				break;
 
-            case 'y':
-                update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, percentage);
-                break;
+			case 'y':
+				update_pwm_dutycyle(YELLOW_PWM, YELLOW_CHANNEL, percentage);
+				break;
 
-            case 'r':
-                update_pwm_dutycyle(RED_PWM, RED_CHANNEL, percentage);
-                break;
+			case 'r':
+				update_pwm_dutycyle(RED_PWM, RED_CHANNEL, percentage);
+				break;
 
-            default:
-                PRINTF("Invalid PWM device.\n");
-            }
-        }
-    }
+			default:
+				PRINTF("Invalid PWM device.\n");
+			}
+		}
+	}
 }
 
-/*!
+/**
  * @brief Truncate values lower than 0 and higher than 100.
- * @param[in] value The value to adjust.
- * @return The adjusted value.
+ *
+ * A negative value becomes 0 and a positive value greater than 100 becomes 100.
+ *
+ * @param[in] value a number given by the user.
+ * @return a value within range.
  */
 uint8_t range_adjust(long value)
 {
-    uint8_t corrected_value;
+	uint8_t corrected_value;
 
-    if (value < 0)
-    {
-        corrected_value = 0U;
-    }
-    else if (value > 100)
-    {
-        corrected_value = 100U;
-    }
-    else
-    {
-        corrected_value = (uint8_t) value;
-    }
+	if (value < 0)
+	{
+		corrected_value = 0U;
+	}
+	else if (value > 100)
+	{
+		corrected_value = 100U;
+	}
+	else
+	{
+		corrected_value = (uint8_t) value;
+	}
 
-    return corrected_value;
+	return corrected_value;
 }
 
 /*** end of file ***/
