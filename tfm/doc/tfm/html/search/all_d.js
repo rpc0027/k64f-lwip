@@ -20,5 +20,5 @@ var searchData=
   ['turn_5fon_5fred',['turn_on_red',['../led_8c.html#a0404e95651c042ee3a039f802b1eb699',1,'turn_on_red():&#160;led.c'],['../led_8h.html#a0404e95651c042ee3a039f802b1eb699',1,'turn_on_red():&#160;led.c']]],
   ['turn_5fon_5fwhite',['turn_on_white',['../led_8c.html#abf1dfea3c447854cff0d0f06f56641f5',1,'turn_on_white():&#160;led.c'],['../led_8h.html#abf1dfea3c447854cff0d0f06f56641f5',1,'turn_on_white():&#160;led.c']]],
   ['turn_5fon_5fyellow',['turn_on_yellow',['../led_8c.html#a582082a02de45bb75636b3962d9b68e3',1,'turn_on_yellow():&#160;led.c'],['../led_8h.html#a582082a02de45bb75636b3962d9b68e3',1,'turn_on_yellow():&#160;led.c']]],
-  ['tx_5fsize',['TX_SIZE',['../i2c_8c.html#a6a1eef3a18bfaa9a6c515692ffd9321e',1,'i2c.c']]]
+  ['tx_5fsize',['TX_SIZE',['../i2c_8h.html#a6a1eef3a18bfaa9a6c515692ffd9321e',1,'i2c.h']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['i2c',['I2C',['../i2c_8h.html#a457a9aa93dbb216459873a30bdb4d84a',1,'i2c.h']]],
   ['include_5fetaskgetstate',['INCLUDE_eTaskGetState',['../_free_r_t_o_s_config_8h.html#a4fd1d67d54044ac86e8ffc890180f9f6',1,'FreeRTOSConfig.h']]],
   ['include_5fuxtaskgetstackhighwatermark',['INCLUDE_uxTaskGetStackHighWaterMark',['../_free_r_t_o_s_config_8h.html#a23c7b4b41fe9b575cf2329c7cbe78b86',1,'FreeRTOSConfig.h']]],
   ['include_5fuxtaskpriorityget',['INCLUDE_uxTaskPriorityGet',['../_free_r_t_o_s_config_8h.html#a1279eb797355460aeeec06aa524e91df',1,'FreeRTOSConfig.h']]],

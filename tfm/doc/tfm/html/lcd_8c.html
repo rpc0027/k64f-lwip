@@ -70,7 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Use a LCD display of 2 lines of 16 characters via I2C bus.  
+<p>Functions for using LCD displays through I2C bus.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="i2c_8h_source.html">i2c.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="wait_8h_source.html">wait.h</a>&quot;</code><br />
@@ -80,64 +80,92 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa7badbff3192b65a4aa8f816806cade4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#aa7badbff3192b65a4aa8f816806cade4">LCD_Init</a> (uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize)</td></tr>
-<tr class="memdesc:aa7badbff3192b65a4aa8f816806cade4"><td class="mdescLeft">&#160;</td><td class="mdescRight">LCD initialization.  <a href="#aa7badbff3192b65a4aa8f816806cade4">More...</a><br /></td></tr>
-<tr class="separator:aa7badbff3192b65a4aa8f816806cade4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa595140850df5d2d56c88e3a230c8718"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#aa595140850df5d2d56c88e3a230c8718">LCD_Init</a> (uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t charsize)</td></tr>
+<tr class="memdesc:aa595140850df5d2d56c88e3a230c8718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the LCD.  <a href="#aa595140850df5d2d56c88e3a230c8718">More...</a><br /></td></tr>
+<tr class="separator:aa595140850df5d2d56c88e3a230c8718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe38d05e225c701bebf5a61201331a85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#abe38d05e225c701bebf5a61201331a85">LCD_clear</a> ()</td></tr>
+<tr class="memdesc:abe38d05e225c701bebf5a61201331a85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the characters from the display.  <a href="#abe38d05e225c701bebf5a61201331a85">More...</a><br /></td></tr>
 <tr class="separator:abe38d05e225c701bebf5a61201331a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad79e3ff237794376ef88474ac1a8926b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ad79e3ff237794376ef88474ac1a8926b">LCD_home</a> ()</td></tr>
+<tr class="memdesc:ad79e3ff237794376ef88474ac1a8926b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set cursor position to zero.  <a href="#ad79e3ff237794376ef88474ac1a8926b">More...</a><br /></td></tr>
 <tr class="separator:ad79e3ff237794376ef88474ac1a8926b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5cb819a45433dfe53541d60d84a6485"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ac5cb819a45433dfe53541d60d84a6485">LCD_setCursor</a> (uint8_t col, uint8_t row)</td></tr>
+<tr class="memdesc:ac5cb819a45433dfe53541d60d84a6485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set cursor to given position.  <a href="#ac5cb819a45433dfe53541d60d84a6485">More...</a><br /></td></tr>
 <tr class="separator:ac5cb819a45433dfe53541d60d84a6485"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c867c02d60f787de422b4254b3c77dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a7c867c02d60f787de422b4254b3c77dd">LCD_noDisplay</a> ()</td></tr>
+<tr class="memdesc:a7c867c02d60f787de422b4254b3c77dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the display off.  <a href="#a7c867c02d60f787de422b4254b3c77dd">More...</a><br /></td></tr>
 <tr class="separator:a7c867c02d60f787de422b4254b3c77dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af007f1dda98184166d50a66111af84d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#af007f1dda98184166d50a66111af84d1">LCD_display</a> ()</td></tr>
+<tr class="memdesc:af007f1dda98184166d50a66111af84d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the display on.  <a href="#af007f1dda98184166d50a66111af84d1">More...</a><br /></td></tr>
 <tr class="separator:af007f1dda98184166d50a66111af84d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5a99e7b3bb5d1ab314826cc65c84ce3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ae5a99e7b3bb5d1ab314826cc65c84ce3">LCD_noCursor</a> ()</td></tr>
+<tr class="memdesc:ae5a99e7b3bb5d1ab314826cc65c84ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the underline cursor off.  <a href="#ae5a99e7b3bb5d1ab314826cc65c84ce3">More...</a><br /></td></tr>
 <tr class="separator:ae5a99e7b3bb5d1ab314826cc65c84ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f091a565bfdb9b94c7d5d1c5c728c8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a4f091a565bfdb9b94c7d5d1c5c728c8f">LCD_cursor</a> ()</td></tr>
+<tr class="memdesc:a4f091a565bfdb9b94c7d5d1c5c728c8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the underline cursor on.  <a href="#a4f091a565bfdb9b94c7d5d1c5c728c8f">More...</a><br /></td></tr>
 <tr class="separator:a4f091a565bfdb9b94c7d5d1c5c728c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a150421707d291eee1a11ac6b08ed41bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a150421707d291eee1a11ac6b08ed41bc">LCD_noBlink</a> ()</td></tr>
+<tr class="memdesc:a150421707d291eee1a11ac6b08ed41bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off the blinking cursor.  <a href="#a150421707d291eee1a11ac6b08ed41bc">More...</a><br /></td></tr>
 <tr class="separator:a150421707d291eee1a11ac6b08ed41bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f6c3d04e7a3e59211f69583646bbbd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a4f6c3d04e7a3e59211f69583646bbbd1">LCD_blink</a> ()</td></tr>
+<tr class="memdesc:a4f6c3d04e7a3e59211f69583646bbbd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on the blinking cursor.  <a href="#a4f6c3d04e7a3e59211f69583646bbbd1">More...</a><br /></td></tr>
 <tr class="separator:a4f6c3d04e7a3e59211f69583646bbbd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f74bc9031a168bb12380770001f8fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a3f74bc9031a168bb12380770001f8fcf">LCD_scrollDisplayLeft</a> (void)</td></tr>
+<tr class="memdesc:a3f74bc9031a168bb12380770001f8fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scroll the display to the left without changing the RAM.  <a href="#a3f74bc9031a168bb12380770001f8fcf">More...</a><br /></td></tr>
 <tr class="separator:a3f74bc9031a168bb12380770001f8fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abad15367f010b01f73627408d57cc127"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#abad15367f010b01f73627408d57cc127">LCD_scrollDisplayRight</a> (void)</td></tr>
+<tr class="memdesc:abad15367f010b01f73627408d57cc127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scroll the display to the right without changing the RAM.  <a href="#abad15367f010b01f73627408d57cc127">More...</a><br /></td></tr>
 <tr class="separator:abad15367f010b01f73627408d57cc127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1afc872c9a49c71d87ba8ecdaf2921af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a1afc872c9a49c71d87ba8ecdaf2921af">LCD_leftToRight</a> (void)</td></tr>
+<tr class="memdesc:a1afc872c9a49c71d87ba8ecdaf2921af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show text that flows left to right.  <a href="#a1afc872c9a49c71d87ba8ecdaf2921af">More...</a><br /></td></tr>
 <tr class="separator:a1afc872c9a49c71d87ba8ecdaf2921af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13ac926954d6ce310f23042c6cc40438"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a13ac926954d6ce310f23042c6cc40438">LCD_rightToLeft</a> (void)</td></tr>
+<tr class="memdesc:a13ac926954d6ce310f23042c6cc40438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show text that flows right to left.  <a href="#a13ac926954d6ce310f23042c6cc40438">More...</a><br /></td></tr>
 <tr class="separator:a13ac926954d6ce310f23042c6cc40438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a551f46fb43c8323a68832cf8a0fa57e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a551f46fb43c8323a68832cf8a0fa57e6">LCD_autoscroll</a> (void)</td></tr>
+<tr class="memdesc:a551f46fb43c8323a68832cf8a0fa57e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right justify text from the cursor.  <a href="#a551f46fb43c8323a68832cf8a0fa57e6">More...</a><br /></td></tr>
 <tr class="separator:a551f46fb43c8323a68832cf8a0fa57e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a541c9c56879e1baab73d53239631bb5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a541c9c56879e1baab73d53239631bb5d">LCD_noAutoscroll</a> (void)</td></tr>
+<tr class="memdesc:a541c9c56879e1baab73d53239631bb5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left justify text from the cursor.  <a href="#a541c9c56879e1baab73d53239631bb5d">More...</a><br /></td></tr>
 <tr class="separator:a541c9c56879e1baab73d53239631bb5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8430d5f411ea77431ccafbcd865a4ba5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a8430d5f411ea77431ccafbcd865a4ba5">LCD_createChar</a> (uint8_t location, uint8_t charmap[])</td></tr>
+<tr class="memdesc:a8430d5f411ea77431ccafbcd865a4ba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the first 8 CGRAM locations with custom characters.  <a href="#a8430d5f411ea77431ccafbcd865a4ba5">More...</a><br /></td></tr>
 <tr class="separator:a8430d5f411ea77431ccafbcd865a4ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a135cf81e667d5ec20b67b13415eeaa2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a135cf81e667d5ec20b67b13415eeaa2e">LCD_noBacklight</a> (void)</td></tr>
+<tr class="memdesc:a135cf81e667d5ec20b67b13415eeaa2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the (optional) backlight off.  <a href="#a135cf81e667d5ec20b67b13415eeaa2e">More...</a><br /></td></tr>
 <tr class="separator:a135cf81e667d5ec20b67b13415eeaa2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82ab80f310ea634051c9761f37807fa8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a82ab80f310ea634051c9761f37807fa8">LCD_backlight</a> (void)</td></tr>
+<tr class="memdesc:a82ab80f310ea634051c9761f37807fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the (optional) backlight on.  <a href="#a82ab80f310ea634051c9761f37807fa8">More...</a><br /></td></tr>
 <tr class="separator:a82ab80f310ea634051c9761f37807fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c30deb3cbfb98fd1501809012d618f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a2c30deb3cbfb98fd1501809012d618f2">LCD_clear_row</a> (uint8_t row)</td></tr>
+<tr class="memdesc:a2c30deb3cbfb98fd1501809012d618f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear a single row.  <a href="#a2c30deb3cbfb98fd1501809012d618f2">More...</a><br /></td></tr>
 <tr class="separator:a2c30deb3cbfb98fd1501809012d618f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c7098bfdf0a12c618e5b49dc2e72d4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a5c7098bfdf0a12c618e5b49dc2e72d4b">LCD_expanderWrite</a> (uint8_t _data)</td></tr>
+<tr class="memdesc:a5c7098bfdf0a12c618e5b49dc2e72d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a byte to the display.  <a href="#a5c7098bfdf0a12c618e5b49dc2e72d4b">More...</a><br /></td></tr>
 <tr class="separator:a5c7098bfdf0a12c618e5b49dc2e72d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac261ff1c55fed1c9d21e3dc8962384a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ac261ff1c55fed1c9d21e3dc8962384a1">LCD_write4bits</a> (uint8_t value)</td></tr>
+<tr class="memdesc:ac261ff1c55fed1c9d21e3dc8962384a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send 4 bits to the display.  <a href="#ac261ff1c55fed1c9d21e3dc8962384a1">More...</a><br /></td></tr>
 <tr class="separator:ac261ff1c55fed1c9d21e3dc8962384a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e865b020824efd8c7da48bf127ca561"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a0e865b020824efd8c7da48bf127ca561">LCD_send</a> (uint8_t value, uint8_t mode)</td></tr>
+<tr class="memdesc:a0e865b020824efd8c7da48bf127ca561"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write either command or data.  <a href="#a0e865b020824efd8c7da48bf127ca561">More...</a><br /></td></tr>
 <tr class="separator:a0e865b020824efd8c7da48bf127ca561"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd06b6ddc8f54cd459ef2a0da03f3592"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#afd06b6ddc8f54cd459ef2a0da03f3592">LCD_pulseEnable</a> (uint8_t _data)</td></tr>
+<tr class="memdesc:afd06b6ddc8f54cd459ef2a0da03f3592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a pulse to the display.  <a href="#afd06b6ddc8f54cd459ef2a0da03f3592">More...</a><br /></td></tr>
 <tr class="separator:afd06b6ddc8f54cd459ef2a0da03f3592"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab301c50a635e7be15b57a86abc98787d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ab301c50a635e7be15b57a86abc98787d">LCD_command</a> (uint8_t value)</td></tr>
+<tr class="memdesc:ab301c50a635e7be15b57a86abc98787d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command to the display.  <a href="#ab301c50a635e7be15b57a86abc98787d">More...</a><br /></td></tr>
 <tr class="separator:ab301c50a635e7be15b57a86abc98787d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2defd0b3b14f9ab05ef451263fbec86"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ac2defd0b3b14f9ab05ef451263fbec86">LCD_write</a> (uint8_t value)</td></tr>
+<tr class="memdesc:ac2defd0b3b14f9ab05ef451263fbec86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data to the display.  <a href="#ac2defd0b3b14f9ab05ef451263fbec86">More...</a><br /></td></tr>
 <tr class="separator:ac2defd0b3b14f9ab05ef451263fbec86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0342dbb5f86458b8120b599d74df94a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a0342dbb5f86458b8120b599d74df94a5">LCD_load_custom_character</a> (uint8_t char_num, uint8_t *rows)</td></tr>
+<tr class="memdesc:a0342dbb5f86458b8120b599d74df94a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a new character.  <a href="#a0342dbb5f86458b8120b599d74df94a5">More...</a><br /></td></tr>
 <tr class="separator:a0342dbb5f86458b8120b599d74df94a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad16b2b572e78789a9ea3970a8486bdb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#ad16b2b572e78789a9ea3970a8486bdb1">LCD_setBacklight</a> (uint8_t new_val)</td></tr>
+<tr class="memdesc:ad16b2b572e78789a9ea3970a8486bdb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the backlight status.  <a href="#ad16b2b572e78789a9ea3970a8486bdb1">More...</a><br /></td></tr>
 <tr class="separator:ad16b2b572e78789a9ea3970a8486bdb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4395d92a4b9594b8699e03bd5d2bd0c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lcd_8c.html#a4395d92a4b9594b8699e03bd5d2bd0c5">LCD_printstr</a> (const char *c)</td></tr>
+<tr class="memdesc:a4395d92a4b9594b8699e03bd5d2bd0c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a string in the current row.  <a href="#a4395d92a4b9594b8699e03bd5d2bd0c5">More...</a><br /></td></tr>
 <tr class="separator:a4395d92a4b9594b8699e03bd5d2bd0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -160,7 +188,12 @@ Variables</h2></td></tr>
 <tr class="separator:a5f25363c52484efbbbfa333d3c92015f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Use a LCD display of 2 lines of 16 characters via I2C bus. </p>
+<div class="textblock"><p>Functions for using LCD displays through I2C bus. </p>
+<dl class="section author"><dt>Author</dt><dd>RPC0027 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>December 2018 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0</dd></dl>
+<p>Provides several functions to carry out operations with the display.</p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library/blob/master/LiquidCrystal_I2C.h">https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library/blob/master/LiquidCrystal_I2C.h</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -180,7 +213,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00199">199</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Right justify text from the cursor. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00205">205</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -200,7 +235,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00230">230</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the (optional) backlight on. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00247">247</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -219,7 +256,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00168">168</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn on the blinking cursor. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00162">162</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -238,7 +277,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00114">114</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Remove the characters from the display. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00082">82</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -258,7 +299,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00238">238</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Clear a single row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>the row to clean. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00258">258</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -278,7 +327,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00292">292</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Send a command to the display. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>the byte with the command. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00317">317</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -308,7 +365,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00214">214</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Fill the first 8 CGRAM locations with custom characters. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00223">223</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -327,7 +386,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00156">156</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the underline cursor on. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00144">144</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -346,7 +407,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00144">144</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the display on. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00126">126</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -366,7 +429,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00248">248</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Send a byte to the display. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_data</td><td>the byte to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00270">270</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -385,18 +456,20 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00121">121</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Set cursor position to zero. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00091">91</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
-<a id="aa7badbff3192b65a4aa8f816806cade4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7badbff3192b65a4aa8f816806cade4">&#9670;&nbsp;</a></span>LCD_Init()</h2>
+<a id="aa595140850df5d2d56c88e3a230c8718"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa595140850df5d2d56c88e3a230c8718">&#9670;&nbsp;</a></span>LCD_Init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t LCD_Init </td>
+          <td class="memname">void LCD_Init </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>lcd_addr</em>, </td>
@@ -427,19 +500,19 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>LCD initialization. </p>
+<p>Initialize the LCD. </p>
+<p>Displays can differ among models so some configuration is needed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">lcd_addr</td><td>Hexadecimal address of the I2C slave. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">lcd_cols</td><td>Number of columns in the display. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">lcd_rows</td><td>Number of rows in the display. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">charsize</td><td>Size of the characters. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">charsize</td><td>Font size of the characters. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The address of the initialized LCD. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00031">31</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00046">46</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -459,7 +532,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00185">185</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Show text that flows left to right. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00187">187</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -489,7 +564,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00304">304</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Load a new character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">char_num</td><td>the position of the character. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>the custom character. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00340">340</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -509,7 +593,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00206">206</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Left justify text from the cursor. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00214">214</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -529,7 +615,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00224">224</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the (optional) backlight off. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00238">238</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -548,7 +636,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00163">163</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn off the blinking cursor. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00153">153</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -567,7 +657,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00151">151</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the underline cursor off. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00135">135</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -586,7 +678,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00138">138</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Turn the display off. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00117">117</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -606,7 +700,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00318">318</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Print a string in the current row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>pointer to the characters to print. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00366">366</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -626,7 +728,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00277">277</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Send a pulse to the display. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_data</td><td>the byte with the pulse. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00306">306</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -646,7 +756,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00192">192</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Show text that flows right to left. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00196">196</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -666,7 +778,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00175">175</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Scroll the display to the left without changing the RAM. </p>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00171">171</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -685,6 +799,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Scroll the display to the right without changing the RAM. </p>
 
 <p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00179">179</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
@@ -716,7 +832,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00266">266</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Write either command or data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>the byte to write. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>the byte to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00292">292</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -736,7 +861,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00308">308</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Change the backlight status. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">new_val</td><td>if not zero, turn on the backlight. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00349">349</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -766,7 +899,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00128">128</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Set cursor to given position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>the column of the display. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>the row of the display. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00102">102</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -786,7 +928,16 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00297">297</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Send data to the display. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>the byte with the data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>always return 1. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00328">328</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -806,7 +957,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00253">253</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p>Send 4 bits to the display. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>the bits to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00280">280</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -822,8 +981,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Display address. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00012">12</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00024">24</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -838,8 +998,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Backlight status. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00016">16</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00028">28</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -854,8 +1015,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Size of each character. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00015">15</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00027">27</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -870,8 +1032,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of available characters columns. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00013">13</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00025">25</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -886,8 +1049,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Display control mode. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00019">19</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00030">30</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -902,8 +1066,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Display function mode. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00018">18</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00029">29</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -918,8 +1083,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Display text direction mode. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00020">20</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00031">31</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>
@@ -934,8 +1100,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of available text rows. </p>
 
-<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00014">14</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lcd_8c_source.html#l00026">26</a> of file <a class="el" href="lcd_8c_source.html">lcd.c</a>.</p>
 
 </div>
 </div>

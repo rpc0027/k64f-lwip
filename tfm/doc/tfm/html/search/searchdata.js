@@ -2,10 +2,9 @@ var indexSectionsWithContent =
 {
   0: "_bcdfgilmnprstuvwxy",
   1: "filmpsw",
-  2: "_clmprstuw",
+  2: "_lmprstuw",
   3: "glmpst",
-  4: "b",
-  5: "bcdgilmnprstuvwxy"
+  4: "bcdgilmnprstuvwxy"
 };
 
 var indexSectionNames =
@@ -14,8 +13,7 @@ var indexSectionNames =
   1: "files",
   2: "functions",
   3: "variables",
-  4: "typedefs",
-  5: "defines"
+  4: "defines"
 };
 
 var indexSectionLabels =
@@ -24,7 +22,6 @@ var indexSectionLabels =
   1: "Files",
   2: "Functions",
   3: "Variables",
-  4: "Typedefs",
-  5: "Macros"
+  4: "Macros"
 };
 

@@ -10,5 +10,5 @@ var searchData=
   ['tcpip_5fmbox_5fsize',['TCPIP_MBOX_SIZE',['../lwipopts_8h.html#a8cf210ad4e4bf616860a45fbd140fd06',1,'lwipopts.h']]],
   ['tcpip_5fthread_5fprio',['TCPIP_THREAD_PRIO',['../lwipopts_8h.html#a42b2c7a3042d7c3efd00f367f5837435',1,'lwipopts.h']]],
   ['tcpip_5fthread_5fstacksize',['TCPIP_THREAD_STACKSIZE',['../lwipopts_8h.html#aa02b84eafa0c8b09b158b97c96d79db0',1,'lwipopts.h']]],
-  ['tx_5fsize',['TX_SIZE',['../i2c_8c.html#a6a1eef3a18bfaa9a6c515692ffd9321e',1,'i2c.c']]]
+  ['tx_5fsize',['TX_SIZE',['../i2c_8h.html#a6a1eef3a18bfaa9a6c515692ffd9321e',1,'i2c.h']]]
 ];

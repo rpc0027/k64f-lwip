@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['i2c',['I2C',['../i2c_8h.html#a457a9aa93dbb216459873a30bdb4d84a',1,'i2c.h']]],
   ['i2c_2ec',['i2c.c',['../i2c_8c.html',1,'']]],
   ['i2c_2eh',['i2c.h',['../i2c_8h.html',1,'']]],
   ['include_5fetaskgetstate',['INCLUDE_eTaskGetState',['../_free_r_t_o_s_config_8h.html#a4fd1d67d54044ac86e8ffc890180f9f6',1,'FreeRTOSConfig.h']]],

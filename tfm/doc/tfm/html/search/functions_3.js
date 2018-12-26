@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['main',['main',['../main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main.c']]],
-  ['msg_5fthread',['msg_thread',['../main_8c.html#af71fa88ce1241e011948cf04251bd128',1,'main.c']]]
+  ['pwm_5fthread',['pwm_thread',['../main_8c.html#aa3169a93dc16027b45a20d26601eb57a',1,'main.c']]]
 ];
