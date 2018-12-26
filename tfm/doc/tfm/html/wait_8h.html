@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Implements busy waiting routines.  
+<p>Create waiting cycles on the CPU.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="wait__config_8h_source.html">wait_config.h</a>&quot;</code><br />
@@ -80,13 +80,13 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a2f01bd4b52d4a791558d71c0dc9b3f5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>&#160;&#160;&#160;<a class="el" href="wait_8h.html#aa3cd3e43291e81e795d642b79b6088e6">SystemCoreClock</a>  /* core clock frequency in Hz */</td></tr>
+<tr class="memitem:a2f01bd4b52d4a791558d71c0dc9b3f5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>&#160;&#160;&#160;<a class="el" href="wait_8h.html#aa3cd3e43291e81e795d642b79b6088e6">SystemCoreClock</a></td></tr>
 <tr class="separator:a2f01bd4b52d4a791558d71c0dc9b3f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28ed7f1cedb8edddeefdf8cff66d614a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a28ed7f1cedb8edddeefdf8cff66d614a">WAIT_NofCyclesMs</a>(ms,  hz)&#160;&#160;&#160;((ms)*((hz)/1000)) /* calculates the needed cycles based on bus clock frequency */</td></tr>
+<tr class="memitem:a28ed7f1cedb8edddeefdf8cff66d614a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a28ed7f1cedb8edddeefdf8cff66d614a">WAIT_NofCyclesMs</a>(ms,  hz)&#160;&#160;&#160;((ms)*((hz)/1000))</td></tr>
 <tr class="separator:a28ed7f1cedb8edddeefdf8cff66d614a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8d2819848bd429f69299f376db47eb1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(us,  hz)&#160;&#160;&#160;((us)*(((hz)/1000)/1000)) /* calculates the needed cycles based on bus clock frequency */</td></tr>
+<tr class="memitem:ae8d2819848bd429f69299f376db47eb1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(us,  hz)&#160;&#160;&#160;((us)*(((hz)/1000)/1000))</td></tr>
 <tr class="separator:ae8d2819848bd429f69299f376db47eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cf6c7c7124bbaa29443543e9c81f1ef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a1cf6c7c7124bbaa29443543e9c81f1ef">WAIT_NofCyclesNs</a>(ns,  hz)&#160;&#160;&#160;(((ns)*(((hz)/1000)/1000))/1000) /* calculates the needed cycles based on bus clock frequency */</td></tr>
+<tr class="memitem:a1cf6c7c7124bbaa29443543e9c81f1ef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a1cf6c7c7124bbaa29443543e9c81f1ef">WAIT_NofCyclesNs</a>(ns,  hz)&#160;&#160;&#160;(((ns)*(((hz)/1000)/1000))/1000)</td></tr>
 <tr class="separator:a1cf6c7c7124bbaa29443543e9c81f1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9143d8d54c125df10174bee5eadace65"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a9143d8d54c125df10174bee5eadace65">WAIT_WAIT_C</a>(cycles)</td></tr>
 <tr class="separator:a9143d8d54c125df10174bee5eadace65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -94,24 +94,31 @@ Macros</h2></td></tr>
 <tr class="separator:a76b16745817c9dd25e4319f910584028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac64255d5bf91768b816f74f2d1945831"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ac64255d5bf91768b816f74f2d1945831">wait_Waitns</a>(ns)</td></tr>
 <tr class="separator:ac64255d5bf91768b816f74f2d1945831"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a804f2a72bd8d5a7ce51926beac2017a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a804f2a72bd8d5a7ce51926beac2017a5">wait_WaitOSms</a>(ms)&#160;&#160;&#160;<a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>(ms) /* use normal wait */</td></tr>
+<tr class="memitem:a804f2a72bd8d5a7ce51926beac2017a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a804f2a72bd8d5a7ce51926beac2017a5">wait_WaitOSms</a>(ms)&#160;&#160;&#160;<a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>(ms) /* Use normal wait */</td></tr>
 <tr class="separator:a804f2a72bd8d5a7ce51926beac2017a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a5767b475a61b9a2637f6200c36b74eac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a5767b475a61b9a2637f6200c36b74eac">wait_wait0Cycles</a> (void)</td></tr>
+<tr class="memdesc:a5767b475a61b9a2637f6200c36b74eac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait 10 CPU cycles.  <a href="#a5767b475a61b9a2637f6200c36b74eac">More...</a><br /></td></tr>
 <tr class="separator:a5767b475a61b9a2637f6200c36b74eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a0c151b4b0c1c800358e9398c57769a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a7a0c151b4b0c1c800358e9398c57769a">wait_wait00Cycles</a> (void)</td></tr>
+<tr class="memdesc:a7a0c151b4b0c1c800358e9398c57769a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait 100 CPU cycles.  <a href="#a7a0c151b4b0c1c800358e9398c57769a">More...</a><br /></td></tr>
 <tr class="separator:a7a0c151b4b0c1c800358e9398c57769a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac86311842ed7b5796668e996aedc17c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ac86311842ed7b5796668e996aedc17c8">wait_WaitCycles</a> (uint16_t cycles)</td></tr>
+<tr class="memdesc:ac86311842ed7b5796668e996aedc17c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait the specified CPU cycles.  <a href="#ac86311842ed7b5796668e996aedc17c8">More...</a><br /></td></tr>
 <tr class="separator:ac86311842ed7b5796668e996aedc17c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab42708c0597fde6600da20e3a6a84a26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a> (uint16_t ms)</td></tr>
-<tr class="separator:ab42708c0597fde6600da20e3a6a84a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4db321d503c6d6f8d4b1221769534951"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a4db321d503c6d6f8d4b1221769534951">wait_WaitLongCycles</a> (uint32_t cycles)</td></tr>
+<tr class="memdesc:a4db321d503c6d6f8d4b1221769534951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait the specified CPU cycles.  <a href="#a4db321d503c6d6f8d4b1221769534951">More...</a><br /></td></tr>
 <tr class="separator:a4db321d503c6d6f8d4b1221769534951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab42708c0597fde6600da20e3a6a84a26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a> (uint16_t ms)</td></tr>
+<tr class="memdesc:ab42708c0597fde6600da20e3a6a84a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait the specified milliseconds.  <a href="#ab42708c0597fde6600da20e3a6a84a26">More...</a><br /></td></tr>
+<tr class="separator:ab42708c0597fde6600da20e3a6a84a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46a065a8f201247f010c1ff27d9ac240"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a46a065a8f201247f010c1ff27d9ac240">wait_Init</a> (void)</td></tr>
+<tr class="memdesc:a46a065a8f201247f010c1ff27d9ac240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init the cycle counter.  <a href="#a46a065a8f201247f010c1ff27d9ac240">More...</a><br /></td></tr>
 <tr class="separator:a46a065a8f201247f010c1ff27d9ac240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a651557f3f6c7fcc70d9abb73bd8e65e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait_8h.html#a651557f3f6c7fcc70d9abb73bd8e65e2">wait_DeInit</a> (void)</td></tr>
+<tr class="memdesc:a651557f3f6c7fcc70d9abb73bd8e65e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinit the cycle counter.  <a href="#a651557f3f6c7fcc70d9abb73bd8e65e2">More...</a><br /></td></tr>
 <tr class="separator:a651557f3f6c7fcc70d9abb73bd8e65e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -120,10 +127,11 @@ Variables</h2></td></tr>
 <tr class="separator:aa3cd3e43291e81e795d642b79b6088e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements busy waiting routines. </p>
-<p>Header file for wait.</p>
-<dl class="section version"><dt>Version</dt><dd>01.00</dd></dl>
-<dl class="section user"><dt></dt><dd>This header file declares the functions of the busy waiting module. </dd></dl>
+<div class="textblock"><p>Create waiting cycles on the CPU. </p>
+<p>Configuration for the waiting cycles on the CPU.</p>
+<dl class="section author"><dt>Author</dt><dd>RPC0027 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>December 2018 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -134,12 +142,13 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define WAIT_INSTR_CLOCK_HZ&#160;&#160;&#160;<a class="el" href="wait_8h.html#aa3cd3e43291e81e795d642b79b6088e6">SystemCoreClock</a>  /* core clock frequency in Hz */</td>
+          <td class="memname">#define WAIT_INSTR_CLOCK_HZ&#160;&#160;&#160;<a class="el" href="wait_8h.html#aa3cd3e43291e81e795d642b79b6088e6">SystemCoreClock</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Core clock frequency in Hz. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00034">34</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00035">35</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -164,12 +173,13 @@ Variables</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((ms)*((hz)/1000)) /* calculates the needed cycles based on bus clock frequency */</td>
+          <td></td><td>&#160;&#160;&#160;((ms)*((hz)/1000))</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Calculate the needed cycles based on bus clock frequency for ms. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00035">35</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00037">37</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -194,12 +204,13 @@ Variables</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((ns)*(((hz)/1000)/1000))/1000) /* calculates the needed cycles based on bus clock frequency */</td>
+          <td></td><td>&#160;&#160;&#160;(((ns)*(((hz)/1000)/1000))/1000)</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Calculate the needed cycles based on bus clock frequency for ns. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00037">37</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00041">41</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -224,12 +235,13 @@ Variables</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((us)*(((hz)/1000)/1000)) /* calculates the needed cycles based on bus clock frequency */</td>
+          <td></td><td>&#160;&#160;&#160;((us)*(((hz)/1000)/1000))</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Calculate the needed cycles based on bus clock frequency for us. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00036">36</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00039">39</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -248,11 +260,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">( (cycles)&lt;=10 ? \</div><div class="line">                <a class="code" href="wait_8h.html#a5767b475a61b9a2637f6200c36b74eac">wait_wait0Cycles</a>() \</div><div class="line">                : <a class="code" href="wait_8h.html#ac86311842ed7b5796668e996aedc17c8">wait_WaitCycles</a>((uint16_t)cycles) \</div><div class="line">        )</div><div class="ttc" id="wait_8h_html_ac86311842ed7b5796668e996aedc17c8"><div class="ttname"><a href="wait_8h.html#ac86311842ed7b5796668e996aedc17c8">wait_WaitCycles</a></div><div class="ttdeci">void wait_WaitCycles(uint16_t cycles)</div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00067">wait.c:67</a></div></div>
-<div class="ttc" id="wait_8h_html_a5767b475a61b9a2637f6200c36b74eac"><div class="ttname"><a href="wait_8h.html#a5767b475a61b9a2637f6200c36b74eac">wait_wait0Cycles</a></div><div class="ttdeci">void wait_wait0Cycles(void)</div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00015">wait.c:15</a></div></div>
-</div><!-- fragment --><p>wait for some cycles </p>
+<b>Value:</b><div class="fragment"><div class="line">( (cycles)&lt;=10 ? \</div><div class="line">                <a class="code" href="wait_8h.html#a5767b475a61b9a2637f6200c36b74eac">wait_wait0Cycles</a>() \</div><div class="line">                : <a class="code" href="wait_8h.html#ac86311842ed7b5796668e996aedc17c8">wait_WaitCycles</a>((uint16_t)cycles) \</div><div class="line">        )</div><div class="ttc" id="wait_8h_html_ac86311842ed7b5796668e996aedc17c8"><div class="ttname"><a href="wait_8h.html#ac86311842ed7b5796668e996aedc17c8">wait_WaitCycles</a></div><div class="ttdeci">void wait_WaitCycles(uint16_t cycles)</div><div class="ttdoc">Wait the specified CPU cycles. </div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00095">wait.c:95</a></div></div>
+<div class="ttc" id="wait_8h_html_a5767b475a61b9a2637f6200c36b74eac"><div class="ttname"><a href="wait_8h.html#a5767b475a61b9a2637f6200c36b74eac">wait_wait0Cycles</a></div><div class="ttdeci">void wait_wait0Cycles(void)</div><div class="ttdoc">Wait 10 CPU cycles. </div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00034">wait.c:34</a></div></div>
+</div><!-- fragment --><p>Wait for some cycles. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00039">39</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00043">43</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -271,8 +283,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="comment">/*lint -save -e(505,506,522) Constant value Boolean, Redundant left argument to comma. */</span>\</div><div class="line">        (  ((wait_NofCyclesNs((ns), wait_INSTR_CLOCK_HZ)==0)||(ns)==0) ? \</div><div class="line">                (<span class="keywordtype">void</span>)0 : \</div><div class="line">                wait_Waitus((ns)/1000) \</div><div class="line">                , (wait_NofCyclesNs((ns)%1000, wait_INSTR_CLOCK_HZ)==0) ? \</div><div class="line">                        (<span class="keywordtype">void</span>)0 : \</div><div class="line">                        wait_WAIT_C(wait_NofCyclesNs(((ns)%1000), wait_INSTR_CLOCK_HZ)) \</div><div class="line">                        <span class="comment">/*lint -restore */</span>\</div><div class="line">        )</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00065">65</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<b>Value:</b><div class="fragment"><div class="line"><span class="comment">/*lint -save -e(505,506,522) Constant value Boolean, Redundant left argument to comma. */</span>\</div><div class="line">        (  ((wait_NofCyclesNs((ns), wait_INSTR_CLOCK_HZ)==0)||(ns)==0) ? \</div><div class="line">                (<span class="keywordtype">void</span>)0 : \</div><div class="line">                wait_Waitus((ns)/1000) \</div><div class="line">                , (wait_NofCyclesNs((ns)%1000, wait_INSTR_CLOCK_HZ)==0) ? \</div><div class="line">                        (<span class="keywordtype">void</span>)0 : \</div><div class="line">                        wait_WAIT_C(wait_NofCyclesNs(((ns)%1000), wait_INSTR_CLOCK_HZ)) \</div><div class="line">                        <span class="comment">/*lint -restore */</span>\</div><div class="line">        )</div></div><!-- fragment --><p>Wait for some nanoseconds. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00060">60</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -287,12 +300,12 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">ms</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>(ms) /* use normal wait */</td>
+          <td>&#160;&#160;&#160;<a class="el" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>(ms) /* Use normal wait */</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00079">79</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00074">74</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -311,11 +324,12 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="comment">/*lint -save -e(505,506,522) Constant value Boolean, Redundant left argument to comma. */</span>\</div><div class="line">        (  ((<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>((us),<a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)==0)||(us)==0) ? \</div><div class="line">                (<span class="keywordtype">void</span>)0 : \</div><div class="line">                ( ((us)/1000)==0 ? (void)0 : <a class="code" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>((uint16_t)((us)/1000))) \</div><div class="line">                , (<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(((us)%1000), <a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)==0) ? (<span class="keywordtype">void</span>)0 : \</div><div class="line">                        WAIT_WAIT_C(<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(((us)%1000), <a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)) \</div><div class="line">                        <span class="comment">/*lint -restore */</span>\</div><div class="line">        )</div><div class="ttc" id="wait_8h_html_ae8d2819848bd429f69299f376db47eb1"><div class="ttname"><a href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a></div><div class="ttdeci">#define WAIT_NofCyclesUs(us, hz)</div><div class="ttdef"><b>Definition:</b> <a href="wait_8h_source.html#l00036">wait.h:36</a></div></div>
-<div class="ttc" id="wait_8h_html_a2f01bd4b52d4a791558d71c0dc9b3f5f"><div class="ttname"><a href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a></div><div class="ttdeci">#define WAIT_INSTR_CLOCK_HZ</div><div class="ttdef"><b>Definition:</b> <a href="wait_8h_source.html#l00034">wait.h:34</a></div></div>
-<div class="ttc" id="wait_8h_html_ab42708c0597fde6600da20e3a6a84a26"><div class="ttname"><a href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a></div><div class="ttdeci">void wait_Waitms(uint16_t ms)</div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00110">wait.c:110</a></div></div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00055">55</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
+<b>Value:</b><div class="fragment"><div class="line"><span class="comment">/*lint -save -e(505,506,522) Constant value Boolean, Redundant left argument to comma. */</span>\</div><div class="line">        (  ((<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>((us),<a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)==0)||(us)==0) ? \</div><div class="line">                (<span class="keywordtype">void</span>)0 : \</div><div class="line">                ( ((us)/1000)==0 ? (void)0 : <a class="code" href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a>((uint16_t)((us)/1000))) \</div><div class="line">                , (<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(((us)%1000), <a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)==0) ? (<span class="keywordtype">void</span>)0 : \</div><div class="line">                        WAIT_WAIT_C(<a class="code" href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a>(((us)%1000), <a class="code" href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a>)) \</div><div class="line">                        <span class="comment">/*lint -restore */</span>\</div><div class="line">        )</div><div class="ttc" id="wait_8h_html_ae8d2819848bd429f69299f376db47eb1"><div class="ttname"><a href="wait_8h.html#ae8d2819848bd429f69299f376db47eb1">WAIT_NofCyclesUs</a></div><div class="ttdeci">#define WAIT_NofCyclesUs(us, hz)</div><div class="ttdef"><b>Definition:</b> <a href="wait_8h_source.html#l00039">wait.h:39</a></div></div>
+<div class="ttc" id="wait_8h_html_a2f01bd4b52d4a791558d71c0dc9b3f5f"><div class="ttname"><a href="wait_8h.html#a2f01bd4b52d4a791558d71c0dc9b3f5f">WAIT_INSTR_CLOCK_HZ</a></div><div class="ttdeci">#define WAIT_INSTR_CLOCK_HZ</div><div class="ttdef"><b>Definition:</b> <a href="wait_8h_source.html#l00035">wait.h:35</a></div></div>
+<div class="ttc" id="wait_8h_html_ab42708c0597fde6600da20e3a6a84a26"><div class="ttname"><a href="wait_8h.html#ab42708c0597fde6600da20e3a6a84a26">wait_Waitms</a></div><div class="ttdeci">void wait_Waitms(uint16_t ms)</div><div class="ttdoc">Wait the specified milliseconds. </div><div class="ttdef"><b>Definition:</b> <a href="wait_8c_source.html#l00156">wait.c:156</a></div></div>
+</div><!-- fragment --><p>Wait for some microseconds. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8h_source.html#l00049">49</a> of file <a class="el" href="wait_8h_source.html">wait.h</a>.</p>
 
 </div>
 </div>
@@ -336,7 +350,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00134">134</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Deinit the cycle counter. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00186">186</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -356,7 +372,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00124">124</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Init the cycle counter. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00173">173</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -376,7 +394,10 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00038">38</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Wait 100 CPU cycles. </p>
+<p>This function will wait 10 CPU cycles (including call overhead). lint -save -e522 function lacks side effect. NOTE: Cortex-M0 and M4 have 1 cycle for a NOP. Compiler is GNUC. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00062">62</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -396,7 +417,10 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00015">15</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Wait 10 CPU cycles. </p>
+<p>This function will wait 10 CPU cycles (including call overhead). lint -save -e522 function lacks side effect. NOTE: Cortex-M0 and M4 have 1 cycle for a NOP. Compiler is GNUC. </p>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00034">34</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -416,7 +440,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00067">67</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Wait the specified CPU cycles. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cycles</td><td>the number of CPU cycles to wait. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00095">95</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -436,7 +468,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00090">90</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Wait the specified CPU cycles. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cycles</td><td>the long number of CPU cycles to wait. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00128">128</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -456,7 +496,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00110">110</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
+<p>Wait the specified milliseconds. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ms</td><td>the milliseconds to wait. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="wait_8c_source.html#l00156">156</a> of file <a class="el" href="wait_8c_source.html">wait.c</a>.</p>
 
 </div>
 </div>
@@ -472,6 +520,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Clock frequency variable defined by the SDK </p>
 
 </div>
 </div>

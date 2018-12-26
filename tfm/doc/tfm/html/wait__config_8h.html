@@ -69,9 +69,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Configuration header file for wait.  
-<a href="#details">More...</a></p>
-
 <p><a href="wait__config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -81,12 +78,7 @@ Macros</h2></td></tr>
 <tr class="memitem:a523ca4190e24a968669eaf17ce9d9f09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wait__config_8h.html#a523ca4190e24a968669eaf17ce9d9f09">WAIT_CONFIG_USE_RTOS_WAIT</a>&#160;&#160;&#160;(0 &amp;&amp; USE_RTOS)</td></tr>
 <tr class="separator:a523ca4190e24a968669eaf17ce9d9f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration header file for wait. </p>
-<dl class="section user"><dt></dt><dd>This header file is used to configure settings of the busy waiting module. </dd></dl>
-
-<p class="definition">Definition in file <a class="el" href="wait__config_8h_source.html">wait_config.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a07f234ebf771817e61ae8c36a7f41c25"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a07f234ebf771817e61ae8c36a7f41c25">&#9670;&nbsp;</a></span>WAIT_CONFIG_USE_CYCLE_COUNTER</h2>
 
@@ -98,8 +90,9 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>If 1: use hardware cycle counter (if present, only on Cortex-M3 or higher). If 0: not using hardware cycle counter. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait__config_8h_source.html#l00016">16</a> of file <a class="el" href="wait__config_8h_source.html">wait_config.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait__config_8h_source.html#l00019">19</a> of file <a class="el" href="wait__config_8h_source.html">wait_config.h</a>.</p>
 
 </div>
 </div>
@@ -114,8 +107,9 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>If 1: use RTOS wait if RTOS is present. If 0: use normal busy waiting. </p>
 
-<p class="definition">Definition at line <a class="el" href="wait__config_8h_source.html#l00023">23</a> of file <a class="el" href="wait__config_8h_source.html">wait_config.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="wait__config_8h_source.html#l00027">27</a> of file <a class="el" href="wait__config_8h_source.html">wait_config.h</a>.</p>
 
 </div>
 </div>
