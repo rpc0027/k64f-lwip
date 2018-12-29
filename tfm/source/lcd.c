@@ -62,6 +62,13 @@ void LCD_Init(uint8_t lcd_addr, uint8_t lcd_cols, uint8_t lcd_rows, uint8_t char
 		g_lcd_displayfunction |= LCD_5x10DOTS;
 	}
 
+	/* Set 4 bit mode. */
+	LCD_write4bits(0x03 << 4);
+	/* New attempt, just in case.*/
+	LCD_write4bits(0x03 << 4);
+	/* Set 4 bit interface. */
+	LCD_write4bits(0x02 << 4);
+
 	/* Issue the setting command. */
 	LCD_command(LCD_FUNCTIONSET | g_lcd_displayfunction);
 
