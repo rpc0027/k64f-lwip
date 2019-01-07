@@ -52,6 +52,7 @@
  ******************************************************************************/
 /** Media access control address used for interface configuration. */
 #define MAC_ADDRESS {0x02, 0x12, 0x13, 0x10, 0x15, 0x11}
+#define TCP_PORT 1234U /**< Listening port. */
 #define ROW_TOP 0U /**< Top row of the LCD. */
 #define ROW_BOTTOM 1U /**< Bottom row of the LCD. */
 #define BUFFER_LENGTH 1400 /**< Bytes of data in TCP packets. */
@@ -210,8 +211,6 @@ void stack_init_thread(void * arg)
 			PRINTF("IPv4 Gateway : %s\n", ipaddr_ntoa(&netif.gw));
 
 			LCD_clear_row(ROW_TOP);
-			LCD_printstr("IPv4 Address:");
-			LCD_clear_row(ROW_BOTTOM);
 			LCD_printstr(ipaddr_ntoa(&netif.ip_addr));
 
 			vTaskResume(tcp_listener_handle);
@@ -237,8 +236,13 @@ void tcp_listener_thread(void * arg)
 	char buffer[BUFFER_LENGTH];
 
 	netconn = netconn_new(NETCONN_TCP);
-	netconn_bind(netconn, NULL, 1234);
+	netconn_bind(netconn, NULL, TCP_PORT);
 	netconn_listen(netconn);
+
+	char port_announce[16];
+	sprintf(port_announce, "TCP port %d", TCP_PORT);
+	LCD_clear_row(ROW_BOTTOM);
+	LCD_printstr(port_announce);
 
 	for (;;)
 	{
