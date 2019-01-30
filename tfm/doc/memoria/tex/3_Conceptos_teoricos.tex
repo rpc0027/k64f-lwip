@@ -1,83 +1,109 @@
 \capitulo{3}{Conceptos teóricos}
+En este capítulo se sintetizan algunos de los aspectos tratados en este proyecto
+para mejorar su compresión y entendimiento.
 
-En aquellos proyectos que necesiten para su comprensión y desarrollo de unos conceptos teóricos de una determinada materia o de un determinado dominio de conocimiento, debe existir un apartado que sintetice dichos conceptos.
+\section{Sistemas empotrados}
+Parte importante del proyecto se centra en obtener un sistema empotrado capaz de
+comunicarse usando los protocolos TCP/IP. A continuación se describen los
+conceptos más relevantes en torno a los SE.
 
-Algunos conceptos teóricos de \LaTeX \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
+\subsection{Descripción}
+Se puede considerar que un sistema empotrado es aquel cuyo
+\extranjerismo{hardware} y \extranjerismo{software} se encuentran estrechamente
+relacionados, está diseñado para cumplir con una función específica, se haya
+integrado en un sistema mayor, no se espera que el usuario lo modifique y puede
+trabajar sin interacción o con la mínima interacción humana necesaria.
+\cite{jime13}
 
-\section{Secciones}
+\imagen{refrigerator}{Ejemplo de integración de SE. \cite{nxp01}}
 
-Las secciones se incluyen con el comando section.
+En la figura \ref{fig:refrigerator} se muestra un ejemplo de uso de varios SE
+dentro de un sistema mayor, en este caso un frigorífico inteligente. El sistema
+cuenta con varios componentes, la interfaz de usuario, la gestión del sistema,
+el control del motor o la conectividad. Cada uno de los componentes se ayuda de
+un SE para realizar su función asignada.
 
-\subsection{Subsecciones}
+Los SE cuentan con el \extranjerismo{hardware} específico para la tarea a
+realizar. La interfaz de usuario puede contar con pantallas o botones. La
+gestión del sistema tiene acceso a sensores, el control de la corriente, la
+iluminación o los ventiladores. El control del motor presenta componentes
+eléctricos para la regulación del compresor. Un módulo de energía, un triodo
+para corriente alterna o un módulo de corrección del factor de potencia son
+componentes que pueden estar presentes en el control del motor. Asimismo, el
+\extranjerismo{software} ejecutado en cada uno de estos SE varía según la
+función a desempeñar realizando únicamente las tareas necesarias.
 
-Además de secciones tenemos subsecciones.
+Por otra parte, también se puede advertir que los SE no están pensados para que
+el usuario los modifique o programe, ni requieren que la interacción sea
+constante por parte del usuario para su correcto funcionamiento.
 
-\subsubsection{Subsubsecciones}
+Los SE y los sistemas que los emplean se encuentran fácilmente. Se hallan en 
+sistemas de movilidad y transporte, automatización industrial, sector sanitario,
+edificios inteligentes, redes de suministro inteligentes, investigación
+científica, seguridad pública, supervisión de salud estructural, recuperación de
+desastres, robótica, agricultura y ganadería, aplicaciones militares,
+telecomunicaciones y electrónica de consumo. \cite{marw18}
 
-Y subsecciones. 
+\subsection{Características del \extranjerismo{hardware}}
+Los SE disponen de componentes \extranjerismo{hardware} que siendo específicos
+para la tarea a la que están destinados se pueden generalizar en procesador,
+memoria y puertos de entrada y salida. El procesador se encarga de ejecutar las
+instrucciones de los programas que manejan las entradas y las salidas del
+sistema. Los programas ejecutados y los datos generados se almacenan en la
+memoria. Y los puertos de entrada y salida, envían y reciben la señales con las
+que trabaja el procesador.\cite{jime13}
 
-
-\section{Referencias}
-
-Las referencias se incluyen en el texto usando cite \cite{wiki:latex}. Para citar webs, artículos o libros \cite{koza92}.
-
-
-\section{Imágenes}
-
-Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
-
-\imagen{escudoInfor}{Autómata para una expresión vacía}
-
-
-
-\section{Listas de items}
-
-Existen tres posibilidades:
-
+También existen otros elementos que se encuentran a menudo en los SE:
 \begin{itemize}
-	\item primer item.
-	\item segundo item.
+    \item Puertos de comunicación serie o paralelo
+    \item Dispositivos de interfaz humana
+    \item Sensores
+    \item Actuadores
+    \item Conversores analógica-digital (ADC)
+    \item Conversores digital-analógica (DAC)
+    \item Componentes de diagnóstico y redundancia
+    \item Componentes de apoyo al sistema
+    \item Otros subsistemas:
+    \begin{itemize}
+        \item Circuito integrado para aplicaciones específicas (ASIC)
+        \item Matriz de puertas programables (FPGA)
+    \end{itemize}
 \end{itemize}
 
-\begin{enumerate}
-	\item primer item.
-	\item segundo item.
-\end{enumerate}
+En la figura \ref{fig:diagr_bloques_hw} se presenta un diagrama de bloques
+en el que se puede observar de forma general los componentes que forman un SE
+y su funcionamiento. Las entradas son procesadas por el microcontrolador que a
+su vez generará las salidas apropiadas. 
+\imagen{diagr_bloques_hw}{Diagrama de bloques del HW de un SE}
 
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
-\begin{itemize}
-\item 
-\end{itemize}
+\subsection{Características del \extranjerismo{software}}
+En cuanto al \extranjerismo{software} presente en los sistemas embebidos, se
+pueden diferenciar varios grupos. El primero de ellos los
+\extranjerismo{drivers} o controladores encargados de la interacción directa
+con el \extranjerismo{hardware} del SE.
 
-\section{Tablas}
+Luego se encuentra el \extranjerismo{middleware}, que es aquel
+\extranjerismo{software} que ocupa una posición entre el sistema operativo y los
+programas. El término se usa con frecuencia en librerías de rutinas de
+infraestructura que proporcionan servicios a los desarrolladores de los
+programas. \cite{butt16}
 
-Igualmente se pueden usar los comandos específicos de \LaTeX o bien usar alguno de los comandos de la plantilla.
+Junto a lo anterior se puede hallar un Sistema operativo en tiempo real (RTOS).
+En un sistema operativo de propósito general varias tareas se ejecutan de forma
+aparentemente simultánea. De este modo se puede repartir el tiempo de ejecución
+de manera equitativa entre usuarios, por ejemplo. En cambio, en un RTOS se prima
+la ejecución de las tareas en un tiempo estrictamente limitado. Con un sistema
+de prioridades se determina la importancia de las tareas y cuales necesitan ser
+realizadas sin demora. \cite{amaz19}
 
-\tablaSmall{Herramientas y tecnologías utilizadas en cada parte del proyecto}{l c c c c}{herramientasportipodeuso}
-{ \multicolumn{1}{l}{Herramientas} & App AngularJS & API REST & BD & Memoria \\}{ 
-HTML5 & X & & &\\
-CSS3 & X & & &\\
-BOOTSTRAP & X & & &\\
-JavaScript & X & & &\\
-AngularJS & X & & &\\
-Bower & X & & &\\
-PHP & & X & &\\
-Karma + Jasmine & X & & &\\
-Slim framework & & X & &\\
-Idiorm & & X & &\\
-Composer & & X & &\\
-JSON & X & X & &\\
-PhpStorm & X & X & &\\
-MySQL & & & X &\\
-PhpMyAdmin & & & X &\\
-Git + BitBucket & X & X & X & X\\
-Mik\TeX{} & & & & X\\
-\TeX{}Maker & & & & X\\
-Astah & & & & X\\
-Balsamiq Mockups & X & & &\\
-VersionOne & X & X & X & X\\
-} 
+Por último y funcionado sobre lo anterior se encuentra los programas necesarios
+para el funcionamiento del SE. En caso de contar con un RTOS será este el que se
+encargue de ejecutar una tarea u otra. Sino, de forma conocida como
+\extranjerismo{bare-metal} se ejecutan las tareas de forma secuencial. Secuencia
+que solo es alterada en caso surgir una interrupción.
+
+\imagen{diagr_bloques_sw}{Digrama de bloques del SW de un SE}
+En el diagrama de bloques de la figura \ref{fig:diagr_bloques_sw} se observan
+como se ubican unos componentes sobre otros. Los componentes se comunican con
+aquellos adyacentes. El RTOS es un componente opcional y que funciona de forma
+paralela a \extranjerismo{drivers} y \extranjerismo{middleware}.
