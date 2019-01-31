@@ -9,6 +9,18 @@
 \usepackage{microtype}
 \usepackage{placeins}
 
+% Bibliografía bajo norma UNE-ISO 690:2013.
+\usepackage[
+  backend=biber,     % "Backend" que genera la bibliografía.
+  style=iso-numeric, % Usa el método de referencias numéricas.
+  autolang=other,    % Controla que lenguaje es usado por el entorno.
+  sortlocale=es_ES,  % Ordena la bibliografía usado el lenguaje indicado.
+  bibencoding=UTF8   % Codificación de caracteres de los archivos .bib.
+]{biblatex}
+
+% Indica el archivo usado por la memoria.
+\addbibresource{bibliografia.bib}
+
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
@@ -481,8 +493,7 @@ D. AMG
 \include{./tex/6_Trabajos_relacionados}
 \include{./tex/7_Conclusiones_Lineas_de_trabajo_futuras}
 
-
-\bibliographystyle{plain}
-\bibliography{bibliografia}
+% Genera la bibliografía.
+\printbibliography
 
 \end{document}
