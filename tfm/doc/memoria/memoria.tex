@@ -13,7 +13,7 @@
 \usepackage[
   backend=biber,     % "Backend" que genera la bibliografía.
   style=iso-numeric, % Usa el método de referencias numéricas.
-  autolang=other,    % Controla que lenguaje es usado por el entorno.
+  autolang=other,    % Soporta múltiples lenguajes en la bibliografía.
   sortlocale=es_ES,  % Ordena la bibliografía usado el lenguaje indicado.
   bibencoding=UTF8   % Codificación de caracteres de los archivos .bib.
 ]{biblatex}
@@ -41,7 +41,7 @@
 % Párrafos
 \nonzeroparskip
 
-% Imagenes
+% Imágenes
 \usepackage{graphicx}
 \newcommand{\imagen}[2]{
 	\begin{figure}[!h]
@@ -60,14 +60,14 @@
 	\end{figure}
 }
 
-% El comando \figura nos permite insertar figuras comodamente, y utilizando
-% siempre el mismo formato. Los parametros son:
+% El comando \figura nos permite insertar figuras cómodamente, y utilizando
+% siempre el mismo formato. Los parámetros son:
 % 1 -> Porcentaje del ancho de página que ocupará la figura (de 0 a 1)
 % 2 --> Fichero de la imagen
 % 3 --> Texto a pie de imagen
 % 4 --> Etiqueta (label) para referencias
-% 5 --> Opciones que queramos pasarle al \includegraphics
-% 6 --> Opciones de posicionamiento a pasarle a \begin{figure}
+% 5 --> Opciones que queramos pasar a \includegraphics
+% 6 --> Opciones de posicionamiento a pasar a \begin{figure}
 \newcommand{\figuraConPosicion}[6]{%
   \setlength{\anchoFloat}{#1\textwidth}%
   \addtolength{\anchoFloat}{-4\fboxsep}%
