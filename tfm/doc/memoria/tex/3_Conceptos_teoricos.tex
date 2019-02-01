@@ -107,3 +107,127 @@ En el diagrama de bloques de la figura \ref{fig:diagr_bloques_sw} se observan
 como se ubican unos componentes sobre otros. Los componentes se comunican con
 aquellos adyacentes. El RTOS es un componente opcional y que funciona de forma
 paralela a \extranjerismo{drivers} y \extranjerismo{middleware}.
+
+\section{Familia de protocolos TCP/IP}
+Otra parte fundamental del proyecto consiste en dotar de conectividad al SE.
+Para que dos dispositivos sean capaz de comunicarse necesitan intercambiar datos
+de una forma conocida y consensuada entre ambos. Con el objetivo de garantizar
+la interoperabilidad entre sistemas de diferentes modelos o fabricantes 
+surgen protocolos estandarizados que garantizan dicha comunicación.
+
+En \titulo{A dictionary of computing} \cite{butt16} se define un protocolo como 
+\blockquote{Un acuerdo que gobierna los procedimientos usados para intercambiar
+información entre entidades cooperantes. [...] La información es transferida
+a la ubicación remota usando el protocolo de más bajo nivel, después pasa de 
+manera ascendente via interfaces hasta alcanzar el nivel correspondiente en el
+destino. En general, el protocolo regulará el formato de los mensajes, la
+generación de la información de comprobación, el control de flujo, además de las
+acciones a tomar ante el acontecimiento de errores. [...]}
+
+Como se puede ver en la definición, los protocolos definen la manera en la que
+se envía información en un mismo nivel. Dependiendo del modelo usado existen más
+o menos niveles intercambiando información. Por ejemplo, según el  modelo de
+interconexión de sistemas abiertos \cite{itut94}, también conocido como Modelo
+OSI, existen 7 niveles o capas.
+
+\subsection{Descripción}
+En este proyecto se utiliza la familia de protocolos TCP/IP, la cual se compone 
+de decenas de protocolos. Los protocolos se reparten en alguno de los siguientes
+niveles: enlace, internet, transporte, aplicación.
+
+En comparación con el modelo OSI, la primera capa (física) queda delegada al
+\extranjerismo{hardware} y las tres últimas (sesión, presentación y aplicación),
+se combinan en una sola.
+
+Las capas se definieron en los \titulo{Request for Comments} (RFC)
+\cite{rfc1122} y \cite{rfc1123}. Siguiendo un orden lógico de menor a mayor
+nivel en \cite{kozi05} se describen de la siguiente manera:
+\begin{description}
+  \item[Enlace] Esta capaz es la encargada de actuar como interfaz entre el
+  resto de capas superiores y la red local subyacente. Algunas redes TCP/IP no 
+  usan protocolos en este nivel. Por ejemplo, las redes Ethernet se encargan de
+  manejar las capas uno y dos. En otras redes sin implementación de este nivel
+  se usan protocolos como Serial Line Internet Protocol (SLIP) \cite{rfc1055} y
+  Point-to-Point Protocol (PPP) \cite{rfc1661}.
+
+  Además, en esta capa se especifican otros protocolos comunes como el Address
+  Resolution Protocol (ARP) \cite{rfc826} encargado del descubrimiento de las
+  direcciones de enlace, o Neighbor Discovery Protocol (NDP) \cite{rfc4861} que
+  proporciona la misma y más funcionalidades que ARP en redes que usan el
+  Protocolo de Internet Version 6 (IPv6).
+
+  \item[Internet] Capa correspondiente a la capa de red del modelo OSI. Se
+  encarga del direccionamiento lógico de los dispositivos, del empaquetado,
+  manipulación y envío de los datos, y del enrutamiento.
+  
+  En esta capa de define el protocolo primordial de la familia de protocolos
+  conocido como Internet Protocol (IP). Actualmente hay dos versiones en
+  funcionamiento, la 4 y la 6. Para distinguir una de otra se usa la
+  nomenclatura IPv4 \cite{rfc791} y IPv6 \cite{rfc2460} respectivamente.
+
+  Asimismo existen otros protocolos de soporte como el Internet Control Message
+  Protocol para IPv4 (ICMP) \cite{rfc792} y IPv6 (ICMPv6) \cite{rfc4443} usado
+  para el control y la notificación del errores, o Internet Group Management
+  Protocol (IGMP) \cite{rfc4604} y Multicast Listener Discovery (MLD)
+  \cite{rfc4604} usados para establecer grupos de difusión múltiple.
+
+  \item[Transporte] La principal labor realizada en esta capa es facilitar
+  la comunicación de dispositivos aunque pertenezcan a redes de diferentes
+  tipos. La comunicación se puede orientar de dos maneras, la primera con
+  protocolos orientados a conexión y la segunda con protocolos no orientados
+  a conexión.
+
+  Los protocolos fundamentales de esta capa son el Transmission Control Protocol
+  (TCP) \cite{rfc793} y el User Datagram Protocol (UDP) \cite{rfc768}.
+  TCP junto con IP son los protocolos más importantes de toda la familia como se
+  puede deducir al ser usados en su nombre "TCP/IP".
+
+  TCP es un protocolo orientado a conexión, proporciona un conjunto completo de
+  servicios para aquellas aplicaciones que lo necesiten y resulta fiable.
+  Su direccionamiento en la capa de transporte permite que varias aplicaciones
+  puedan usar una misma dirección IP. El protocolo establece una conexión
+  virtual entre dos dispositivos capaz de enviar información de manera
+  bidireccional. Las transmisiones usan una ventana deslizante que permite
+  detectar aquellas que no reconocidas para que sean retransmitidas.
+
+  UDP es un protocolo no orientado a conexión, más simple que TCP y sus
+  transmisiones pueden resultar no fiables. Aunque también proporciona un medio
+  de direccionamiento como TCP no agrega nada más, no se establece una
+  conexión este dispositivos, no se realizan retransmisiones, por lo tanto, los
+  datos pueden perderse. Su uso se justifica en aquellos escenarios donde la
+  velocidad de la transmisión prima por encima de todo aunque se incurra
+  ocasionalmente en la perdida de información.
+
+  \item[Aplicación] Esta es la cuarta y última capa del modelo TCP/IP, por ello 
+  es la capa de mayor nivel. Los protocolos de esta capa tienen objetivos de
+  índole más diversa que los protocolos que se encuentran en capas de menor
+  nivel.
+
+  Por ejemplo, con el Dynamic Host Configuration Protocol (DHCP) \cite{rfc2131}
+  un servidor DHCP puede asignar direcciones IP y otros parámetros de
+  configuración a un dispositivo que lo solicite. El Domain Name System (DNS)
+  \cite{rfc1034} \cite{rfc1035} resuelve o traduce entre direcciones IP y
+  nombres inteligibles por los usuarios.
+
+  Hay protocolos que sirven para la transferencia en la web como el Hypertext
+  Transfer Protocol (HTTP) \cite{rfc7230} , su segunda versión (HTTP/2)
+  \cite{rfc7540}, o el Hypertext Transfer Protocol Secure (HTTPS) 
+  \cite{rfc2818}. Protocolos para la recepción de correo electrónico como el
+  Internet Message Access Protocol (IMAP) \cite{rfc3501} o el Post Office
+  Protocol version 3 (POP3) \cite{rfc1939}, también para el envío con el
+  Simple Mail Transfer Protocol (SMTP) \cite{rfc5321}.
+
+  Otros protocolos comunes son el Network Time Protocol (NTP) \cite{rfc5905}
+  para la sincronización de relojes en línea. El Session Initiation Protocol
+  (SIP) \cite{rfc3261} usado para establecer sesiones en tiempo real típicas de
+  aplicaciones de voz, vídeo o mensajería. Secure Shell (SSH) \cite{rfc4253}
+  establece una conexión segura sobre redes inseguras usado para iniciar y
+  ejecutar sesiones remotas.
+
+  Para terminar, dos protocolos usados habitualmente en sistemas empotrados o
+  en dispositivos de Internet de las cosas (IoT) son Message Queuing Telemetry 
+  Transport (MQTT) \cite{bank15} y Constrained Application Protocol (CoAP)
+  \cite{rfc7252}. Mientras que el primero se apoya en TCP y en un bróker para
+  el intercambio de mensajes, el segundo emplea UDP y está caracterizado por su
+  baja sobrecarga ideal para su uso dispositivos limitados.
+\end{description}
