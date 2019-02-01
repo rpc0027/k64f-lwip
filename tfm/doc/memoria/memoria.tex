@@ -21,6 +21,8 @@
 % Indica el archivo usado por la memoria.
 \addbibresource{bibliografia.bib}
 
+\usepackage[autostyle, spanish=spanish]{csquotes}
+
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
@@ -354,6 +356,9 @@
 % o con comillas si no se dispone de cursiva.
 %\newcommand{\extranjerismo}[1]{"{#1}"}
 
+% Comando para formatear los títulos de otras obras de creación.
+\newcommand{\titulo}[1]{\textit{#1}}
+
 % Datos de portada
 \title{Comunicación TCP/IP con sistemas empotrados}
 \author{\nombre}
@@ -364,9 +369,7 @@
 
 \maketitle
 
-
-\newpage\null\thispagestyle{empty}\newpage
-
+\newpage\null\thispagestyle{empty}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \thispagestyle{empty}
@@ -411,11 +414,7 @@ En Burgos, {\large \today}
 Vº. Bº. del Tutor:\\[2cm]
 D. AMG
 
-
-\newpage\null\thispagestyle{empty}\newpage
-
-
-
+\newpage\null\thispagestyle{empty}
 
 \frontmatter
 
