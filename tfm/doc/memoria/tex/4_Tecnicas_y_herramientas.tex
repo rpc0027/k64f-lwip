@@ -1,6 +1,108 @@
-\capitulo{4}{Técnicas y herramientas}
+\capitulo{4}{Técnicas y herramientas}{\label{sec:tecyherra}}
+Este capítulo presenta las técnicas metodológicas y las herramientas de
+desarrollo usadas durante la realización del proyecto. En algunas de las
+técnicas y herramientas existen varias alternativas a utilizar. En este capítulo
+se comentan las características principales de cada alternativa y se expone el
+porqué de la elección tomada.
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Técnicas metodológicas}{\label{sec:tecnicas}}
 
+\subsubsection{Scrum}{\label{sec:scrum}}
+Scrum es definido por dos de sus mayores promotores \textcite{schwaber2017}
+como:
+\begin{quotation}``un marco de trabajo en el que las personas pueden
+  abordar problemas flexibles y complejos, mientras se entregan productos creativa y
+  productivamente del mayor valor posible''
+\end{quotation}.
 
+Desde el punto de vista del desarrollo del \extranjerismo{software}, trabajar en
+un producto en toda su extensión puede atraer problemas debidos, por ejemplo, a
+cambios en los requisitos de los clientes. Para solventar este problema, Scrum
+enuncia la realización del trabajo de forma ligera, iterativa e incremental,
+permitiendo que el desarrollo pueda responder mejor ante imprevistos.
+
+Scrum propone grupos de trabajo donde sus integrantes tienen diferentes roles y
+responsabilidades. El grupo sigue un flujo de trabajo que gira entorno al
+concepto de \extranjerismo{sprint}, definido como la unidad básica de
+desarrollo. Antes de cada \extranjerismo{sprint} se planifica su duración
+temporal, se definen la tareas a realizar en él y cuando ya está en marcha se
+revisa diariamente para analizar su evolución. Una vez terminado se comprueban
+los resultados obtenidos y se proporcionan los entregables generados.
+
+\section{Herramientas \extranjerismo{hardware} de desarrollo}
+  {\label{sec:herramientas}}
+
+\subsubsection{Placa de desarrollo FRDM-K64F}{\label{sec:k64f}}
+El uso de placas de desarrollo sirve como toma de contacto al microprocesador y
+al resto del \extranjerismo{hardware} que componen un SE. En este proyecto la
+placa utilizada es el modelo
+\href{https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-k64-k63-and-k24-mcus:FRDM-K64F}
+{FRDM-K64F}.
+
+\imagen{k64f}{Placa de desarrollo FRDM-K64F \cite{webpage:k64f}}
+
+El microcontrolador (MCU) de esta placa es el \href{https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/kinetis-cortex-m-mcus/k-seriesperformancem4/k6x-ethernet/kinetis-k64-120-mhz-256kb-sram-microcontrollers-mcus-based-on-arm-cortex-m4-core:K64_120}
+{Kinetis K64}. Este MCU cuenta con el microprocesador \href{https://developer.arm.com/products/processors/cortex-m/cortex-m4}
+{Cortex-M4} capaz de funcionar a 120 Mhz. Destaca la capacidad de funcionar en 
+modos de energía ultra bajos, su prominente rendimiento y los dispositivos
+integrados de conectividad y comunicación como los puertos General Purpose
+Input/Output (GPIO), la interfaz Ethernet o los buses de datos serie
+I\textsuperscript{2}C o SPI.
+
+La placa K64F ofrece el \extranjerismo{hardware} necesario para poder aprovechar
+las características que ofrece el MCU. Cuenta con los pines suficientes para dar 
+cabida a los GPIO. La disposición de los conectores es compatible con la
+utilizada en placas \href{https://www.arduino.cc/}{Arduino} permitiendo el uso
+de multitud de placas de extensión ya existentes.
+
+También presenta un puerto Ethernet que permite conectar la placa a una red
+local y, a la postre, a Internet. También cuenta con \extranjerismo{hardware}
+extra que posibilita nuevas opciones a la hora de investigar y desarrollar con
+la placa. Por ejemplo, puertos USB, para alimentación, depuración y conexión, y
+diodos emisor de luz (LED) de colores rojo, verde y azul (RGB).
+
+\subsubsection{Placa de expansión Arduino Basic I/O}{\label{sec:basic-io}}
+Como la placa K64F es compatible con las placas de expansión de Arduino se
+utiliza la placa \href{https://web.archive.org/web/20160818213905/http://www.msebilbao.com/tienda/product_info.php?cPath=130&products_id=793&osCsid=f967e6ddeaaa2f19050972ff62295a08}
+{Arduino Basic I/O} para poder utilizar \extranjerismo{hardware} adicional.
+
+\imagen{basic_io}{Placa de expansión Arduino Basic I/O \cite{webpage:basio-io}}
+
+En concreto, se utilizan sus 4 LED de colores que usados en combinación de la
+técnica de modulación de señales pulse-width modulation (PWM) se puede regular
+la intensidad del brillo de cada uno de los LED.
+
+\subsubsection{Pantalla de cristal líquido (LCD)}{\label{sec:lcd}}
+El disponer de una pantalla permite mostrar información en forma de texto a un
+usuario del SE. En particular, esta pantalla puede mostrar 2 líneas de texto
+de 16 caracteres cada una. Gracias a esta pantalla el usuario puede
+conocer ciertos datos acerca del estado de inicialización de la placa, o puede
+usarla para mostrar sus propios mensajes.
+
+Cabe destacar que la pantalla usa una conexión de tipo paralela, necesitando
+hasta 16 pines para la transmisión de datos, la alimentación, la iluminación y
+el control de la transmisión. Como forma de simplificar su uso la pantalla
+incorpora un módulo de comunicación I\textsuperscript{2}C, de tal manera que
+solo es necesario el empleo de 4 pines.
+
+\subsubsection{Accesorios extra}{\label{sec:extras}}
+Para realizar el montaje de las placas y la pantalla se utilizan varios
+accesorios extra.
+
+Las placas de pruebas \cite{webpage:placa-pruebas} son unos tableros con
+orificios que permiten conectar otras placas, componentes electrónicos,
+conectores y cables. Su orificios están conectados eléctricamente, siguiendo un
+patrón de bloques y líneas, permitiendo así la conexión entre los elementos del
+sistema a montar. La rapidez y facilidad del montaje y desmontaje de los
+elementos facilita el prototipado de sistemas antes de su fabricación.
+
+Con el fin de conectar los pines de los componentes se usan varios cables
+puente \cite{webpage:cable-puente}. Algunos conectados directamente a las
+placas, otros conectados a las placas de pruebas. Para evitar confusiones los
+cables son de colores, de tal manera que es posible distinguir la función que
+realiza cada uno.
+
+Por último, como el objetivo del proyecto es realizar un SE que utilice los
+protocolos TCP/IP, es necesario conectar la placa K64F con un cable Ethernet
+a un determinado equipamiento de acceso a la red, por ejemplo,
+un \extranjerismo{switch}.
