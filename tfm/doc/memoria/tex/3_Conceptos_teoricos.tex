@@ -13,9 +13,10 @@ Se puede considerar que un sistema empotrado es aquel cuyo
 relacionados, está diseñado para cumplir con una función específica, se haya
 integrado en un sistema mayor, no se espera que el usuario lo modifique y puede
 trabajar sin interacción o con la mínima interacción humana necesaria.
-\cite{jime13}
+\cite{jimenez2014}
 
-\imagen{refrigerator}{Ejemplo de integración de SE. \cite{nxp01}}
+\imagen{refrigerator}{Ejemplo de integración de SE.
+\cite{webpage:nxp-refrigerator}}
 
 En la figura \ref{fig:refrigerator} se muestra un ejemplo de uso de varios SE
 dentro de un sistema mayor, en este caso un frigorífico inteligente. El sistema
@@ -42,7 +43,7 @@ sistemas de movilidad y transporte, automatización industrial, sector sanitario
 edificios inteligentes, redes de suministro inteligentes, investigación
 científica, seguridad pública, supervisión de salud estructural, recuperación de
 desastres, robótica, agricultura y ganadería, aplicaciones militares,
-telecomunicaciones y electrónica de consumo. \cite{marw18}
+telecomunicaciones y electrónica de consumo \cite{marwedel2018}.
 
 \subsection{Características del \extranjerismo{hardware}}
 Los SE disponen de componentes \extranjerismo{hardware} que siendo específicos
@@ -51,7 +52,7 @@ memoria y puertos de entrada y salida. El procesador se encarga de ejecutar las
 instrucciones de los programas que manejan las entradas y las salidas del
 sistema. Los programas ejecutados y los datos generados se almacenan en la
 memoria. Y los puertos de entrada y salida, envían y reciben la señales con las
-que trabaja el procesador.\cite{jime13}
+que trabaja el procesador.\cite{jimenez2014}
 
 También existen otros elementos que se encuentran a menudo en los SE:
 \begin{itemize}
@@ -86,7 +87,7 @@ Luego se encuentra el \extranjerismo{middleware}, que es aquel
 \extranjerismo{software} que ocupa una posición entre el sistema operativo y los
 programas. El término se usa con frecuencia en librerías de rutinas de
 infraestructura que proporcionan servicios a los desarrolladores de los
-programas. \cite{butt16}
+programas. \cite{butterfield2016}
 
 Junto a lo anterior se puede hallar un Sistema operativo en tiempo real (RTOS).
 En un sistema operativo de propósito general varias tareas se ejecutan de forma
@@ -94,7 +95,7 @@ aparentemente simultánea. De este modo se puede repartir el tiempo de ejecució
 de manera equitativa entre usuarios, por ejemplo. En cambio, en un RTOS se prima
 la ejecución de las tareas en un tiempo estrictamente limitado. Con un sistema
 de prioridades se determina la importancia de las tareas y cuales necesitan ser
-realizadas sin demora. \cite{amaz19}
+realizadas sin demora. \cite{webpage:amazon-rtos}
 
 Por último y funcionado sobre lo anterior se encuentra los programas necesarios
 para el funcionamiento del SE. En caso de contar con un RTOS será este el que se
@@ -115,19 +116,19 @@ de una forma conocida y consensuada entre ambos. Con el objetivo de garantizar
 la interoperabilidad entre sistemas de diferentes modelos o fabricantes 
 surgen protocolos estandarizados que garantizan dicha comunicación.
 
-En \titulo{A dictionary of computing} \cite{butt16} se define un protocolo como 
-\blockquote{Un acuerdo que gobierna los procedimientos usados para intercambiar
-información entre entidades cooperantes. [...] La información es transferida
-a la ubicación remota usando el protocolo de más bajo nivel, después pasa de 
-manera ascendente via interfaces hasta alcanzar el nivel correspondiente en el
-destino. En general, el protocolo regulará el formato de los mensajes, la
-generación de la información de comprobación, el control de flujo, además de las
-acciones a tomar ante el acontecimiento de errores. [...]}
+En \titulo{A dictionary of computing} \cite{butterfield2016} se define un
+protocolo como \blockquote{Un acuerdo que gobierna los procedimientos usados
+para intercambiar información entre entidades cooperantes. [...] La información
+es transferida a la ubicación remota usando el protocolo de más bajo nivel,
+después pasa de manera ascendente via interfaces hasta alcanzar el nivel
+correspondiente en el destino. En general, el protocolo regulará el formato de
+los mensajes, la generación de la información de comprobación, el control de
+flujo, además de las acciones a tomar ante el acontecimiento de errores. [...]}
 
 Como se puede ver en la definición, los protocolos definen la manera en la que
 se envía información en un mismo nivel. Dependiendo del modelo usado existen más
 o menos niveles intercambiando información. Por ejemplo, según el  modelo de
-interconexión de sistemas abiertos \cite{itut94}, también conocido como Modelo
+interconexión de sistemas abiertos \cite{itutx200}, también conocido como Modelo
 OSI, existen 7 niveles o capas.
 
 \subsection{Descripción}
@@ -141,7 +142,7 @@ se combinan en una sola.
 
 Las capas se definieron en los \titulo{Request for Comments} (RFC)
 \cite{rfc1122} y \cite{rfc1123}. Siguiendo un orden lógico de menor a mayor
-nivel en \cite{kozi05} se describen de la siguiente manera:
+nivel en \cite{kozierok2005} se describen de la siguiente manera:
 \begin{description}
   \item[Enlace] Esta capaz es la encargada de actuar como interfaz entre el
   resto de capas superiores y la red local subyacente. Algunas redes TCP/IP no 
@@ -226,7 +227,7 @@ nivel en \cite{kozi05} se describen de la siguiente manera:
 
   Para terminar, dos protocolos usados habitualmente en sistemas empotrados o
   en dispositivos de Internet de las cosas (IoT) son Message Queuing Telemetry 
-  Transport (MQTT) \cite{bank15} y Constrained Application Protocol (CoAP)
+  Transport (MQTT) \cite{banks2015} y Constrained Application Protocol (CoAP)
   \cite{rfc7252}. Mientras que el primero se apoya en TCP y en un bróker para
   el intercambio de mensajes, el segundo emplea UDP y está caracterizado por su
   baja sobrecarga ideal para su uso dispositivos limitados.
