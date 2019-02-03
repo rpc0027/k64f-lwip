@@ -1,13 +1,13 @@
-\capitulo{3}{Conceptos teóricos}
+\capitulo{3}{Conceptos teóricos}{\label{ch:conceptos}}
 En este capítulo se sintetizan algunos de los aspectos tratados en este proyecto
 para mejorar su compresión y entendimiento.
 
-\section{Sistemas empotrados}
+\section{Sistemas empotrados}{\label{sec:se}}
 Parte importante del proyecto se centra en obtener un sistema empotrado capaz de
 comunicarse usando los protocolos TCP/IP. A continuación se describen los
 conceptos más relevantes en torno a los SE.
 
-\subsection{Descripción}
+\subsection{Descripción}{\label{sec:se-desc}}
 Se puede considerar que un sistema empotrado es aquel cuyo
 \extranjerismo{hardware} y \extranjerismo{software} se encuentran estrechamente
 relacionados, está diseñado para cumplir con una función específica, se haya
@@ -45,7 +45,7 @@ científica, seguridad pública, supervisión de salud estructural, recuperació
 desastres, robótica, agricultura y ganadería, aplicaciones militares,
 telecomunicaciones y electrónica de consumo \cite{marwedel2018}.
 
-\subsection{Características del \extranjerismo{hardware}}
+\subsection{Características del \extranjerismo{hardware}}{\label{sec:se-hw}}
 Los SE disponen de componentes \extranjerismo{hardware} que siendo específicos
 para la tarea a la que están destinados se pueden generalizar en procesador,
 memoria y puertos de entrada y salida. El procesador se encarga de ejecutar las
@@ -77,7 +77,7 @@ y su funcionamiento. Las entradas son procesadas por el microcontrolador que a
 su vez generará las salidas apropiadas. 
 \imagen{diagr_bloques_hw}{Diagrama de bloques del HW de un SE}
 
-\subsection{Características del \extranjerismo{software}}
+\subsection{Características del \extranjerismo{software}}{\label{sec:se-sw}}
 En cuanto al \extranjerismo{software} presente en los sistemas embebidos, se
 pueden diferenciar varios grupos. El primero de ellos los
 \extranjerismo{drivers} o controladores encargados de la interacción directa
@@ -109,7 +109,7 @@ como se ubican unos componentes sobre otros. Los componentes se comunican con
 aquellos adyacentes. El RTOS es un componente opcional y que funciona de forma
 paralela a \extranjerismo{drivers} y \extranjerismo{middleware}.
 
-\section{Familia de protocolos TCP/IP}
+\section{Familia de protocolos TCP/IP}{\label{sec:tcpip}}
 Otra parte fundamental del proyecto consiste en dotar de conectividad al SE.
 Para que dos dispositivos sean capaz de comunicarse necesitan intercambiar datos
 de una forma conocida y consensuada entre ambos. Con el objetivo de garantizar
@@ -131,7 +131,7 @@ o menos niveles intercambiando información. Por ejemplo, según el  modelo de
 interconexión de sistemas abiertos \cite{itutx200}, también conocido como Modelo
 OSI, existen 7 niveles o capas.
 
-\subsection{Descripción}
+\subsection{Descripción}{\label{sec:tcpip-desc}}
 En este proyecto se utiliza la familia de protocolos TCP/IP, la cual se compone 
 de decenas de protocolos. Los protocolos se reparten en alguno de los siguientes
 niveles: enlace, internet, transporte, aplicación.
