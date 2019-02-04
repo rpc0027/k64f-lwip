@@ -87,11 +87,29 @@ placa. La pila lleva implementa varios protocolos siendo posible realizar
 
 \subsection{Funciones del \extranjerismo{hardware}}{\label{sec:desarrollo-hw}}
 Para ejemplificar el uso de un SE conectado en red se decidió aprovechar el
-\extranjerismo{hardware} incluido en la placa. Representando unos actuadores y 
+\extranjerismo{hardware} incluido en la placa. Representando a unos actuadores y 
 siendo los componentes más visibles de la placa se decidió utilizar los LED de
 colores RGB. Para poder activar o desactivar los LED se determinó enviar un
 comando con una instrucción y argumento específicos para el LED a alterar. El
 comando se recibiría desde un paquete TCP.
+
+Como los LED se pueden encender simultáneamente se puede combinar su luz para
+crear nuevos colores. En la tabla siguiente se pueden ver los todos 
+colores posibles. 
+
+\tablaSmall{Colores producibles usando los LED RGB}
+{l c c c}{coloresrgb}
+{\multicolumn{1}{l}{Color} & LED Rojo & LED Verde & LED Azul\\}
+{
+  Rojo     & X &   &   \\
+  Verde    &   & X &   \\
+  Azul     &   &   & X \\
+  Amarillo & X & X &   \\
+  Magenta  & X &   & X \\
+  Cyan     &   & X & X \\
+  Blanco   & X & X & X \\
+  Ninguno  &   &   &   \\
+}
 
 El LCD se incluyó con la intención de mejorar la comunicación del usuario y
 ampliar la funcionalidad del SE. Esta decisión provocó inconveniente que volvía
