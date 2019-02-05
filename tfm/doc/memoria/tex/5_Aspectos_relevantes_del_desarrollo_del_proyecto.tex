@@ -1,8 +1,8 @@
 \capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
 {\label{ch:aspectos}}
-Durante el desarrollo del proyecto han surgido diversos hechos, desde su
-concepción hasta su finalización. En este capítulo se comentan los eventos
-ocurridos y la decisiones tomadas al respecto.
+Durante el desarrollo del proyecto han surgido diversos hechos relevantes. En
+este capítulo se comentan los eventos ocurridos y la decisiones tomadas al
+respecto.
 
 \section{Aprendizaje}{\label{sec:aprendizaje}}
 Una faceta fundamental del proyecto ha sido el aprendizaje. Conocer nuevas 
@@ -28,11 +28,11 @@ por parte de NXP de KDS. Esto no quiere decir que no se pudiera haber usado KDS.
 Pero siguiendo la propia recomendación del fabricante y queriendo usar
 herramientas modernas se tomó la decisión de usar MCUXpresso.
 
-La principal diferencia entre IDE es la presencia de Processor Expert (PE).
-Esta herramienta fue la usada en su momento para aprender a desarrollar SE.
-Al perder PE fue necesario dedicar tiempo a aprender como usar las nuevas
-herramientas presentes en la \extranjerismo{suite} de MCUXpresso, el IDE, el
-SDK y las Config Tools.
+La principal diferencia entre IDE es la presencia de Processor Expert (PE) en
+KDS y la respectiva ausencia en MCUXpresso. Esta herramienta fue la usada en su
+momento para aprender a desarrollar SE. Al perder PE fue necesario dedicar
+tiempo a aprender como usar las nuevas herramientas presentes en la
+\extranjerismo{suite} de MCUXpresso, el IDE, el SDK y las Config Tools.
 
 La primera toma de contacto estuvo apoyada en los ejemplos ofrecidos por el SDK.
 Son pequeñas piezas de código que realizan funciones simples que permiten
@@ -44,8 +44,8 @@ se tenían que activar, a que frecuencia y que salidas se tenían que habilitar.
 
 Por último queda configurar el MCU y sus pines. Para poder usar un componente
 hay que decir al MCU que pines se van a utilizar y la función deseada. Que un
-dispositivo funcione correctamente requiere que se seleccionen los pines 
-correctos y se establezca su configuración eléctrica adecuadamente. Por ejemplo,
+dispositivo funcione correctamente requiere de la sección de los pines 
+correctos y de la configuración eléctrica correcta. Por ejemplo,
 para poder usar el puerto Ethernet no sirve la configuración por defecto sino
 que hay que configurar el estado \extranjerismo{pull-up} de alguno de sus pines.
 
@@ -65,9 +65,9 @@ Otra medida tomada fue usar Scrum y para ello el trabajo se planificó en
 sucesivos \extranjerismo{sprints}. Scrum propone equipos de desarrollo
 de varias personas, reuniones diarias, reuniones al terminar el
 \extranjerismo{sprint}, el rol de Scrum Master, el Product Owner, etc.
-Al ser una sola persona usar Scrum ha servido como forma de conocer la
-metodología, usando principalmente el \extranjerismo{sprint} como herramienta
-para dividir el trabajo y planificar el proyecto.
+Como el proyecto se ha realizado individualmente, usar Scrum ha servido como
+forma de conocer la metodología, usando principalmente el \extranjerismo{sprint}
+como herramienta para dividir el trabajo y planificar el proyecto.
 
 \subsection{Conexión a la red}{\label{sec:desarrollo-red}}
 Con la placa siendo capaz de usar el puerto Ethernet se presentaba el asunto
@@ -83,8 +83,8 @@ mostraba en la consola de depuración para más tarde mostrar también en el LCD
 tanto la dirección IP como el puerto TCP a la escucha.
 
 Con la pila TCP/IP en funcionamiento era posible enviar paquetes de datos a la
-placa. La pila lleva implementa varios protocolos siendo posible realizar
-\extranjerismo{pings} para comprobar el estado de la placa.
+placa. Como lwIP implementa varios protocolos, ICMP entre ellos, era posible
+realizar \extranjerismo{pings} para comprobar el estado de la placa.
 
 \subsection{Funciones del \extranjerismo{hardware}}{\label{sec:desarrollo-hw}}
 Para ejemplificar el uso de un SE conectado en red se decidió aprovechar el
@@ -92,7 +92,17 @@ Para ejemplificar el uso de un SE conectado en red se decidió aprovechar el
 siendo los componentes más visibles de la placa se decidió utilizar los LED de
 colores RGB. Para poder activar o desactivar los LED se determinó enviar un
 comando con una instrucción y argumento específicos para el LED a alterar. El
-comando se recibiría desde un paquete TCP.
+comando se transmitiría dentro un paquete TCP.
+
+El parámetro de cada comando sirve para indicar el color a alterar.
+Los comandos para encender los tres colores básicos de los LED RGB son:
+\begin{quotation}
+  ``led:r''
+
+  ``led:g''
+
+  ``led:b''
+\end{quotation}
 
 Como los LED se pueden encender simultáneamente se puede combinar su luz para
 crear nuevos colores. En la tabla siguiente se pueden ver los todos 
@@ -123,11 +133,35 @@ código para PE. Así que surgió la necesidad de adaptar de nuevo la librería 
 usar el código generado por MCUXpresso. Como la librería usaba funciones de
 espera también se tuvieron que portar estas funciones.
 
+El comando a transmitir indica que la operación se trata de un mensaje para la
+pantalla, la línea en la que mostrar el mensaje y la cadena de caracteres a
+presentar.
+Ejemplos de comandos para mostrar una cadena de caracteres en cada línea:
+\begin{quotation}
+  ``msg:0:Lorem ipsum''
+
+  ``msg:1:dolor sit amet''
+\end{quotation}
+
 La última función añadida fue modificar la intensidad del brillo de los LED
 incorporados en la placa de expansión. La regulación de la intensidad se
 consigue usando los pines compatibles con PWM del MCU. Los pines PWM no
 están comunicados con los LED RGB de la propia placa K64F así que se conectaron
 a los pines de los LED de placa de expansión.
+
+Al transmitir un comando y tras indicar que es una instrucción de tipo PWM,
+los argumentos indican el LED a regular y la intensidad (de 0\% a 100\%)
+deseada. Por ejemplo, los siguientes comandos sirven para regular la intensidad
+de cada LED con incrementos del 25\%.
+\begin{quotation}
+  ``pwm:w:0''
+
+  ``pwm:g:25''
+
+  ``pwm:y:50''
+
+  ``pwm:r:100''
+\end{quotation}
 
 \subsection{Montaje \extranjerismo{hardware}}{\label{sec:desarrollo-montaje}}
 Una vez que cada componente funcionaba de la manera esperada se realizó
@@ -137,12 +171,12 @@ completo.
 \subsection{Tareas del RTOS}{\label{sec:desarrollo-rtos}}
 Como se ha visto en la sección sobre \extranjerismo{software} de los SE 
 \ref{sec:se-sw}, es habitual contar con un RTOS encargado de la planificación
-de las tareas ejecutadas. El RTOS a usar fue FreeRTOS por su conocimiento y
-experiencia previa. Para cada función disponible en la placa se creó una tarea
-concreta. Es decir, hay una tarea para usar el LCD, otra para los LED de la
-placa de expansión y otra  para los LED RGB de la propia placa. Las tareas
-quedan a la espera de recibir un comando de la tarea que está escuchando en la
-dirección y el puerto asignados.
+de las tareas ejecutadas. El RTOS a usar fue FreeRTOS \ref{sec:otros} por su
+conocimiento y experiencia previa. Para cada función disponible en la placa se
+creó una tarea concreta. Es decir, hay una tarea para usar el LCD, otra para los
+LED de la placa de expansión y otra para los LED RGB de la propia placa. 
+Las tareas quedan a la espera de recibir un comando de la tarea, de mayor
+prioridad, que está escuchando en la dirección y el puerto asignados.
 
 \subsection{Desarrollo de la aplicación web}{\label{sec:desarrollo-app}}
 Con la placa operativa llegaba el turno de crear una aplicación web que
@@ -151,16 +185,16 @@ aplicación web es JSF, la parte encargada de comunicarse con la placa escrita
 en Java y la página visible usada por el usuario en XHTML y CSS.
 
 Al desconocer CSS se presentaba una oportunidad de aprender sobre ese lenguaje.
-De nuevo requería dedicar tiempo al estudio y aprendizaje hasta lograr una
-página con un aspecto aceptable.
+De nuevo requería dedicar cierto tiempo al estudio y aprendizaje hasta lograr
+una página con un aspecto aceptable.
 
 Al usuario se le muestran cuatro apartados. El primero le permite introducir la
 dirección IP y el puerto TCP mostrados por el LCD. En caso de existir varios SE
 se pueden cambiar estos parámetros para escoger el SE con el que interactuar.
 
 El siguiente bloque muestra un cuadrado por cada uno de los colores que se
-pueden generar con los LED RGB. Sino se pueden apagar pulsando el cuadrado
-negro.
+pueden generar con los LED RGB. Si lo que se desea es apagar los LED, pulsando
+el cuadrado negro se apagan todos.
 
 El tercer apartado permite introducir una cadena de texto que será enviada al
 LCD. Como la pantalla solo puede mostrar 16 caracteres los cuadros de texto
