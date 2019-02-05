@@ -6,10 +6,10 @@ mismo MCU, Kinetis~\textsuperscript{\tiny\textregistered} K64, existente en la
 placa de desarrollo.
 
 Los sistemas expuestos muestran características similares a las presentes en la
-placa K64F y a las usadas en este proyecto. El uso de conectividad en red hace
-posible la comunicación con el SE a distancia. Y la utilización de GPIO, SPI,
-I\textsuperscript{2}C o PWM permite operar con los sensores, actuadores u otros
-componentes del SE.
+placa K64F y a las usadas en este proyecto. El uso de conectividad en red via
+TCP/IP hace posible la comunicación con el SE a distancia. Y la utilización de
+GPIO, I\textsuperscript{2}C o PWM permite operar con los sensores, actuadores u
+otros componentes del SE.
 
 A continuación se muestran cuatro sistemas pertenecientes a diferentes sectores
 de aplicación. Los ejemplos pertenecen al sector industrial, sanitario y
@@ -85,10 +85,11 @@ Con una serie de elementos de regulación se puede acomodar la cama a las
 necesidades del usuario. Para conseguir tal comodidad el SE cuenta con motores
 encargados de regular la inclinación o altura de varias partes de la cama. 
 
-Al integrar un monitor de constantes vitales o una bomba de infusión se puede
-realizar una monitorización y atención completa del paciente. Y si además se
-conecta la cama a una red inalámbrica se abre la posibilidad de monitorizar
-y atender remotamente al paciente. Por ejemplo, desde un control de enfermería.
+Al integrar un monitor de constantes vitales o una bomba de infusión, 
+dispostivos también creados con SE, se puede realizar una monitorización y 
+atención completa del paciente. Y si además se conecta la cama a una red
+inalámbrica se abre la posibilidad de monitorizar y atender remotamente al
+paciente. Por ejemplo, desde un control de enfermería.
 
 Para comunicarse telefónicamente con el enfermo se utiliza la conexión
 Ethernet en conjunción con la tecnología voz sobre protocolo de internet (VoIP).
@@ -110,10 +111,10 @@ maneras. Con la conexión Ethernet se puede trabajar en red con la impresora.
 Igualmente, se pueden usar las conexión USB o RS-485.
 
 Para controlar el \extranjerismo{hardware} relativo al proceso de impresión
-se cuenta con la ayuda de otro SE. Como el SE auxiliar recibe señales analógicas
-requiere usar ADC, el resto de entradas y salidas se conectan directamente a los
-pines GPIO. Finalmente, la comunicación con el SE principal se realiza mediante
-I\textsuperscript{2}C o SPI.
+se cuenta con la ayuda de un segundo SE. Como el SE auxiliar recibe señales
+analógicas requiere usar ADC, el resto de entradas y salidas se conectan
+directamente a los pines GPIO. Finalmente, la comunicación con el SE principal
+se realiza mediante I\textsuperscript{2}C o SPI.
 
 Por otra parte, el SE principal cuenta con mayor número de conexiones al
 recibir las entradas del usuario, los controles digitales, gestionar la
