@@ -18,12 +18,15 @@ y los personales que se desean conseguir \extranjerismo{motu proprio}.
 \begin{itemize}
   \item Configurar el \extranjerismo{hardware} de una placa de desarrollo
   FRDM-K64F para poder conectarla a través de su puerto Ethernet a una LAN.
-  \item Utilizar alguno de los buses serie de datos con los que cuenta la placa
-  para crear una funcionalidad que pueda ser ejecutada de manera remota.
-  \item Emplear alguno de los puertos de entrada y salida (digital o analógica),
-  utilizando una alguna de las técnicas de modulación.
-  \item A nivel de \extranjerismo{software}, usar la implementación ligera de 
-  TCP/IP lwIP para manejar las comunicaciones.
+  \item Utilizar componentes \extranjerismo{hardware} de la placa como 
+  son sus LED de colores para mostrar que es capaz de comunicarse via TCP/IP.
+  \item Utilizar el bus serie de datos I\textsuperscript{2}C presente en la
+  placa para extender su funcionalidad y que pueda mostrar mensajes en una
+  pantalla.
+  \item Emplear modulación por ancho de pulsos para regular la intensidad del
+  brillo de unos LED presentes en una placa de expansión.
+  \item A nivel de comunicaciones, usar la implementación ligera de 
+  TCP/IP ``lwIP'' para manejar las transmisiones.
   \item Crear una aplicación web usando la tecnología JSF capaz de comunicarse
   con una placa conectada en red.
 \end{itemize}
