@@ -10,15 +10,15 @@ porqué de la elección tomada.
 \subsection{Scrum}{\label{sec:scrum}}
 Scrum es definido por dos de sus mayores promotores \textcite{schwaber2017}
 como:
-\begin{quotation}``un marco de trabajo en el que las personas pueden
+\begin{quotation}``Un marco de trabajo en el que las personas pueden
   abordar problemas flexibles y complejos, mientras se entregan productos creativa y
-  productivamente del mayor valor posible''
-\end{quotation}.
+  productivamente del mayor valor posible.''
+\end{quotation}
 
 Desde el punto de vista del desarrollo del \extranjerismo{software}, trabajar en
 un producto en toda su extensión puede atraer problemas debidos, por ejemplo, a
 cambios en los requisitos de los clientes. Para solventar este problema, Scrum
-enuncia la realización del trabajo de forma ligera, iterativa e incremental,
+enuncia que el trabajo se realice de forma ligera, iterativa e incremental,
 permitiendo que el desarrollo pueda responder mejor ante imprevistos.
 
 Scrum propone grupos de trabajo donde sus integrantes tienen diferentes roles y
@@ -28,6 +28,9 @@ desarrollo. Antes de cada \extranjerismo{sprint} se planifica su duración
 temporal, se definen la tareas a realizar en él y cuando ya está en marcha se
 revisa diariamente para analizar su evolución. Una vez terminado se comprueban
 los resultados obtenidos y se proporcionan los entregables generados.
+
+Por tanto, Scrum se ha escogido con el propósito de realizar el desarrollo de
+forma ágil.
 
 \section{Herramientas \extranjerismo{hardware} de desarrollo}
   {\label{sec:herramientas}}
@@ -42,23 +45,25 @@ placa utilizada es el modelo
 \imagen{k64f}{Placa de desarrollo FRDM-K64F \cite{webpage:k64f}}
 
 El microcontrolador (MCU) de esta placa es el \href{https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/kinetis-cortex-m-mcus/k-seriesperformancem4/k6x-ethernet/kinetis-k64-120-mhz-256kb-sram-microcontrollers-mcus-based-on-arm-cortex-m4-core:K64_120}
-{Kinetis K64}. Este MCU cuenta con el microprocesador \href{https://developer.arm.com/products/processors/cortex-m/cortex-m4}
-{Cortex-M4} capaz de funcionar a 120 Mhz. Destaca la capacidad de funcionar en 
-modos de energía ultra bajos, su prominente rendimiento y los dispositivos
-integrados de conectividad y comunicación como los puertos General Purpose
-Input/Output (GPIO), la interfaz Ethernet o los buses de datos serie
-I\textsuperscript{2}C o SPI.
+{Kinetis\textsuperscript{\tiny\textregistered} K64}. Este MCU cuenta con el
+microprocesador \href{https://developer.arm.com/products/processors/cortex-m/cortex-m4}
+{Cortex\textsuperscript{\tiny\textregistered}-M4} capaz de funcionar a 120 Mhz.
+Destacan la capacidad de funcionar en modos de energía ultra bajos, su elevado
+rendimiento y los dispositivos integrados de conectividad y comunicación como
+los puertos General Purpose Input/Output (GPIO), la interfaz Ethernet o los
+buses de datos serie I\textsuperscript{2}C o SPI.
 
 La placa K64F ofrece el \extranjerismo{hardware} necesario para poder aprovechar
-las características que ofrece el MCU. Cuenta con los pines suficientes para dar 
-cabida a los GPIO. La disposición de los conectores es compatible con la
-utilizada en placas \href{https://www.arduino.cc/}{Arduino} permitiendo el uso
-de multitud de placas de extensión ya existentes.
+las características que ofrece el MCU. Por ejemplo, cuenta con los pines
+suficientes para dar cabida a todos los GPIO. Además, la disposición de los
+conectores es compatible con la disposición utilizada en placas
+\href{https://www.arduino.cc/}{Arduino} permitiendo el uso de multitud de placas
+de extensión ya existentes.
 
 También presenta un puerto Ethernet que permite conectar la placa a una red
 local y, a la postre, a Internet. También cuenta con \extranjerismo{hardware}
 extra que posibilita nuevas opciones a la hora de investigar y desarrollar con
-la placa. Por ejemplo, puertos USB, para alimentación, depuración y conexión, y
+la placa. Por ejemplo, puertos USB, para alimentación, depuración y conexión; y
 diodos emisor de luz (LED) de colores rojo, verde y azul (RGB).
 
 \subsection{Placa de expansión Arduino Basic I/O}{\label{sec:basic-io}}
@@ -68,22 +73,22 @@ utiliza la placa \href{https://web.archive.org/web/20160818213905/http://www.mse
 
 \imagen{basic_io}{Placa de expansión Arduino Basic I/O \cite{webpage:basio-io}}
 
-En concreto, se utilizan sus 4 LED de colores que usados en combinación de la
-técnica de modulación de señales pulse-width modulation (PWM) se puede regular
-la intensidad del brillo de cada uno de los LED.
+En concreto, se utilizan sus 4 LED de colores en combinación con la técnica de
+modulación de señales pulse-width modulation (PWM). Con esta técnica se consigue
+regular la intensidad del brillo de cada uno de los LED.
 
 \subsection{Pantalla de cristal líquido (LCD)}{\label{sec:lcd}}
 El disponer de una pantalla permite mostrar información en forma de texto a un
-usuario del SE. En particular, esta pantalla puede mostrar 2 líneas de texto
-de 16 caracteres cada una. Gracias a esta pantalla el usuario puede
-conocer ciertos datos acerca del estado de inicialización de la placa, o puede
+usuario del SE. En particular, la pantalla utilizada puede mostrar 2 líneas de
+texto de 16 caracteres cada una. Gracias a esta pantalla el usuario puede
+conocer ciertos datos acerca del estado de inicialización de la placa o puede
 usarla para mostrar sus propios mensajes.
 
 Cabe destacar que la pantalla usa una conexión de tipo paralela, necesitando
 hasta 16 pines para la transmisión de datos, la alimentación, la iluminación y
-el control de la transmisión. Como forma de simplificar su uso la pantalla
-incorpora un módulo de comunicación I\textsuperscript{2}C, de tal manera que
-solo es necesario el empleo de 4 pines.
+el control de la transmisión. Para simplificar su uso la pantalla incorpora un
+módulo de comunicación I\textsuperscript{2}C reduciendo las conexiones
+necesarias a solo de 4.
 
 \subsection{Accesorios extra}{\label{sec:extras}}
 Para realizar el montaje de las placas y la pantalla se utilizan varios
@@ -97,10 +102,10 @@ sistema a montar. La rapidez y facilidad del montaje y desmontaje de los
 elementos facilita el prototipado de sistemas antes de su fabricación.
 
 Con el fin de conectar los pines de los componentes se usan varios cables
-puente \cite{webpage:cable-puente}. Algunos conectados directamente a las
-placas, otros conectados a las placas de pruebas. Para evitar confusiones los
-cables son de colores, de tal manera que es posible distinguir la función que
-realiza cada uno.
+puente \cite{webpage:cable-puente}. Algunos están conectados directamente a las
+placas, otros están conectados a las placas de pruebas. Para evitar confusiones
+los cables son de colores, de tal manera que es posible distinguir la función
+que realiza cada uno.
 
 Por último, como el objetivo del proyecto es realizar un SE que utilice los
 protocolos TCP/IP, es necesario conectar la placa K64F con un cable Ethernet
@@ -130,26 +135,22 @@ Opciones valoradas:
 \end{description}
 
 En cuanto a los IDE para el desarrollo del \extranjerismo{software} de la placa
-K64F, ambos IDE pertenecen a NXP y el propio fabricante indica que Kinetis Design
-Studio IDE ha dejado de ser desarrollado y que no se recomienda su uso en nuevos
-proyectos, para ello insta a usar su otro entorno MCUXpresso IDE. Por lo tanto,
-la opción seleccionada como entorno de desarrollo es \textbf{MCUXpresso IDE}.
+K64F, se contemplan los dos primeros IDE. Ambos pertenecen a NXP, pero el propio
+fabricante indica que Kinetis Design Studio IDE ha dejado de ser desarrollado y
+que no se recomienda su uso en nuevos proyectos. Para nuevos proyectos se insta
+a usar su otro entorno MCUXpresso IDE. Por lo tanto, la opción seleccionada como
+entorno de desarrollo es \textbf{MCUXpresso IDE}.
 
 Las herramientas de configuración que incorpora MCUXpresso se agrupan bajo el
 nombre de Config Tools \cite{webpage:config-tools}. La herramienta Pins Tools,
-asigna la función de los pines del MCU, establece sus propiedades eléctricas y
-genera automáticamente el código fuente que actúa sobre los pines. Otra
-herramienta es Clocks Tool la cual posibilita la configuración gráfica de los
-relojes del sistema y sus correspondientes frecuencias. La última herramienta es
-Peripherals Tool y asiste a la hora de habilitar y configurar los periféricos
-disponibles en la placa de desarrollo.
+sirve para configurar los pines del MCU. Clocks Tool permite configurar
+gráficamente de los relojes del sistema. Y Peripherals Tool asiste en la
+configuración de los periféricos disponibles en la placa de desarrollo.
 
 Como tercer y último componente de la \extranjerismo{suite} MCUXpresso queda
 citar el MCUXpresso Software Development Kit (SDK) \cite{webpage:sdk}. El kit
 incluye un repertorio amplio de \extranjerismo{drivers} y
 \extranjerismo{middleware} listos para funcionar en la placa de desarrollo.
-Como ejemplo de componentes del SDK utilizados en el proyecto se encuentran el 
-RTOS FreeRTOS o la implementación liviana de TCP/IP lwIP.
 
 Por otra parte, para el desarrollo de la aplicación web la opción utilizada es
 \textbf{Eclipse IDE}. La versión especifica para Java EE permite manejar los
@@ -157,13 +158,28 @@ servidores de aplicaciones, pudiendo arrancarlos y detenerlos desde el propio
 IDE, asi como pudiendo desplegar o quitar en ellos la aplicaciones en desarrollo
 directamente.
 
-\subsection{Repositorio del código fuente}{\label{sec:ide}}
+\subsection{Otras herramientas utilizadas por el SE}{\label{sec:otros}}
+\begin{description}
+  \item[\href{https://www.freertos.org/}{FreeRTOS}:] RTOS encargado de
+  planificar la ejecución de las tareas del SE. En función la configuración
+  establecidas y de las prioridades asignadas, una tarea prioritaria será capaz
+  de detener la ejecución del resto. El RTOS también se puede encarga del envío
+  de mensajes entre tareas, mediante mensajes directos, colas o buzones.
+  \item[\href{https://savannah.nongnu.org/projects/lwip/}{lwIP}:] Implementación
+  liviana de la pila de protocolos TCP/IP. Permite a la placa utilizar la
+  mayoría de los protocolos habituales: IPv4, IPv6, TCP, UDP, ICMP, IGMP...
+\end{description}
+
+Estas herramientas se han utilizado por su conocimiento previo más que por 
+un exhaustivo examen de todas las alternativas existente.
+
+\subsection{Repositorio del código fuente}{\label{sec:vcs}}
 Opciones valoradas:
 \begin{description}
-  \item[\href{https://github.com/}{GitHub}:] Su versión gratuita permite la
+  \item[\href{https://github.com/}{GitHub}:] La versión gratuita permite la
   publicación de repositorios ilimitados, tanto públicos como privados. Ambos
-  tipos de repositorios se encuentran almacenados en su nube. Por último,
-  también permite un número ilimitado de colaboradores.
+  tipos de repositorios se encuentran almacenados en su nube. También permite
+  un número ilimitado de colaboradores.
   \item[\href{https://bitbucket.org/}{Bitbucket}:] De forma gratuita admite
   repositorios tanto privados como públicos, permitiendo 1 GB de almacenamiento
   en los privados. El número de colaboradores está limitado a 5. Y el
@@ -215,8 +231,9 @@ Opciones valoradas:
 
 A causa de lo declarado en los objetivos personales del proyecto
 \ref{sec:obj_personales}, para la documentación de memoria y anexos se escoge
-\LaTeX. La decisión se debe a su calidad tipográficas y por su práctica
-estandarización en publicaciones técnicas y científicas.
+\textbf{\LaTeX{}} como herramienta para la documentación. La decisión se debe a
+su calidad tipográficas y por su práctica estandarización en publicaciones
+técnicas y científicas.
 
 Para la edición del texto que hay que proporcionar a \LaTeX{} se emplea
 \textbf{Visual Studio Code}, usado junto a la extensión \href{https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop}
@@ -232,15 +249,16 @@ web mostrada por la aplicación web.
 {\label{sec:source-docs}}
 Opciones valoradas:
 \begin{description}
-  \item[\href{http://www.doxygen.nl/}{Doxygen}:] Estándar de facto para la
-  documentación de códigos fuente en lenguaje C++ aunque también soporta el
-  lenguaje C. Esta herramienta automatiza la extracción de los comentarios y
-  es capaz de generar documentación en HTML válida para referencia en línea o
-  documentación en \LaTeX para referencia fuera de línea.
+  \item[\href{http://www.doxygen.nl/}{Doxygen}:] Herramienta considerada como
+  el estándar de facto para la documentación de códigos fuente en lenguaje C++
+  aunque también soporta el lenguaje C. Esta herramienta automatiza la
+  extracción de los comentarios y es capaz de generar documentación en HTML
+  válida para referencia en línea o documentación en \LaTeX para referencia
+  fuera de línea.
   \item[\href{https://www.oracle.com/technetwork/java/javase/documentation/javadoc-137458.html}
   {Javadoc}:] Utilidad que genera documentación en formato HTML a partir de los
   comentarios incluidos en el código fuente. Viene includa con el SDK de Java 
-  y puede ser ejecutada individualmente o directamente desde el IDE o desde
+  y puede ser ejecutada individualmente, directamente desde el IDE o desde
   otras herramientas como Maven.
 \end{description}
 
@@ -249,8 +267,12 @@ de la placa K64F se usa \textbf{Doxygen} y para la documentación de la
 aplicación web se emplea \textbf{Javadoc}.
 
 \subsection{Herramientas de comunicación}{\label{sec:comms}}
-Opción valorada:
+Opciones valoradas:
 \begin{description}
+  \item[\href{https://products.office.com/es-es/outlook/email-and-calendar-software-microsoft-outlook?rtc=1}
+  {Correo electrónico}:] Solución para correos electrónicos de Microsoft. 
+  Disponible en el cliente web, y aplicaciones de escritorio y dispositivos 
+  móviles.
   \item[\href{https://www.skype.com/es/business/}{Skype Empresarial}:] Solución
   de comunicación perteneciente a la suite ofimática Office de Microsoft.
   Permite la comunicación mediante videollamadas, llamadas de voz o mensajería
@@ -259,6 +281,8 @@ Opción valorada:
 
 A parte de usar correo electrónico, el empleo de \textbf{Skype Empresarial}
 permite la comunicación directa entre los interesados del proyecto.
+
+\newpage
 
 \subsection{Herramientas de gestión de proyectos}{\label{sec:mgmt}}
 Opciones valoradas:
@@ -272,11 +296,13 @@ Opciones valoradas:
   \item[\href{https://www.zenhub.com/}{ZenHub}:] Herramienta para la gestión
   ágil de proyectos integrada dentro de GitHub. Cuenta con tableros donde ubicar
   las tareas desde su concepción hasta su finalización. Es compatible con la
-  metodología ágil Scrum y su concepto de sprint.
+  metodología ágil Scrum y su concepto de \extranjerismo{sprint}.
 \end{description}
 
 La herramienta de gestión de proyectos empleada es \textbf{ZenHub} por su
 integración con GitHub.
+
+\newpage
 
 \subsection{Resumen de las herramientas y tecnologías utilizadas}
 {\label{sec:resumen-herra}}
@@ -291,6 +317,8 @@ de todo el desarrollo, como el uso de GitHub.
 {
   C         & X &   &  \\
   Doxygen   & X &   &  \\
+  FreeRTOS  & X &   &  \\
+  lwIP      & X &   &  \\
   Java      &   & X &  \\
   JSF       &   & X &  \\
   Javadoc   &   & X &  \\
