@@ -16,6 +16,10 @@
    </preferences>
    <tools>
       <pins name="Pins" version="5.0" enabled="true" update_project_code="true">
+         <generated_project_files>
+            <file path="board/pin_mux.c" update_enabled="true"/>
+            <file path="board/pin_mux.h" update_enabled="true"/>
+         </generated_project_files>
          <pins_profile>
             <processor_version>5.0.0</processor_version>
             <pin_labels>
@@ -203,6 +207,10 @@
          </functions_list>
       </pins>
       <clocks name="Clocks" version="5.0" enabled="true" update_project_code="true">
+         <generated_project_files>
+            <file path="board/clock_config.c" update_enabled="true"/>
+            <file path="board/clock_config.h" update_enabled="true"/>
+         </generated_project_files>
          <clocks_profile>
             <processor_version>5.0.0</processor_version>
          </clocks_profile>
@@ -291,6 +299,10 @@
                </feature>
             </dependency>
          </dependencies>
+         <generated_project_files>
+            <file path="board/peripherals.c" update_enabled="true"/>
+            <file path="board/peripherals.h" update_enabled="true"/>
+         </generated_project_files>
          <peripherals_profile>
             <processor_version>5.0.0</processor_version>
          </peripherals_profile>
