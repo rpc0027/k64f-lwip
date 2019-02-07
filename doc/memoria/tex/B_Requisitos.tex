@@ -1,11 +1,158 @@
-\apendice{Especificación de Requisitos}
+\apendice{Especificación de Requisitos} \label{ch:especificacion}
 
-\section{Introducción}
+\section{Introducción} \label{sec:spec-intro}
+En este apéndice de especificación de requisitos del \extranjerismo{software}
+se proporciona una descripción completa del propósito y funcionalidad del
+\extranjerismo{software}. Se detallan las funciones que debe realizar el
+\extranjerismo{software} y se muestran casos de uso de como los usuarios
+utilizarán el \extranjerismo{software}.
+
+También sirve para definir como tiene que interactuar el 
+\extranjerismo{software} con el \extranjerismo{hardware} y con otros
+\extranjerismo{softwares}. Además, sirve para definir otros requisitos de
+carácter no funcional.
+
+Para realizar la especificación de requisitos del \extranjerismo{software}
+The Institute of Electrical and Electronics Engineers (IEEE) ha publicado
+varios estándares al respecto, IEEE 830-1998 \cite{webpage:ieee830-1998}
+y IEEE 29148-2011 \cite{webpage:ieee29148-2011} \footnote{Actualizado
+recientemente a IEEE 29148-2018 \cite{webpage:ieee29148-2018}.}.
+La especificación de requisitos del \extranjerismo{software} se realizará
+siguiendo algunas de las indicaciones de estos estándares.
+
+\subsection{Identificación} \label{sec:spec-id}
+Este apéndice sirve para especificar los requisitos del \extranjerismo{software}
+realizado en el proyecto. Es decir:
+\begin{itemize}
+  \item El \extranjerismo{software} utilizado por un sistema empotrado para 
+  realizar transmisiones TCP/IP.
+  \item El \extranjerismo{software} utilizado por la aplicación web para 
+  realizar transmisiones TCP/IP con destino al sistema.
+\end{itemize}
+
+Está previsto que ambos \extranjerismo{softwares} se publiquen con la versión
+1.0 y en este documento se describe su funcionalidad.
+
+\subsection{Audiencia destinataria}
+\label{sec:spec-audiencia}
+Como audiencia destinataria de este documento se incluye cualquier persona
+interesada en el proyecto. Tanto tutor, evaluadores, usuarios, como futuros
+desarrolladores interesados en conocer la funcionalidad del
+\extranjerismo{software} del sistema empotrado y del \extranjerismo{software}
+de la aplicación web.
+
+\subsection{Abreviaciones} \label{sec:spec-abreviaciones}
+\begin{description}
+  \item[Sistema empotrado:] SE
+  \item[\extranjerismo{Software} del sistema empotrado:] SW del SE
+  \item[Aplicación web:] AW
+  \item[\extranjerismo{Software} de la aplicación web:] SW de la AW
+  \item[Requisito de interfaces externas:] RE 
+  \item[Requisito funcional:] RF
+  \item[Requisito no funcional:] RNF
+\end{description}
 
 \section{Objetivos generales}
+El proyecto cuenta con los siguientes objetivos en relación al funcionamiento
+del SE y de la AW.
+
+\begin{itemize}
+  \item Configurar un SE que sea capaz de conectarse en red usando TCP/IP.
+  \item El SW del SE puede realizar varias acciones sobre el
+        \extranjerismo{hardware}.
+  \item El SW de la AW puede comunicarse con el SE enviando comandos via TCP/IP.
+  \item El SW de la AW puede ordenar la realización de una acción sobre el
+        \extranjerismo{hardware}.
+\end{itemize}
+
+\subsection{Clases de usuario y características} \label{sec:spec-usuarios}
+Cualquier persona interesada en SE puede ser usuaria del SE y de la AW.
+Además, no se requieren conocimientos avanzados ni experiencia técnica
+para su uso. Bastará con conectar el SE y acceder a la AW.
+
+\subsection{Entorno operativo} \label{sec:spec-entorno}
+Por un lado, el SE require de un servidor DHCP para obtener una dirección IP
+que le permita comunicarse con el resto de los dispositivos de la red.
+
+Por el otro, para acceder a la AW solo se requiere de un navegador sin importar
+si es un equipo de sobremesa o en un dispositivo móvil. Sin embargo,
+si el usuario desea ejecutar la AW por si mismo, se requiere de un sistema
+que cuente con un servidor de aplicaciones como GlassFish.
+
+\subsection{Documentación del usuario} \label{sec:spec-docs}
+Junto con el \extranjerismo{software} se proporciona la memoria que describe
+el desarrollo y sus anexos con información complementaria. A destacar, el
+apéndice con el manual de usuario que cuenta con indicaciones para el uso del
+\extranjerismo{software}.
 
 \section{Catalogo de requisitos}
 
+\subsection{Requisitos de interfaces externas} \label{sec:spec-interfaces}
+\subsubsection{Interfaces de usuario} \label{sec:spec-interfaces-usuario}
+\begin{itemize}
+  \item \textbf{RE-1 Acceso web} El usuario debe poder interactuar con el SE
+  mediante una interfaz web.
+\end{itemize}
+
+\subsubsection{Interfaces de \extranjerismo{hardware}}
+\label{sec:spec-interfaces-hw}
+\begin{itemize}
+  \item \textbf{RE-2 Acceso a la red} El SE tiene que ser capaz de usar
+  Ethernet. RE de alta prioridad.
+  \item \textbf{RE-3 Transmisiones en red} El SE tiene que ser capaz de usar
+  TCP/IP. RE de alta prioridad.
+  \item \textbf{RE-4 Uso de LED} El SE tiene que ser capaz de usar LED. RE de
+  alta prioridad.
+  \item \textbf{RE-5 Uso de I\textsuperscript{2}C} El SE tiene que ser
+  capaz de usar I\textsuperscript{2}C. RE de alta prioridad.
+  \item \textbf{RE-3 Uso de PWM} El SE tiene que ser capaz de usar PWM. RE de
+  alta prioridad.
+\end{itemize}
+
+\subsubsection{Requisitos funcionales del SW del SE}
+\label{sec:spec-funcionales-se}
+\begin{itemize}
+  \item \textbf{RF-1 Recepción de comandos} El SE tiene que recibir comandos
+  transmitidos mediante paquetes TCP con destino a su correspondiente dirección
+  IP y puerto TCP abierto. RF de alta prioridad.
+  \item \textbf{RF-2 Identificación de comandos} El SE tiene que se capaz de
+  identificar los comandos recibidos para poder ejecutar las acciones correctas.
+  RF de alta prioridad.
+  \item \textbf{RF-3 Acción sobre los LED RGB} El SE tiene que poder variar
+  los colores producidos por los LED RGB. RF de alta prioridad.
+  \item \textbf{RF-4 Acción sobre el LCD} El SE tiene que poder mostrar
+  cadenas de caracteres en el LCD. RF de alta prioridad.
+  \item \textbf{RF-5 Acción sobre los LED PWM} El SE tiene que poder regular
+  la intensidad del brillo de los LED mediante PWM. RF de alta prioridad.
+\end{itemize}
+
+\subsubsection{Requisitos funcionales del SW de la AW}
+\label{sec:spec-funcionales-aw}
+\begin{itemize}
+  \item \textbf{RF-6 Selección del SE} El usuario debe poder seleccionar el SE 
+  con el que desea interactuar. La selección se realiza introduciendo la
+  dirección IP y el puerto del SE escogido. RF de alta prioridad.
+  \item \textbf{RF-7 Envío de comandos} La aplicación tiene que ser capaz de
+  construir comandos inteligibles por el SE y que realicen las operaciones
+  indicadas por el usuario. RF de alta prioridad.
+  \item \textbf{RF-8 Selección del color} El usuario debe poder escoger un color
+  a ser exhibido por los LED RGB. RF de alta prioridad.
+  \item \textbf{RF-9 Introducción de mensajes} El usuario debe poder introducir
+  las cadenas de caracteres a mostrar por el LCD. RF de alta prioridad.
+  \item \textbf{RF-10 Regulación del brillo} El usuario debe poder regular la
+  intensidad del brillo de los LED PWM. RF de alta prioridad.
+\end{itemize}
+
+\subsubsection{Requisitos no funcionales del SE y de la AW}
+\label{sec:spec-nofuncionales}
+\begin{itemize}
+  \item \textbf{RNF-1 Rendimiento del SE} El SE tiene que ser capaz de realizar
+  las acciones ordenas por el usuario con prontitud. RNF de media prioridad.
+  \item \textbf{RNF-2 Seguridad del SE} El SE tiene que asegurar que sus
+  componentes no presentan riesgos eléctricos al usuario. RNF de alta prioridad.
+  \item \textbf{RNF-3 Calidad del SW} El SW tiene que garantizar cierto nivel
+  de calidad, p. ej., incluyendo comentarios que faciliten su comprensión para
+  un mantenimiento o portabilidad posteriores. RNF de media prioridad.
+\end{itemize}
+
 \section{Especificación de requisitos}
-
-
