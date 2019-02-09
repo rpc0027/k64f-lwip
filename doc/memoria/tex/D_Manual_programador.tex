@@ -1,8 +1,67 @@
-\apendice{Documentación técnica de programación}
+\apendice{Documentación técnica de programación} \label{ch:man-dev}
 
-\section{Introducción}
+\section{Introducción} \label{sec:man-dev-intro}
+Para que cualquier persona interesada en conocer, modificar o extender
+el sistema desarrollado, este apéndice muestra los aspectos a tener en cuenta
+para lograrlo.
 
-\section{Estructura de directorios}
+Como los componentes del sistema, el sistema empotrado y la aplicación web,
+tienen características tan diferentes cada uno necesita herramientas específicas
+para su desarrollo.
+
+Se detallan las particularidades de cada herramienta, los ajustes de
+configuración, la estructura que toman los directorios con los ficheros
+y los pasos necesarios para poner en funcionamiento el proyecto.
+
+
+
+\section{Estructura de directorios} \label{sec:man-dev-struct}
+Para empezar a trabajar con el proyecto lo primero que se necesita es una
+copia del código fuente. La manera más sencilla es obtenerlo desde los 
+repositorios en GitHub. Hay un repositorio dedicado al \sw{} del sistema
+empotrado \cite{webpage:repo-se} y otro para el \sw{} de la aplicación web
+\cite{webpage:repo-aw}.
+
+
+\subsection{Estructura de directorios del sistema empotrado}
+\label{sec:man-dev-struct-se}
+El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
+
+\begin{description}
+  \item[/] Directorio raíz, contiene el resto de directorios. Incluye el
+  fichero LICENSE que contiene los términos y condiciones del licenciamiento
+  del \sw{}. Además contiene un fichero de tipo ``mex'' generado por el entorno
+  de desarrollo (IDE) que sirve para configurar el \hw{} de la placa de
+  desarrollo. Y el fichero Doxyfile que configura la herramienta de documentación.
+  \item[/CMSIS/] Fuentes pertenecientes al Cortex Microcontroller Software
+  Interface Standard (CMSIS). Proporciona interfaces al procesador y sus
+  periféricos.
+  \item[/amazon-freertos/] Fuentes pertenecientes a FreeRTOS, el RTOS usado por
+  el sistema empotrado.
+  \item[/board/] Fuentes autogenerados por el IDE y sus Config Tools que 
+  permiten habilitar y configurar el \hw{} de la placa de desarrollo.
+  \item[/doc/] Contiene la documentación del código y del proyecto.
+  \item[/doc/amazon-freertos/] Documentación incluida con FreeRTOS.
+  \item[/doc/lwip/] Documentación incluida con lwIP.
+  \item[/doc/memoria/] Documentación del proyecto, la memoria descriptiva junto
+  con sus apéndices.
+  \item[/doc/k64f] Documentación del código fuente generada usando Doxygen.
+  \item[/drivers/] Fuentes con los controladores necesarios para trabajar con el
+  \hw{}.
+  \item[/lwip/] Fuentes relativos a lwIP, la implementación de la pila de 
+  protocolos TCP/IP.
+  \item[/source/] Código fuente del proyecto. A destacar, el fichero ``main.c''
+  encargado del funcionamiento general del sistema. Están presentes los ficheros
+  encargados de tratar con \hw{}. También se encuentran los ficheros de
+  configuración.
+  \item[/startup/] Código de arranque generado por el IDE.
+  \item[/utilities/] Código generado por el IDE con utilidades auxiliares usadas
+  para depuración o registro de eventos.
+\end{description}
+
+
+
+\cleardoublepage
 
 \section{Manual del programador}
 
