@@ -17,10 +17,10 @@ y los pasos necesarios para poner en funcionamiento el proyecto.
 
 \section{Estructura de directorios} \label{sec:man-dev-struct}
 Para empezar a trabajar con el proyecto lo primero que se necesita es una
-copia del código fuente. La manera más sencilla es obtenerlo desde los 
-repositorios en GitHub. Hay un repositorio dedicado al \sw{} del sistema
-empotrado \cite{webpage:repo-se} y otro para el \sw{} de la aplicación web
-\cite{webpage:repo-aw}.
+copia del código fuente. La manera más sencilla de consultar y obtener el código
+es acudir a los repositorios de GitHub. Hay un repositorio dedicado al \sw{}
+del sistema empotrado \cite{webpage:repo-se} y otro para el \sw{} de la
+aplicación web \cite{webpage:repo-aw}.
 
 
 \subsection{Estructura de directorios del sistema empotrado}
@@ -45,7 +45,7 @@ El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
   \item[/doc/lwip/] Documentación incluida con lwIP.
   \item[/doc/memoria/] Documentación del proyecto, la memoria descriptiva junto
   con sus apéndices.
-  \item[/doc/k64f] Documentación del código fuente generada usando Doxygen.
+  \item[/doc/html] Documentación del código fuente generada por Doxygen.
   \item[/drivers/] Fuentes con los controladores necesarios para trabajar con el
   \hw{}.
   \item[/lwip/] Fuentes relativos a lwIP, la implementación de la pila de 
@@ -60,11 +60,35 @@ El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
 \end{description}
 
 
+\subsection{Estructura de directorios de la aplicación web}
+\label{sec:man-dev-struct-aw}
+El código fuente del \sw{} de la aplicación web toma la siguiente estructura:
 
-\cleardoublepage
+\begin{description}
+  \item[/] Directorio raíz, contiene el resto de directorios. Aquí se ubica el
+  fichero ``pom.xml'' usando por la herramienta Maven para la gestión y
+  construcción del proyecto.
+  \item[/doc/] Documentación del código fuente generada por Javadoc.
+  \item[/src/main/] Contiene todo el código perteneciente a la aplicación web.
+  \item[/src/main/java/] Código Java que implementa la lógica de negocio.
+  \item[/src/main/webapp/] Contiene el fichero XHTML con el código de la
+  interfaz web.
+  \item[/src/main/webapp/WEB-INF] Contiene los ficheros XML usados por
+  el servidor de aplicaciones.
+  \item[/src/main/webapp/resources/] Recursos adicionales de la interfaz web.
+  \item[/src/main/webapp/resources/css/] Contiene el fichero CSS que modifica el
+  aspecto de la interfaz.
+  \item[/src/main/webapp/resources/images/] Contiene las imágenes y otros
+  recursos gráficos a usar en la interfaz.
+\end{description}
+
+
 
 \section{Manual del programador}
 
+
+
+\cleardoublepage
 \section{Compilación, instalación y ejecución del proyecto}
 
 \section{Pruebas del sistema}
