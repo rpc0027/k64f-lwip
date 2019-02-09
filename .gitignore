@@ -1,2 +1,4 @@
 /Debug/
-/bin
+/bin/
+
+*.launch
