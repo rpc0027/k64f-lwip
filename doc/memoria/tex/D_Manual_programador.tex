@@ -167,14 +167,85 @@ fichero a la vista para para importar el SDK.
 
 \imagen{sdk-imported}{Detalles del SDK correctamente importado}
 
+\subsubsection{Importación del proyecto} \label{sec:importacion-proj}
+Para empezar a trabajar con el proyecto falta importar una copia el código
+fuente. Una opción consiste en importar el proyecto directamente desde una
+carpeta con los ficheros o desde un fichero con el proyecto comprimido.
+
+Copiarlo desde un repositorio es otra opción que permite obtener la versión
+del código más reciente. El código del \sw{} del sistema empotrado se halla en
+GitHub \cite{webpage:repo-se}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=0.45\textheight]{import}
+  \caption{Importación del proyecto desde GitHub} \label{fig:import}
+\end{figure}
+
+La introducción de credenciales es necesaria para poder realizar
+\extranjerismo{commit}, \extranjerismo{push} y el resto de operaciones de Git
+con destino a GitHub, siempre y cuando se tengan permisos para operar en el
+repositorio. Sino, solo se puede trabajar en local.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=0.45\textheight]{clone-git}
+  \caption{Datos del repositorio} \label{fig:clone-git}
+\end{figure}
+
+Al aceptar la conexión con el repositorio, una serie de ventanas solicita más
+información respecto a la ubicación del repositorio local, el proyecto a 
+importar y si el proyecto se importa directamente o no.
+
+Completado el proceso de importación el proyecto se encuentra listo 
+trabajar con él.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=0.45\textheight]{project-ready}
+  \caption{Proyecto correctamente importado} \label{fig:project-ready}
+\end{figure}
+
+\subsubsection{Vista general de las Config Tools} \label{sec:config-tools}
+Uno de los elementos diferenciadores de MCUXpresso respecto a IDE anteriores
+es la incorporación de las Config Tools o herramientas de configuración.
+
+En concreto, son tres herramientas que permiten configurar tres componentes
+del sistema: pines, relojes y periféricos. Además, generan automáticamente el
+código oportuno para habilitar e inicializar los dispositivos configurados. El
+acceso a estas herramientas se consigue cambiando a sus respectivas perspectivas.
+
+Con Pin Tools se configuran los pines del microcontrolador (MCU) enrutando
+sus pines con la salida o la entrada adecuada. Los pines se pueden seleccionar y
+enrutar en la vista ``Pins'' de la herramienta. Además, Pin Tools permite asociar
+los pines en grupos. De esta manera es posible habilitar e inicializar grupos
+de pines concretos simultáneamente.
+
+\imagen{pin_selector}{Pines del grupo Ethernet en verde brillante}
+
+Algunos pines requieren configuración adicional que se puede ajustar en la vista
+``Routed Pins''.
+
+\imagen{pin_config}{Configuración de los pines del grupo Ethernet}
+
+La herramienta Clock Tools se utiliza para configurar los relojes del sistema
+empotrado. En la vista ``Clocks Table'' se pueden introducir los valores de
+configuración: frecuencias, multiplicadores, divisores... Por otra parte, la
+vista ``Clocks Diagram'' muestra de forma gráfica la configuración establecida
+en ese momento, aunque también permite cambiar los ajustes sobre el diagrama
+directamente.
+
+\figuraApaisadaSinMarco{0.9}{clocks_diag}{Diagrama con los relojes del sistema}
+{fig:relojes}{}
+
+La última herramienta, Peripheral Tools, posibilita la configuración de los
+dispositivos periféricos conectados al MCU. En función del periféricos se
+muestras las opciones específicas para cada uno de ellos.
+
+\imagen{peripherals}{Configuración del periférico FTM}
 
 
-
-
-
-
-
-
+\subsection{Eclipse IDE} \label{sec:man-dev-eclipse}
 
 \cleardoublepage
 \section{Compilación, instalación y ejecución del proyecto}
