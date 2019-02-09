@@ -136,6 +136,7 @@
 								<option id="com.crt.advproject.gcc.specs.1055684742" name="Specs" superClass="com.crt.advproject.gcc.specs" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.gcc.config.629852899" name="Obsolete (Config)" superClass="com.crt.advproject.gcc.config" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.gcc.store.1439194644" name="Obsolete (Store)" superClass="com.crt.advproject.gcc.store" useByScannerDiscovery="false"/>
+								<option id="com.crt.advproject.gcc.securestate.98303931" superClass="com.crt.advproject.gcc.securestate"/>
 								<inputType id="com.crt.advproject.compiler.input.1844659114" superClass="com.crt.advproject.compiler.input"/>
 							</tool>
 							<tool id="com.crt.advproject.gas.exe.debug.679581745" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug">
@@ -261,7 +262,7 @@
 								<option id="com.crt.advproject.link.gcc.lto.optmization.level.302934795" name="Link-time optimization level" superClass="com.crt.advproject.link.gcc.lto.optmization.level" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.link.fpu.1728593945" name="Floating point" superClass="com.crt.advproject.link.fpu" useByScannerDiscovery="false" value="com.crt.advproject.link.fpu.fpv4.hard" valueType="enumerated"/>
 								<option id="com.crt.advproject.link.manage.1414696814" name="Manage linker script" superClass="com.crt.advproject.link.manage" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="com.crt.advproject.link.script.1479107941" name="Linker script" superClass="com.crt.advproject.link.script" useByScannerDiscovery="false" value="tfm_Debug.ld" valueType="string"/>
+								<option id="com.crt.advproject.link.script.1479107941" name="Linker script" superClass="com.crt.advproject.link.script" useByScannerDiscovery="false" value="&quot;k64f-lwip_Debug.ld&quot;" valueType="string"/>
 								<option id="com.crt.advproject.link.scriptdir.63176558" name="Script path" superClass="com.crt.advproject.link.scriptdir" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.link.crpenable.1471992628" name="Enable automatic placement of Code Read Protection field in image" superClass="com.crt.advproject.link.crpenable" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.link.flashconfigenable.1892975978" name="Enable automatic placement of Flash Configuration field in image" superClass="com.crt.advproject.link.flashconfigenable" useByScannerDiscovery="false" value="true" valueType="boolean"/>
@@ -277,12 +278,15 @@
 								<option id="com.crt.advproject.link.gcc.multicore.empty.2120143494" name="No Multicore options for this project" superClass="com.crt.advproject.link.gcc.multicore.empty" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.link.config.642896930" name="Obsolete (Config)" superClass="com.crt.advproject.link.config" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.link.store.1227042905" name="Obsolete (Store)" superClass="com.crt.advproject.link.store" useByScannerDiscovery="false"/>
+								<option id="com.crt.advproject.link.securestate.1004303395" superClass="com.crt.advproject.link.securestate"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.641829500" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.crt.advproject.tool.debug.debug.1440059439" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug"/>
+							<tool id="com.crt.advproject.tool.debug.debug.1440059439" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug">
+								<option id="com.crt.advproject.linkserver.debug.prevent.debug.1798723164" superClass="com.crt.advproject.linkserver.debug.prevent.debug"/>
+							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
@@ -429,6 +433,9 @@
 								<option id="com.crt.advproject.gcc.specs.1570669346" name="Specs" superClass="com.crt.advproject.gcc.specs"/>
 								<option id="com.crt.advproject.gcc.config.1195296243" name="Obsolete (Config)" superClass="com.crt.advproject.gcc.config"/>
 								<option id="com.crt.advproject.gcc.store.86325893" name="Obsolete (Store)" superClass="com.crt.advproject.gcc.store"/>
+								<option id="com.crt.advproject.gcc.exe.release.option.optimization.level.266571337" superClass="com.crt.advproject.gcc.exe.release.option.optimization.level"/>
+								<option id="com.crt.advproject.gcc.exe.release.option.debugging.level.190444582" superClass="com.crt.advproject.gcc.exe.release.option.debugging.level"/>
+								<option id="com.crt.advproject.gcc.securestate.890048368" superClass="com.crt.advproject.gcc.securestate"/>
 								<inputType id="com.crt.advproject.compiler.input.626262114" superClass="com.crt.advproject.compiler.input"/>
 							</tool>
 							<tool id="com.crt.advproject.gas.exe.release.1036444157" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.release">
@@ -471,6 +478,7 @@
 								<option id="com.crt.advproject.gas.specs.18770635" name="Specs" superClass="com.crt.advproject.gas.specs"/>
 								<option id="com.crt.advproject.gas.config.674826815" name="Obsolete (Config)" superClass="com.crt.advproject.gas.config"/>
 								<option id="com.crt.advproject.gas.store.25289334" name="Obsolete (Store)" superClass="com.crt.advproject.gas.store"/>
+								<option id="com.crt.advproject.gas.debug.953871765" superClass="com.crt.advproject.gas.debug"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2044971882" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.crt.advproject.assembler.input.1260130923" name="Additional Assembly Source Files" superClass="com.crt.advproject.assembler.input"/>
 							</tool>
@@ -553,7 +561,7 @@
 								<option id="com.crt.advproject.link.gcc.lto.optmization.level.723819903" name="Link-time optimization level" superClass="com.crt.advproject.link.gcc.lto.optmization.level"/>
 								<option id="com.crt.advproject.link.fpu.1865815933" name="Floating point" superClass="com.crt.advproject.link.fpu" value="com.crt.advproject.link.fpu.fpv4.hard" valueType="enumerated"/>
 								<option id="com.crt.advproject.link.manage.1040644727" name="Manage linker script" superClass="com.crt.advproject.link.manage" value="true" valueType="boolean"/>
-								<option id="com.crt.advproject.link.script.2124285899" name="Linker script" superClass="com.crt.advproject.link.script" value="tfm_Release.ld" valueType="string"/>
+								<option id="com.crt.advproject.link.script.2124285899" name="Linker script" superClass="com.crt.advproject.link.script" value="&quot;k64f-lwip_Release.ld&quot;" valueType="string"/>
 								<option id="com.crt.advproject.link.scriptdir.1478863663" name="Script path" superClass="com.crt.advproject.link.scriptdir"/>
 								<option id="com.crt.advproject.link.crpenable.1273545919" name="Enable automatic placement of Code Read Protection field in image" superClass="com.crt.advproject.link.crpenable"/>
 								<option id="com.crt.advproject.link.flashconfigenable.2033495296" name="Enable automatic placement of Flash Configuration field in image" superClass="com.crt.advproject.link.flashconfigenable" value="true" valueType="boolean"/>
@@ -569,12 +577,15 @@
 								<option id="com.crt.advproject.link.gcc.multicore.empty.1653277603" name="No Multicore options for this project" superClass="com.crt.advproject.link.gcc.multicore.empty"/>
 								<option id="com.crt.advproject.link.config.82509671" name="Obsolete (Config)" superClass="com.crt.advproject.link.config"/>
 								<option id="com.crt.advproject.link.store.242665602" name="Obsolete (Store)" superClass="com.crt.advproject.link.store"/>
+								<option id="com.crt.advproject.link.securestate.84486514" superClass="com.crt.advproject.link.securestate"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.867176526" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.crt.advproject.tool.debug.release.2030854112" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.release"/>
+							<tool id="com.crt.advproject.tool.debug.release.2030854112" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.release">
+								<option id="com.crt.advproject.linkserver.debug.prevent.release.1053297259" superClass="com.crt.advproject.linkserver.debug.prevent.release"/>
+							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
