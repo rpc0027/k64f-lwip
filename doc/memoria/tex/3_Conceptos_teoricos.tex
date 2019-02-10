@@ -2,10 +2,13 @@
 En este capítulo se sintetizan los aspectos esenciales tratados en este proyecto
 para mejorar su compresión y entendimiento.
 
+
+
 \section{Sistemas empotrados}{\label{sec:se}}
 Parte importante del proyecto se centra en obtener un sistema empotrado (SE)
 capaz de comunicarse usando los protocolos TCP/IP. A continuación se describen
 los conceptos más relevantes en torno a los SE.
+
 
 \subsection{Descripción}{\label{sec:se-desc}}
 Se puede considerar que un sistema empotrado es aquel cuyo
@@ -50,6 +53,7 @@ investigación científica, seguridad pública, supervisión de salud estructura
 recuperación de desastres, robótica, agricultura y ganadería, aplicaciones
 militares, telecomunicaciones y electrónica de consumo \cite{marwedel2018}.
 
+
 \subsection{Características del \extranjerismo{hardware}}{\label{sec:se-hw}}
 Aunque el \extranjerismo{hardware} de los SE se adapta a la función que
 desempeñan, todos ellos cuenta con un microcontrolador (MCU) encargado de
@@ -70,11 +74,6 @@ También existen otros elementos que se encuentran a menudo en los SE:
     \item Conversores digital-analógica (DAC)
     \item Componentes de diagnóstico y redundancia
     \item Componentes de apoyo al sistema
-    \item Otros subsistemas:
-    \begin{itemize}
-        \item Circuito integrado para aplicaciones específicas (ASIC)
-        \item Matriz de puertas programables (FPGA)
-    \end{itemize}
 \end{itemize}
 
 En la figura \ref{fig:diagr_bloques_hw} se presenta un diagrama de bloques
@@ -82,6 +81,7 @@ en el que se pueden observar los componentes que forman un SE de forma general
 y su dirección en el funcionamiento. Las entradas son procesadas por el
 microcontrolador que a su vez generará las salidas apropiadas.
 \imagen{diagr_bloques_hw}{Diagrama de bloques del HW de un SE}
+
 
 \subsection{Características del \extranjerismo{software}}{\label{sec:se-sw}}
 En cuanto al \extranjerismo{software} presente en los sistemas embebidos, se
@@ -105,15 +105,19 @@ realizadas sin demora. \cite{webpage:amazon-rtos}
 
 Por último y funcionado sobre lo anterior se encuentra los programas necesarios
 para el funcionamiento del SE. En caso de contar con un RTOS será este el que se
-encargue de ejecutar una tarea u otra. Sino, de la forma conocida como
-\extranjerismo{bare-metal} se ejecutan las tareas de forma secuencial. Secuencia
-que solo es alterada en caso surgir una interrupción.
+encargue de ejecutar una tarea u otra. Sino, existen otras arquitecturas que
+controlan el orden y la prioridad de ejecución: bucle infinito, bucle infinito 
+interrupciones, de bajo consumo o con planificador. Su elección dependerá de los
+requisitos impuestos al sistema empotrado.
 
 \imagen{diagr_bloques_sw}{Digrama de bloques del SW de un SE}
+
 En el diagrama de bloques de la figura \ref{fig:diagr_bloques_sw} se observan
 como se ubican unos componentes sobre otros. Los componentes se comunican con
 aquellos adyacentes. El RTOS es un componente opcional y que funciona de forma
 paralela a \extranjerismo{drivers} y \extranjerismo{middleware}.
+
+
 
 \section{Familia de protocolos TCP/IP}{\label{sec:tcpip}}
 Otra parte fundamental del proyecto consiste en dotar de conectividad al SE
@@ -140,6 +144,7 @@ se transmite información en un mismo nivel. Dependiendo del modelo usado existe
 más o menos niveles intercambiando información. Por ejemplo, según el  modelo de
 interconexión de sistemas abiertos \cite{itutx200}, también conocido como Modelo
 OSI, existen 7 niveles o capas.
+
 
 \subsection{Descripción}{\label{sec:tcpip-desc}}
 En este proyecto se utiliza la familia de protocolos TCP/IP, la cual se compone 
@@ -183,31 +188,30 @@ nivel se describen de la siguiente manera \cite{kozierok2005}:
   \cite{rfc4604} se usan para establecer grupos de difusión múltiple.
 
   \item[Transporte] La principal labor realizada en esta capa es facilitar
-  la comunicación de dispositivos aunque pertenezcan a redes de diferentes
-  tipos. La comunicación se puede orientar de dos maneras, la primera con
-  protocolos orientados a conexión y la segunda con protocolos no orientados
-  a conexión.
+  la comunicación lógica entre procesos de aplicación. La comunicación se puede
+  orientar de dos maneras, la primera con protocolos orientados a conexión y la
+  segunda con protocolos no orientados a conexión.
 
   Los protocolos fundamentales de esta capa son el Transmission Control Protocol
   (TCP) \cite{rfc793} y el User Datagram Protocol (UDP) \cite{rfc768}.
   TCP junto con IP son los protocolos más importantes de toda la familia como se
   puede deducir al ser usados en su nombre "TCP/IP".
 
-  TCP es un protocolo orientado a conexión, proporciona un conjunto completo de
-  servicios para aquellas aplicaciones que lo necesiten y su uso se considera
-  fiable. Su direccionamiento en la capa de transporte permite que varias
-  aplicaciones puedan usar una misma dirección IP. El protocolo establece una
-  conexión virtual entre dos dispositivos capaz de enviar información de manera
-  bidireccional. Las transmisiones usan una ventana deslizante que permite
-  detectar aquellas que no reconocidas para que sean retransmitidas.
+  TCP es un protocolo orientado a la conexión, proporciona un conjunto completo
+  de servicios para aquellas aplicaciones que lo necesiten y su uso se considera
+  fiable. Con el uso de puertos consigue que varias aplicaciones puedan usar una
+  misma dirección IP. El protocolo establece una conexión virtual entre dos
+  dispositivos capaz de enviar información de manera bidireccional. Las
+  transmisiones usan una ventana deslizante que permite detectar aquellas que no
+  reconocidas para que sean retransmitidas.
 
-  UDP es un protocolo no orientado a conexión, más simple que TCP y sus
-  transmisiones pueden resultar no fiables. Aunque también proporciona un medio
-  de direccionamiento como TCP, UDP no agrega nada más, no se establece una
-  conexión este dispositivos, no se realizan retransmisiones, por lo tanto,
-  determinadas transmisiones pueden llegar a perderse. Su uso se justifica en
-  aquellos escenarios donde la velocidad de la transmisión prima por encima de
-  todo aunque se incurra ocasionalmente en la perdida de información.
+  UDP es un protocolo no orientado a la conexión, más simple que TCP y sus
+  transmisiones pueden resultar no fiables. Aunque también proporciona el uso
+  de puertos como TCP, UDP no agrega nada más, no se establece una conexión este
+  dispositivos, no se realizan retransmisiones, por lo tanto, determinadas
+  transmisiones pueden llegar a perderse. Su uso se justifica en aquellos
+  escenarios donde la velocidad de la transmisión prima por encima de todo
+  aunque se incurra ocasionalmente en la perdida de información.
 
   \item[Aplicación] Esta es la cuarta y última capa del modelo TCP/IP, por ello 
   es la capa de mayor nivel. Los protocolos de esta capa tienen objetivos de
