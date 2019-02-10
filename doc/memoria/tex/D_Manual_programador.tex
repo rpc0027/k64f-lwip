@@ -246,8 +246,160 @@ muestras las opciones específicas para cada uno de ellos.
 
 
 \subsection{Eclipse IDE} \label{sec:man-dev-eclipse}
+El desarrollo de la aplicación web requiere de varias herramientas aparte
+del propio IDE. Una es el kit de desarrollo de Java, JDK, y la otra es el
+SDK de Java EE. Además, como se usa Maven para la gestión del proyecto, también
+es necesaria su instalación.
 
-\cleardoublepage
-\section{Compilación, instalación y ejecución del proyecto}
+\subsubsection{Instalación de JDK} \label{sec:jdk}
+El JDK se puede obtener de la zona de descargas de Oracle \cite{webpage:javaee}.
+Como el JDK es utilizado por el resto de herramientas, su descarga e instalación
+se debe realizar en primer lugar. El instalador se encarga de todo el proceso a
+excepción de la creación de dos variables de entorno.
 
-\section{Pruebas del sistema}
+Para poder usar el JDK desde la consola de comandos, es necesario crear
+una variable de entorno llamada ``JAVA\_HOME'' que apunte al directorio de
+instalación del JDK. Después, hay que modificar el ``PATH'' al que hay
+que añadir la nueva variable.
+
+\subsubsection{Instalación de Maven} \label{sec:maven}
+Maven está disponible en su sitio web \cite{webpage:maven}. La descarga consiste
+en un fichero comprimido que no contiene ningún instalador. Para su uso, basta
+con descomprimir el fichero en algún directorio del sistema. Después, para
+localizar el directorio hay que crear una variable de entorno al igual que con
+el JDK. En este caso, la varible se tiene que llamar ``M2\_HOME'' y también
+hay que agregarla al ``PATH''.
+
+\subsubsection{Instalación de GlassFish} \label{sec:glassfish}
+La manera de instalar GlassFish es similar a la anterior. Hay que descargar un
+fichero comprimido desde su sitio web \cite{webpage:glassfish}, descomprimir
+el fichero en un directorio a elegir y que crear una variable que apunte a ese
+directorio. En este caso, la variable de entorno toma el nombre de 
+``GLASSFISH\_HOME'' y también se añade al ``PATH''.
+
+\subsubsection{Instalación de Eclipse IDE} \label{sec:eclipse}
+El instalador del IDE se puede obtener libremente desde el sitio de Eclipse
+\cite{webpage:eclipse}. Como existen varias versiones de Eclipse, el instalador
+permite escoger la versión requerida, en este caso, se selecciona ``Eclipse IDE
+for Enterprise Java Developers''.
+
+\imagen{installer}{Instalador de Eclipse IDE}
+
+Después de terminar la instalación de Eclipse, es necesario instalar
+una pequeña herramienta llamada Eclipse GlassFish Tools capaz de conectar el
+GlassFish con Eclipse. De esta manera es posible publicar las aplicaciones web y
+controlar el estado del servidor directamente desde el IDE.
+
+La herramienta se encuentra disponible tanto en el Eclipe Marketplace como
+en el repositorio de la propia herramienta \cite{webpage:glassfish-tools}. Una
+vez instalada, se puede configurar el servidor desde la vista ``Servers''.
+
+\imagen{repository}{Instalación de las Eclipse GlassFish Tools}
+
+\subsubsection{Importación del proyecto} \label{sec:importacion-proj-ee}
+La importación del proyecto es similar a la descrita para MCUXpresso
+\ref{sec:importacion-proj}, bien importando un fichero o bien descargándolo
+desde GitHub \cite{webpage:repo-aw}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=0.45\textheight]{aw-imported}
+  \caption{Proyecto correctamente importado} \label{fig:aw-imported}
+\end{figure}
+
+\clearpage
+
+
+
+\section{Compilación, instalación y ejecución del proyecto} \label{sec:exe}
+Con los entornos de desarrollo y sus respectivos proyectos preparados es posible
+compilar los códigos fuente. Dependiendo del \extranjerismo{software} a ejecutar
+es necesario tomar diferentes caminos para su puesta en marcha.
+
+
+\subsubsection{Compilación, escritura y ejecución del sistema empotrado}
+\label{sec:exe-se}
+Existen varias vías para compilar el código fuente. Una de ellas es hacer clic
+derecho sobre el proyecto y en el menú contextual, pulsar sobre ``Build
+Project''. Otra forma es pulsar sobre su icono en la barra de herramientas.
+
+Para realizar la escritura, o \extranjerismo{flash}, de los binarios en el
+sistema empotrado y que pueda ejecutarlos hay que lanzar desde el IDE la
+operación de ``Debug''. Igual que la compilación, se puede hacer desde el menú
+contextual o desde la barra de herramientas. Cabe decir que la operación de
+depuración ejecuta automáticamente la de compilación, haciendo innecesario tener
+que ordenarla manualmente.
+
+La primera vez que se lanza un \extranjerismo{debug} el IDE solicita la
+identificación de la placa de desarrollo. Para identificar la placa de
+desarrollo hay que especificar el uso de ``SEGGER J-Link probes'', 
+compatibles con OpenSDA, el adaptador serie y de depuración integrado en la
+placa. 
+
+\imagen{probes}{Reconocimiento de la placa de desarrollo}
+
+\imagen{probed}{Placa de desarrollo reconocida}
+
+Cuando la placa dispone del \sw{} arranca su ejecución. Al estar en modo de
+depuración, la consola de depuración se activa y queda lista para mostrar los
+mensajes enviados por la placa cuando corresponda.
+
+\imagen{console}{Sistema en ejecución}
+
+
+\subsubsection{Despliegue y ejecución de la aplicación web} \label{sec:exe-aw}
+Como la aplicación web depende de un servidor de aplicaciones para funcionar,
+se hace necesario desplegarla en uno antes de poder utilizarla.
+
+Eclipse junto con la herramienta GlassFish Tool \ref{sec:eclipse} permite
+realizar el despliegue automáticamente. Además, permite controlar el servidor
+de aplicaciones pudiendo iniciarlo, detenerlo o incluso, actualizar los
+ficheros de una aplicación ya desplegada.
+
+En la vista ``Servers'' y haciendo clic derecho sobre el servidor GlassFish
+se puede desplegar la aplicación pulsando en la opción ``Add and remove'' del
+menú contextual. En la ventana que aparece después, se selecciona la aplicación
+en el cuadro de la derecha y pulsando ``Add >'' queda configurada para ser
+publicada en el servidor.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[height=0.45\textheight]{add}
+  \caption{Aplicación configurada para ser publicada} \label{fig:add}
+\end{figure}
+
+Mientras el código de la aplicación no sea modificado, la aplicación tendrá el
+estado de sincronizada. Si el código cambia, su estado indicará que necesita
+ser vuelta a publicar.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.6\textwidth]{published}
+  \caption{Aplicación publicada} \label{fig:publicada}
+\end{figure}
+
+Si el despliegue se ha completado con éxito, ya es posible acceder a la
+aplicación web desde un navegador cualquiera. La URL de la aplicación es:
+http://localhost:8080/web-app/ .
+
+\imagen{success}{Acceso a la aplicación web desde un navegador}
+
+Con Maven se presenta otra forma de abordar la construcción y publicación de la
+aplicación web. Ejecutando en el directorio raíz del proyecto el comando:
+\begin{quotation}
+  mvn package
+\end{quotation}
+Maven crea un archivo de tipo WAR, utilizados en Java para la distribución de
+aplicaciones web, llamado ``web-app-1.0.war''. Ese archivo se puede publicar
+en el servidor con el siguiente comando:
+\begin{quotation}
+  asadmin deploy web-app-1.0.war
+\end{quotation}
+En caso de que la aplicación ya estuviera desplegada, por ejemplo, porque se ha
+desplegado desde Eclipse, el comando fallaría avisando de esta circunstancia.
+De no haber errores, la aplicación web queda disponible para ser utilizada
+usando la misma URL que en el caso anterior. 
+
+
+
+%\section{Pruebas del sistema}
