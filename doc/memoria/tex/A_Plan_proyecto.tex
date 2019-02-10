@@ -6,22 +6,24 @@ proyecto \extranjerismo{software}.
 
 La planificación toma dos vertientes. Primero se analiza la planificación 
 temporal del proyecto. En esta fase se determina de manera general la cantidad
-y el tipo de tareas a realizar. Una vez descompuestas las tareas en subtareas
-se puede estimar el tiempo requerido para la realización de cada subtarea.
-Y a su vez, tareas y el proyecto completo.
+y el tipo de tareas a realizar. Una vez identificadas las tareas se puede
+estimar el tiempo requerido para su realización. Agregando las estimaciones se
+puede calcular el tiempo total estimado para realizar el proyecto completo.
 
-Cabe destacar que la planificación inicial puede sufrir desvíos que impliquen
-modificarla a lo largo del desarrollo. Al usar la metodología Scrum, tras
-terminar cada \extranjerismo{sprint} se puede evaluar si el desarrollo se está
-ciñendo a lo esperado.
+Al usar la metodología Scrum, tras terminar cada \extranjerismo{sprint} se
+evalúa si el desarrollo se está ciñendo a lo esperado y modificar las
+estimaciones en consecuencia. Por lo que la planificación inicial puede
+se puede desviar a lo largo del desarrollo.
 
-Por otro parte se realiza un análisis de la viabilidad del proyecto. En todo
+Por otra parte se realiza un análisis de la viabilidad del proyecto. En todo
 desarrollo se ven involucrados diferentes factores que pueden determinar la
 viabilidad o no del proyecto. Los circunstancias analizadas son la viabilidad
 económica y la viabilidad legal. Se busca conocer el coste económico estimado
 en la realización del proyecto. Y también se quiere analizar el tipo de
 licenciamiento \extranjerismo{software} que afecta al proyecto. Así como las
 licencias que se van a asignar.
+
+
 
 \section{Planificación temporal} \label{sec:plan-temporal}
 
@@ -30,12 +32,13 @@ entorno a los \extranjerismo{sprints}. En la planificación inicial se
 establecieron de forma general el número de \extranjerismo{sprints} y el
 objetivo de cada uno de ellos.
 
-La duración asignada a los \extranjerismo{sprint} se extendía de una semana a un
-mes. Como se ha usado ZenHub para la gestión del proyecto, se pudo asignar una
-estimación a las tareas en forma de \extranjerismo{Story points}.
-La puntuación abarca desde un punto, para las tareas más simples y breves;
-hasta los cuarenta puntos, de las tareas más complejas y que podían ocupar la
-mayor parte del tiempo del \extranjerismo{sprint}.
+La duración asignada a los \extranjerismo{sprints} se extendía desde una semana
+a un mes. Para la gestión del proyecto se ha usado ZenHub y con él se pudo
+asignar una estimación temporal a las tareas en forma de
+\extranjerismo{Story points}. La puntuación va desde un punto, para las
+tareas más simples y breves; hasta los cuarenta puntos, de las tareas más
+complejas y que podían ocupar la mayor parte del tiempo del
+\extranjerismo{sprint}.
 
 La planificación inicial fue la siguiente:
 \begin{itemize}
@@ -49,7 +52,7 @@ La planificación inicial fue la siguiente:
 \end{itemize}
 
 A continuación se muestra la planificación específica de cada
-\extranjerismo{sprints} mostrando sus objetivos, las tareas que los componen,
+\extranjerismo{sprint} mostrando sus objetivos, las tareas que los componen,
 la estimación de cada tarea y el resultado obtenido tras su finalización.
 
 \clearpage
@@ -72,20 +75,21 @@ Acciones a realizar en este \extranjerismo{sprint}:
 \imagen{sprint1}{Tareas planificadas para el Sprint 1}
 
 Las tareas del \extranjerismo{sprint} se realizaron según lo previsto al plan.
-El estudio sobre el IDE resulto la tarea más compleja según lo estimado al 
-tener que usar la nuevas herramientas del IDE. Al terminar sin imprevistos,
-se pudo planear las tareas del siguiente \extranjerismo{sprint}.
+El estudio sobre el IDE resultó la tarea más compleja de acuerdo a lo estimado,
+pues hubo que aprender a usar el IDE y sus herramientas. Al terminar sin
+imprevistos se pudo planear las tareas del siguiente \extranjerismo{sprint}.
 
 \clearpage
 
 \subsection{Plan del \extranjerismo{Sprint} 2} \label{sec:plan-s2}
 La estimación del \extranjerismo{sprint} se estableció en una semana de
-duración. Conociendo las herramientas con la que trabajar en este
-\extranjerismo{sprint} se pretendía comenzar el desarrollo. 
+duración. Conociendo las herramientas con las que trabajar en este
+\extranjerismo{sprint} se pretendía comenzar el desarrollo.
 
 Acciones a realizar en este \extranjerismo{sprint}:
 \begin{itemize}
   \item Creación del proyecto de trabajo.
+  \item Configurar el \extranjerismo{hardware}.
   \item Realizar las primeras comunicaciones TCP/IP.  
   \item Realizar las operaciones remotas con la placa.
 \end{itemize}
@@ -94,14 +98,14 @@ Acciones a realizar en este \extranjerismo{sprint}:
 
 El \extranjerismo{sprint} se completó de acuerdo a lo previsto. Aunque se 
 estimó que la configuración del proyecto y el uso de lwIP no serían muy
-complejos su ejecución resultó más compleja, sin embargo, se realizó a tiempo
+difíciles su ejecución resultó más compleja, sin embargo, se realizó a tiempo
 para planificar y empezar el siguiente \extranjerismo{sprint}.
 
 \clearpage
 
 \subsection{Plan del \extranjerismo{Sprint} 3} \label{sec:plan-s3}
 De nuevo, la estimación del \extranjerismo{sprint} se estableció en una semana
-de duración. Como era posible enviar datos a la placa, en este
+de duración. Como era posible transmitir datos a la placa, en este
 \extranjerismo{sprint} se deseaba ampliar la funcionalidad de la placa K64F
 con el uso de sus periféricos.
 
@@ -158,7 +162,7 @@ Acciones a realizar en este \extranjerismo{sprint}:
 
 El tiempo dedicado a preparase para usar \LaTeX{} fue erróneamente subestimado.
 Al tener que dedicar varios días más de lo previsto en este punto, el último
-\extranjerismo{sprint} tuvo que empezar jornadas un tiempo más tarde.
+\extranjerismo{sprint} tuvo que empezar más tarde.
 
 \clearpage
 
@@ -193,9 +197,13 @@ inicial}{fig:gantt1}{}
 \figuraApaisadaSinMarco{0.8}{gantt2}{Diagrama de Gantt de la planificación
 final}{fig:gantt2}{}
 
-\newpage
+\clearpage
+
+
 
 \section{Estudio de viabilidad}
+
+
 \subsection{Viabilidad económica}
 Para determinar la viabilidad económica del proyecto, en este apartado se
 computan los gastos previstos durante el desarrollo y los posibles beneficios
@@ -207,17 +215,18 @@ El desarrollo se ha realizado por una sola persona en un tiempo aproximado de
 90 días, así que, todos los costes de personal son relativos a esa única
 persona. El salario mensual bruto asignado ha sido de \EUR{2200}.
 
-De manera simplificada, el salario neto se puede calcular de la siguiente forma:
+De manera simplificada, sin calcular  el salario neto se puede calcular de la siguiente forma:
 \begin{equation} \label{eq:salario}
-  salario\ bruto - IRFP - SS = salario\ neto
+  salario\ bruto - IRPF - SS = salario\ neto
 \end{equation}
 
 Por tanto, para un mes dado el salario neto a percibir sería el siguiente:
 \begin{equation} \label{eq:salario}
-  2200\text{\euro} - 14\% \footnote{Usado el tramo más alto de la
-  escala autonómica de Castilla y León aplicable a la base liquidable
-  general del IRPF \cite{webpage:cyl}}
-  - 6,35\% = 1752,30\text{\euro}
+  2200\text{\euro} - 29\% \footnote{Usados los tramos más altos de las
+  escalas autonómica \cite{webpage:cyl} y estatal \cite{webpage:at} aplicables,
+  el cálculo está simplificado al no tener en cuenta la progresividad de
+  la escala de tramos.}
+  - 6,35\% = 1422,30\text{\euro}
 \end{equation}
 
 \subsubsection{Costes pertenecientes a la SS}
@@ -227,7 +236,7 @@ por parte del trabajador. A continuación de calculan sus importes.
 
 Para el cálculo de la retenciones se toma como referencia la tablas de bases
 de cotización ofrecida por la propia Seguridad Social \cite{webpage:ss}. En
-concreto datos del primer grupo de cotización: ``Ingenieros y Licenciados. 
+concreto los datos del primer grupo de cotización: ``Ingenieros y Licenciados. 
 Personal de alta dirección no incluido en el artículo 1.3.c)
 del Estatuto de los Trabajadores''. Este grupo tiene unas bases mínimas de
 \EUR{1466,40}/mes. Y unas máximas de \EUR{4070,10}/mes.
@@ -270,10 +279,10 @@ su coste total.
 
 \subsubsection{Coste del \extranjerismo{hardware}}
 Para realizar el desarrollo se precisa contar son varios dispositivos. Aunque
-en la Ley del Impuesto sobre Sociedades \cite{webpage:is} se permite un máximo
-de 8 años para amortizar equipos para procesos de información, se considera la
-que renovación de \extranjerismo{hardware} se produce en un periodo más corto de
-4 años. Así pues, la amortización se calcula en función de esos 4 años.
+en la Ley del Impuesto sobre Sociedades \cite{webpage:is} se indica un máximo
+de 8 años para amortizar los equipos para procesos de información, se considera
+la que renovación de \extranjerismo{hardware} se produce en un periodo más corto
+de 4 años. Así pues, la amortización se calcula en función de esos 4 años.
 
 El coste mensual de un dispositivo se calcula así:
 \begin{equation} \label{eq:coste-hw}
@@ -282,7 +291,7 @@ El coste mensual de un dispositivo se calcula así:
 
 Por lo tanto, el coste de un dispositivo es el siguiente:
 \begin{equation} \label{eq:coste-amor-hw}
-  coste\ mensual\ amortizado\ \times n^{o} meses\
+  coste\ mensual\ amortizado\ \times n^{o}\ meses\
 \end{equation}
 
 En el desarrollo solo se va a necesitar una estación de trabajo, así pues, el
@@ -300,7 +309,7 @@ continuación.
 El desarrollo necesita de varios programas y aplicaciones. De igual manera que
 el \extranjerismo{hardware}, la Ley del Impuesto sobre Sociedades
 \cite{webpage:is} indica el máximo de años para realizar la amortización.
-En sistemas y programas informáticos es de 6 años. Pero coincidiendo con el
+En los sistemas y programas informáticos es de 6 años. Pero coincidiendo con el
 periodo de renovación del \extranjerismo{hardware}, la amortización se calcula
 en un periodo menor de 4 años.
 
@@ -359,19 +368,20 @@ el proyecto.
 }
 
 \subsubsection{Beneficios del proyecto}
-El código fuente del sistema empotrado (SE)y de la aplicación web se encuentran
+El código fuente del sistema empotrado (SE) y de la aplicación web se encuentran
 disponibles abiertamente. Además, el SE tampoco tiene definida una función
 claramente comercial. Por ello, no se considera que el proyecto
 pueda tener un beneficio económico directo.
 
 Esto tampoco quiere decir que los gastos se hagan a fondo perdido. Más bien,
-se pueden considerar los gastos como una inversión en investigación y formación.
-Competencias que permitirán en el futuro crear nuevos SE que rentabilicen todos
-los costes.
+se pueden considerar a los gastos como una inversión en investigación, formación
+y adquisición de competencias que permitirán en el futuro crear nuevos SE que
+rentabilicen todos los costes.
+
 
 \subsection{Viabilidad legal}
 Al desarrollar un \extranjerismo{software} hay que tener en consideración
-las implicaciones legales que se presental al usar \extranjerismo{software}
+las implicaciones legales que se presentan al usar \extranjerismo{software}
 de terceros.
 
 Las licencias sirven como instrumento para establecer los términos y condiciones
@@ -397,8 +407,8 @@ de código fuente de terceros que se describe a continuación.
   ARM Limited. El código se proporciona con la licencia Apache 2.0.
 \end{itemize}
 
-Así pues, se encuentran licencias que permiten el uso, copia, modificación y 
-redistribución del código. Como BSD-3 o Apache 2.0
+Así pues, se encuentran licencias como BSD-3 o Apache 2.0 que permiten el uso,
+copia, modificación y redistribución del código.
 
 \subsubsection{Licencia para el SE}
 Teniendo en cuanta que el código fuente del \extranjerismo{software} del SE
@@ -421,19 +431,20 @@ principales se pueden ver resumidas en la siguiente tabla.
 
 \subsubsection{Licencia para la aplicación web}
 En el caso de la aplicación web no se ha requerido de bibliotecas o librerías
-de terceros como en el caso del SE. De igual forma que el SE, la aplicación web
-se licencia con Apache 2.0
+de terceros como en el caso del SE. Del mismo modo que en el SE, la aplicación
+web se licencia con Apache 2.0.
 
-\subsubsection{Aviso de Apache}
-Para aplicar la licencia Apache \cite{webpage:apache2-apply} es necesario
-adjuntar un archivo de texto con la licencia con el nombre ``LICENSE''
-en el directorio raíz del proyecto. El archivo de texto se puede copiar
-desde su propia web \cite{webpage:apache2-license}.
+\subsubsection{Utilización de la licencia Apache}
+Para poner en conocimiento el uso de la licencia Apache
+\cite{webpage:apache2-apply} se ubica en el directorio raíz del proyecto un
+archivo de texto con el nombre ``LICENSE'' que incluye los términos de la
+licencia. El archivo de texto se puede obtener desde el sitio web de Apache
+\cite{webpage:apache2-license}.
 
-En caso de ser necesario, se incluirá un fichero llamado ``NOTICE'' en el mismo 
-directorio que la licencia que contenga información adicional.
+En caso de ser necesario, se incluye un fichero llamado ``NOTICE'' con
+información adicional en el mismo directorio de la licencia.
 
-Por último, el texto a continuación será incluido en todos los ficheros 
+Por último, el texto a continuación es incluido en todos los ficheros 
 fuente. Se tiene que añadir como comentario en el comienzo del fichero,
 sustituyendo el texto entre corchetes por el nombre del autor y por la fecha
 que correspondan.
@@ -454,11 +465,11 @@ que correspondan.
   limitations under the License.
 \end{quotation}
 
-
 \subsubsection{Licencia para la documentación}
 Para el licenciamiento de la documentación se opta por otro tipo de licencia
 más adecuada al tipo de obra. La licencia escogida es
-Creative Commons Atribución 4.0 Internacional (CC BY 4.0) \cite{webpage:cc}.
+Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
+(CC BY-NC-SA 4.0) \cite{webpage:cc}.
 
 Esta licencia permite que la obra sea compartida libremente. Puede ser copiada
 y redistribuida en cualquier medio o formato. También se puede reeditar,
