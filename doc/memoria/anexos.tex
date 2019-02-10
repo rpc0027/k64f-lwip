@@ -375,6 +375,38 @@
 % Expande la palabra hardware
 \newcommand{\hw}{\extranjerismo{hardware}}
 
+% Muestra una imagen con su ancho ajustado en relación al ancho del texto.
+%
+% #1 Nombre del fichero con la imagen.
+% #2 Texto para el pie de foto.
+% #3 Etiqueta usada para referencias.
+% #4 Porcentaje del ancho (de 0 a 1) al que ajustar la imagen.
+% #5 Opciones para \begin{figure}.
+\newcommand{\imagenancho}[4]{
+  \begin{figure}[#3]
+    \centering
+    \includegraphics[width=#4\textwidth]{#1}
+    \caption{#2}
+    \label{fig:#1}
+  \end{figure}
+}
+
+% Muestra una imagen con su alto ajustado en relación al alto del texto.
+%
+% #1 Nombre del fichero con la imagen.
+% #2 Texto para el pie de foto.
+% #3 Etiqueta usada para referencias.
+% #4 Porcentaje del alto (de 0 a 1) al que ajustar la imagen.
+% #5 Opciones para \begin{figure}.
+\newcommand{\imagenalto}[4]{
+  \begin{figure}[#3]
+    \centering
+    \includegraphics[height=#4\textheight]{#1}
+    \caption{#2}
+    \label{fig:#1}
+  \end{figure}
+}
+
 % Datos de portada
 \title{Comunicación TCP/IP con sistemas empotrados \\Documentación Técnica}
 \author{RPC}
