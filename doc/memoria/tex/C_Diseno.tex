@@ -6,8 +6,8 @@ puede comenzar con la especificación del diseño. Este apéndice detalla
 las soluciones tomadas respecto al diseño del \sw{}.
 
 Con el diseño del \sw{} se trata de dar respuesta a cuestiones relativas a los
-datos, y su representación; los módulos, y su funcionamiento interno; y
-como estructurar el \sw{} arquitectónicamente.
+datos, y su representación; las división lógica en módulos, y su funcionamiento
+interno; y como estructurar el \sw{} arquitectónicamente.
 
 \subsection{Ámbito del \sw{}} \label{sec:design-ambito}
 El \sw{} a desarrollar debe permitir a un usuario operar con un
@@ -16,20 +16,24 @@ entidades tan diferenciadas, tanto el sistema empotrado como la aplicación web
 tienen que contar con \sw{} propio y específico a cada plataforma.
 
 El \sw{} del sistema empotrado tiene que residir en el propio sistema. Con su
-ejecución se pretende actuar sobre el \hw{} habilitado a tal fin. En cuanto al
-\sw{} de la aplicación web, ejecutado en un servidor de aplicaciones, va a
-servir como interfaz del sistema al usuario y le va a permitir transmitir
-la acciones a realizar por el sistema empotrado de forma remota.
+ejecución se pretende actuar sobre el \hw{} habilitado a tal fin.
+
+En cuanto al \sw{} de la aplicación web, ejecutado en un servidor de aplicaciones, va a
+servir como interfaz de usuario frente al sistema empotrado que le va a permitir
+ordenar la ejecución de las funciones del sistema empotrado.
+
+
 
 \section{Diseño de datos} \label{sec:design-datos}
 Para que la aplicación web pueda ordenar al sistema empotrado actuar de una
 determinada manera se precisa de la transmisión de unos comandos concretos. En
 consecuencia, se tiene que definir la estructura de los comandos para que ambos
-\sw{} sean capaces de entenderse.
+\extranjerismo{softwares} sean capaces de entenderse.
+
 
 \subsection{Transferencia de los comandos} \label{sec:design-transferencia}
 Los comandos van a ser transferidos usando el protocolo Transmission Control
-Protocol (TCP). Como el protocolo está orientado a conexión se encarga de
+Protocol (TCP). El protocolo está orientado a la conexión y se encarga de
 establecerla la comunicación mediante unos mensajes de sincronización (SYN) y
 reconocimiento (ACK), como se puede ver en \ref{fig:tcp}.
 
@@ -39,22 +43,23 @@ reconocimiento (ACK), como se puede ver en \ref{fig:tcp}.
   \caption{Conexión TCP \cite{webpage:tcp-handshake}} \label{fig:tcp}
 \end{figure}
 
-Aprovechando que el protocolo TCP se encarga establecer una conexión sea fiable,
+Aprovechando que el protocolo TCP se encarga establecer una conexión fiable,
 se delega en él el establecimiento de la conexión y los comandos serán enviados
 después como segmentos dentro de un paquete TCP.
 
+
 \subsection{Comando LED} \label{sec:design-datos-led}
-Con este comando se indica al sistema empotrado muestre una luz con el color
-indicado. Individualmente, los LED RGB puede iluminarse cada LED con uno de los
-tres colores básicos rojo, verde y azul. Como se pueden encender varios LED
-simultáneamente, combinando los colores básicos se pueden generar otros nuevos.
-Los nuevos colores son el amarillo, cyan, magenta, y blanco. Además, debe ser
-posible que los LED se apaguen y dejen de iluminar.
+Con este comando se indica al sistema empotrado que muestre una luz con el color
+indicado. Hay un LED para cada uno de los tres colores primarios: rojo, verde y
+azul. Aunque los LED pueden encenderse individualmente, encendiéndolos
+simultáneamente se pueden combinar los colores primarios y generar otros
+nuevos. Los colores obtenidos por adición son el cian, magenta, amarillo y
+blanco. Además, debe ser posible que los LED se apaguen y dejen de iluminar.
 
 Para conseguir lo anterior, el nombre del comando refleja la alusión a los LED
 RGB. El comando se acompaña de un argumento que especifica el color concreto a
-exhibir. Para ayudar a diferenciar el comando del argumento se ubica un carácter
-separador. 
+iluminar. Para ayudar a diferenciar el comando del argumento se ubica un carácter
+separador.
 
 \tablaSmallSinColores{Comando LED}{l c c c c}{comando-led}
 {\multicolumn{1}{l}{Color} & Comando & Separador & Argumento & Comando resultante\\}
@@ -62,12 +67,13 @@ separador.
   Rojo     & led & : & r & led:r \\
   Verde    & led & : & g & led:g \\
   Azul     & led & : & b & led:b \\
-  Amarillo & led & : & y & led:y \\
-  Cyan     & led & : & c & led:c \\
+  Cian     & led & : & c & led:c \\
   Magenta  & led & : & m & led:m \\
+  Amarillo & led & : & y & led:y \\
   Blanco   & led & : & w & led:w \\
-  Apagados & led & : & o & led:o \\
+  No color & led & : & o & led:o \\
 }
+
 
 \subsection{Comando MSG} \label{sec:design-datos-msg}
 Este comando indica al sistema empotrado que muestre una cadena de caracteres
@@ -84,17 +90,17 @@ argumentos se ubica un carácter separador.
 {\multicolumn{1}{l}{Línea} & Comando & S. & Arg. 1 & S.
                            & Arg. 2 & Comando resultante\\}
 {
-  1\textsuperscript{a} línea & msg & : & 0 & : & txt & msg:0:txt\\
-  2\textsuperscript{a} línea & msg & : & 1 & : & txt & msg:1:txt\\
+  1\textsuperscript{a} línea & msg & : & 0 & : & <chars> & msg:0:<chars>\\
+  2\textsuperscript{a} línea & msg & : & 1 & : & <chars> & msg:1:<chars>\\
 }
+
 
 \subsection{Comando PWM} \label{sec:design-datos-pwm}
 Este comando indica al sistema empotrado que regule la intensidad del brillo de
 los LED compatibles con PWM. El sistema empotrado cuenta con 4 LED regulables
-por lo que es necesario identificar cual de ellos a regular.
+por lo que es necesario identificar cual de ellos hay que regular.
 
-
-El nombre del comando refleja que van a utilizar los LED PWM. Como hay 4 LED
+El nombre del comando refleja que se van a utilizar los LED PWM. Como hay 4 LED
 hace falta un argumento que permita seleccionar el LED a regular. Para indicar
 la intensidad se añade otro argumento con el valor nuevo, entre 0 y 100.
 De nuevo, entre el comando y cada uno de los argumentos se ubica un carácter
@@ -109,6 +115,8 @@ separador.
   Amarillo & pwm & : & y & : & <0-100> & pwm:y:<0-100> \\
   Rojo     & pwm & : & r & : & <0-100> & pwm:r:<0-100> \\
 }
+
+
 
 \section{Diseño arquitectónico} \label{sec:arch}
 La arquitectura de un \sw{} se describe en el estándar IEEE 42010-2011
@@ -138,11 +146,7 @@ de ser necesario se realiza el tratamiento correspondiente. Una vez terminada
 una tarea, se ejecuta la siguiente, y al completar la última se vuelve a empezar
 el ciclo con la primera de todas.
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[height=0.5\textheight]{arch_rr}
-  \caption{Tareas en bucle infinito} \label{fig:rr}
-\end{figure}
+\imagenalto{arch_rr}{Tareas en bucle infinito}{!h}{0.5}
 
 Para no tener que estar sondeando constantemente el \hw{}, se puede mejorar la 
 arquitectura anterior incluyendo interrupciones. Estas señales permiten indicar
@@ -162,7 +166,7 @@ de ellas.
 
 Por lo tanto, una tarea con prioridad alta, porque necesita un tiempo
 de respuesta estricto, es ejecutada antes que las demás. Más aún, se puede
-configurar el RTOS para que desaloje una tarea de menor prioridad para poder
+configurar el RTOS para que desaloje una tarea de menor prioridad y pase a
 ejecutar una de mayor prioridad.
 
 \begin{figure}[!h]
@@ -174,7 +178,7 @@ ejecutar una de mayor prioridad.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.6\textheight]{arch_tareas}
-  \caption{Tareas del \sw{}} \label{fig:tareas}
+  \caption{Tareas para el RTOS} \label{fig:tareas}
 \end{figure}
 
 Con las tareas \ref{fig:tareas} se da respuesta a los casos de usos planteados
@@ -183,6 +187,7 @@ Gracias la flexibilidad que aporta esta solución se podrían añadir o remover
 funciones rápidamente. Por ejemplo, bastaría con agregarlas o quitarlas del 
 RTOS durante la inicialización \ref{fig:bucle}.
 
+
 \subsection{Diseño arquitectónico de la aplicación web} \label{sec:arch-aw}
 Por lo que se refiere al \sw{} de aplicación web, representa un cambio de
 contexto completo. La aplicación se encuentra alojada en un servidor de
@@ -190,15 +195,15 @@ aplicaciones que permite al usuario acceder a la interfaz web desde un
 navegador web cualquiera.
 
 La tecnología a utilizar en conjunción con el servidor de aplicaciones es
-JavaServer Faces (JSF) \cite{webpage:jsf}. Su especificación precisa su
+JavaServer Faces (JSF) \cite{webpage:jsf}. Su especificación concreta su
 propósito para construir aplicaciones web e interfaces de usuarios basadas
 en componentes. Cada componente de \sw{} sirve para encapsular un conjunto
 de funciones o datos estrechamente relacionados.
 
 Además, JSF utiliza el patrón de arquitectura Modelo-Vista-Controlador (MVC).
-Este patrón separa la lógica de la aplicación en tres partes separadas.
+Este patrón separa la lógica de la aplicación en tres componentes diferenciados.
 Con la separación se impulsa el desarrollo modular, facilitando la colaboración
-y la reutilización durante el desarrollo. En 
+y la reutilización durante el desarrollo.
 
 Los tres componentes de MVC son:
 \begin{description}
@@ -210,11 +215,7 @@ Los tres componentes de MVC son:
   en función de las acciones del usuario.
 \end{description}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\textheight]{arch_mvc}
-  \caption{Relación entre MVC y el usuario} \label{fig:mvc}
-\end{figure}
+\imagenancho{arch_mvc}{Relación entre MVC y el usuario}{!h}{0.8}
 
 \subsubsection{Diseño del modelo} \label{sec:arch-modelo}
 En JSF el modelo se define mediante \extranjerismo{beans}. Los
@@ -222,8 +223,8 @@ En JSF el modelo se define mediante \extranjerismo{beans}. Los
 conjunto de atributos y sus correspondientes métodos 
 \extranjerismo{getters} y \extranjerismo{setters}.
 
-Como resultado, se puede consultar el valor de un atributo, también llamado
-propiedad, mediante su método \extranjerismo{get} y se puede actualizar con su
+Así pues, el valor de un atributo, también llamado propiedad, se consulta con
+su correspondiente método \extranjerismo{get} y se puede actualizar con su
 método \extranjerismo{set}.
 
 \subsubsection{Diseño de la vista} \label{sec:arch-vista}
@@ -244,37 +245,41 @@ que en el modelo \ref{sec:arch-modelo}. Pero a diferencia de los
 cuentan con los métodos necesarios para realizar la lógica de negocio
 requerida por la aplicación.
 
+
 \subsection{Diseño conjunto del sistema} \label{sec:design-comp}
-\imagen{componentes}{Diagrama de componentes del sistema}
+\imagenancho{componentes}{Diagrama de componentes del sistema}{!h}{1}
+
 
 \subsection{Diseño de la interfaz} \label{sec:design-iface}
-Para que el usuario puede controlar el sistema empotrado la aplicación web
+Para que el usuario pueda controlar el sistema empotrado, la aplicación web
 pone su disposición una interfaz web. En una sola página el usuario puede
 ver las funciones disponibles y operar con ellas.
 
 En primer lugar la interfaz tiene que permitir que el usuario introduzca
 los datos de conexión con el sistema empotrado.
 
-\imagen{panel_datos}{Introducción de datos}
+\imagenancho{panel_datos}{Introducción de datos}{!h}{0.9}
 
 Una vez establecidos los datos se muestran unos paneles con las funciones
 disponibles.
 
 Con unos botones se puede escoger el color iluminado por los LED RGB.
 
-\imagen{panel_led}{Panel para cambiar el color de los LED RGB}
+\imagenancho{panel_led}{Panel para cambiar el color de los LED RGB}{!h}{0.9}
 
-En unos cuadros de texto, el usuario puede introducir su mensaje y pulsando
-un botón lo envía.
-\imagen{panel_msg}{Panel para cambiar enviar un texto al LCD}
-
-Con unos controles deslizantes, el usuario puede cambiar la intesidad del brillo
-de los LED regulados por PWM.
-\imagen{panel_pwm}{Panel para regular el brillo de los LED PWM}
+En unos cuadros de texto, el usuario puede introducir un mensaje y pulsando
+un botón lo puede enviar.
+\imagenancho{panel_msg}{Panel para enviar un texto al LCD}{!h}{0.9}
 
 \clearpage
 
-La interfaz compuesta se construye según lo definido en el siguiente diseño.
+Con unos controles deslizantes, el usuario puede cambiar la intensidad del brillo
+de los LED regulados por PWM.
+\imagenancho{panel_pwm}{Panel para regular el brillo de los LED PWM}{!h}{0.9}
+
+\clearpage
+
+La interfaz completa se construye según lo definido en el siguiente diseño.
 
 \begin{figure}[H]
   \centering
