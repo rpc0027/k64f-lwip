@@ -30,7 +30,7 @@ El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
 \begin{description}
   \item[/] Directorio raíz, contiene el resto de directorios. Incluye el
   fichero LICENSE que contiene los términos y condiciones del licenciamiento
-  del \sw{}. Además contiene un fichero de tipo ``mex'' generado por el entorno
+  del \sw{}. Además contiene un fichero de tipo MEX generado por el entorno
   de desarrollo (IDE) que sirve para configurar el \hw{} de la placa de
   desarrollo. Y el fichero Doxyfile que configura la herramienta de documentación.
   \item[/CMSIS/] Fuentes pertenecientes al Cortex Microcontroller Software
@@ -43,8 +43,8 @@ El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
   \item[/doc/] Contiene la documentación del código y del proyecto.
   \item[/doc/amazon-freertos/] Documentación incluida con FreeRTOS.
   \item[/doc/lwip/] Documentación incluida con lwIP.
-  \item[/doc/memoria/] Documentación del proyecto, la memoria descriptiva junto
-  con sus apéndices.
+  \item[/doc/memoria/] Documentación del proyecto, la memoria descriptiva y
+  sus apéndices.
   \item[/doc/html] Documentación del código fuente generada por Doxygen.
   \item[/drivers/] Fuentes con los controladores necesarios para trabajar con el
   \hw{}.
@@ -65,7 +65,9 @@ El código fuente del \sw{} del sistema empotrado toma la siguiente estructura:
 El código fuente del \sw{} de la aplicación web toma la siguiente estructura:
 
 \begin{description}
-  \item[/] Directorio raíz, contiene el resto de directorios. Aquí se ubica el
+  \item[/] Directorio raíz, contiene el resto de directorios. Incluye el
+  fichero LICENSE que contiene los términos y condiciones del licenciamiento
+  del \sw{}. Aquí se ubica el
   fichero ``pom.xml'' usando por la herramienta Maven para la gestión y
   construcción del proyecto.
   \item[/doc/] Documentación del código fuente generada por Javadoc.
@@ -79,7 +81,7 @@ El código fuente del \sw{} de la aplicación web toma la siguiente estructura:
   \item[/src/main/webapp/resources/css/] Contiene el fichero CSS que modifica el
   aspecto de la interfaz.
   \item[/src/main/webapp/resources/images/] Contiene las imágenes y otros
-  recursos gráficos a usar en la interfaz.
+  recursos gráficos a usar por la interfaz.
 \end{description}
 
 
@@ -87,8 +89,8 @@ El código fuente del \sw{} de la aplicación web toma la siguiente estructura:
 \section{Manual del programador}
 Para desarrollar el proyecto se han utilizado dos IDE diferentes, uno para cada
 \sw{}. Aunque no es indispensable usar las mismas herramientas, a continuación
-se muestra como obtener, instalar, configurar y utilizarlas de la misma
-manera que se ha hecho durante el proyecto.
+se muestra como obtener, instalar, configurar y utilizar las mismas herramientas
+utilizadas durante el proyecto.
 
 
 \subsection{MCUXpresso IDE} \label{sec:man-dev-mcuxpresso}
@@ -195,7 +197,7 @@ repositorio. Sino, solo se puede trabajar en local.
 
 Al aceptar la conexión con el repositorio, una serie de ventanas solicita más
 información respecto a la ubicación del repositorio local, el proyecto a 
-importar y si el proyecto se importa directamente o no.
+importar y si se usa el proyecto directamente o se genera uno nuevo.
 
 Completado el proceso de importación el proyecto se encuentra listo 
 trabajar con él.
@@ -216,7 +218,7 @@ código oportuno para habilitar e inicializar los dispositivos configurados. El
 acceso a estas herramientas se consigue cambiando a sus respectivas perspectivas.
 
 Con Pin Tools se configuran los pines del microcontrolador (MCU) enrutando
-sus pines con la salida o la entrada adecuada. Los pines se pueden seleccionar y
+sus pines con la entrada o la salida adecuada. Los pines se pueden seleccionar y
 enrutar en la vista ``Pins'' de la herramienta. Además, Pin Tools permite asociar
 los pines en grupos. De esta manera es posible habilitar e inicializar grupos
 de pines concretos simultáneamente.
@@ -232,15 +234,15 @@ La herramienta Clock Tools se utiliza para configurar los relojes del sistema
 empotrado. En la vista ``Clocks Table'' se pueden introducir los valores de
 configuración: frecuencias, multiplicadores, divisores... Por otra parte, la
 vista ``Clocks Diagram'' muestra de forma gráfica la configuración establecida
-en ese momento, aunque también permite cambiar los ajustes sobre el diagrama
+en ese momento y también permite cambiar los ajustes sobre el diagrama
 directamente.
 
 \figuraApaisadaSinMarco{0.9}{clocks_diag}{Diagrama con los relojes del sistema}
 {fig:relojes}{}
 
 La última herramienta, Peripheral Tools, posibilita la configuración de los
-dispositivos periféricos conectados al MCU. En función del periféricos se
-muestras las opciones específicas para cada uno de ellos.
+dispositivos periféricos conectados al MCU. En función del periférico se
+muestran las opciones específicas para cada uno de ellos.
 
 \imagen{peripherals}{Configuración del periférico FTM}
 
@@ -248,14 +250,14 @@ muestras las opciones específicas para cada uno de ellos.
 \subsection{Eclipse IDE} \label{sec:man-dev-eclipse}
 El desarrollo de la aplicación web requiere de varias herramientas aparte
 del propio IDE. Una es el kit de desarrollo de Java, JDK, y la otra es el
-SDK de Java EE. Además, como se usa Maven para la gestión del proyecto, también
-es necesaria su instalación.
+servidor de aplicaciones GlassFish. Además, como se usa Maven para la gestión
+del proyecto, también es necesaria su instalación.
 
 \subsubsection{Instalación de JDK} \label{sec:jdk}
 El JDK se puede obtener de la zona de descargas de Oracle \cite{webpage:javaee}.
 Como el JDK es utilizado por el resto de herramientas, su descarga e instalación
 se debe realizar en primer lugar. El instalador se encarga de todo el proceso a
-excepción de la creación de dos variables de entorno.
+excepción de la creación de una variable de entorno.
 
 Para poder usar el JDK desde la consola de comandos, es necesario crear
 una variable de entorno llamada ``JAVA\_HOME'' que apunte al directorio de
@@ -267,8 +269,8 @@ Maven está disponible en su sitio web \cite{webpage:maven}. La descarga consist
 en un fichero comprimido que no contiene ningún instalador. Para su uso, basta
 con descomprimir el fichero en algún directorio del sistema. Después, para
 localizar el directorio hay que crear una variable de entorno al igual que con
-el JDK. En este caso, la varible se tiene que llamar ``M2\_HOME'' y también
-hay que agregarla al ``PATH''.
+el JDK. En este caso, la variable se tiene que llamar ``M2\_HOME'' y también
+tiene que ser agregada al ``PATH''.
 
 \subsubsection{Instalación de GlassFish} \label{sec:glassfish}
 La manera de instalar GlassFish es similar a la anterior. Hay que descargar un
@@ -286,7 +288,7 @@ for Enterprise Java Developers''.
 \imagen{installer}{Instalador de Eclipse IDE}
 
 Después de terminar la instalación de Eclipse, es necesario instalar
-una pequeña herramienta llamada Eclipse GlassFish Tools capaz de conectar el
+una pequeña herramienta llamada Eclipse GlassFish Tools capaz de conectar
 GlassFish con Eclipse. De esta manera es posible publicar las aplicaciones web y
 controlar el estado del servidor directamente desde el IDE.
 
@@ -301,11 +303,7 @@ La importación del proyecto es similar a la descrita para MCUXpresso
 \ref{sec:importacion-proj}, bien importando un fichero o bien descargándolo
 desde GitHub \cite{webpage:repo-aw}.
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[height=0.45\textheight]{aw-imported}
-  \caption{Proyecto correctamente importado} \label{fig:aw-imported}
-\end{figure}
+\imagenancho{aw-imported}{Proyecto correctamente importado}{!h}{0.45}
 
 \clearpage
 
@@ -321,7 +319,8 @@ es necesario tomar diferentes caminos para su puesta en marcha.
 \label{sec:exe-se}
 Existen varias vías para compilar el código fuente. Una de ellas es hacer clic
 derecho sobre el proyecto y en el menú contextual, pulsar sobre ``Build
-Project''. Otra forma es pulsar sobre su icono en la barra de herramientas.
+Project''. Otra forma es pulsar sobre su icono correspondiente en la barra de
+herramientas.
 
 Para realizar la escritura, o \extranjerismo{flash}, de los binarios en el
 sistema empotrado y que pueda ejecutarlos hay que lanzar desde el IDE la
@@ -351,10 +350,9 @@ mensajes enviados por la placa cuando corresponda.
 Como la aplicación web depende de un servidor de aplicaciones para funcionar,
 se hace necesario desplegarla en uno antes de poder utilizarla.
 
-Eclipse junto con la herramienta GlassFish Tool \ref{sec:eclipse} permite
-realizar el despliegue automáticamente. Además, permite controlar el servidor
-de aplicaciones pudiendo iniciarlo, detenerlo o incluso, actualizar los
-ficheros de una aplicación ya desplegada.
+Eclipse permite realizar el despliegue automáticamente. Además, permite
+controlar el estado del servidor de aplicaciones pudiendo iniciarlo, detenerlo o
+incluso, actualizar los ficheros de una aplicación ya desplegada.
 
 En la vista ``Servers'' y haciendo clic derecho sobre el servidor GlassFish
 se puede desplegar la aplicación pulsando en la opción ``Add and remove'' del
@@ -362,21 +360,13 @@ menú contextual. En la ventana que aparece después, se selecciona la aplicaci�
 en el cuadro de la derecha y pulsando ``Add >'' queda configurada para ser
 publicada en el servidor.
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[height=0.45\textheight]{add}
-  \caption{Aplicación configurada para ser publicada} \label{fig:add}
-\end{figure}
+\imagenalto{add}{Aplicación configurada para ser publicada}{!h}{0.45}
 
 Mientras el código de la aplicación no sea modificado, la aplicación tendrá el
 estado de sincronizada. Si el código cambia, su estado indicará que necesita
-ser vuelta a publicar.
+publicada de nuevo.
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[width=0.6\textwidth]{published}
-  \caption{Aplicación publicada} \label{fig:publicada}
-\end{figure}
+\imagenancho{published}{Aplicación publicada}{!h}{0.9}
 
 Si el despliegue se ha completado con éxito, ya es posible acceder a la
 aplicación web desde un navegador cualquiera. La URL de la aplicación es:
