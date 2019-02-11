@@ -104,16 +104,17 @@ El nombre del comando refleja que se van a utilizar los LED PWM. Como hay 4 LED
 hace falta un argumento que permita seleccionar el LED a regular. Para indicar
 la intensidad se añade otro argumento con el valor nuevo, entre 0 y 100.
 De nuevo, entre el comando y cada uno de los argumentos se ubica un carácter
-separador.
+separador. Por último, se añade de nuevo un carácter con el color de LED para
+indicar al sistema empotrado que ha finalizado el valor numérico. 
 
-\tablaSmallSinColores{Comando MSG}{l c c c c c c}{comando-msg}
+\tablaSmallSinColores{Comando PWM}{l c c c c c c c}{comando-pwm}
 {\multicolumn{1}{l}{LED} & Comando & S. & Arg. 1 & S.
-                           & Arg. 2 & Comando resultante\\}
+                           & Arg. 2 & Fin & Comando resultante\\}
 {
-  Blanco   & pwm & : & w & : & <0-100> & pwm:w:<0-100> \\
-  Verde    & pwm & : & g & : & <0-100> & pwm:g:<0-100> \\
-  Amarillo & pwm & : & y & : & <0-100> & pwm:y:<0-100> \\
-  Rojo     & pwm & : & r & : & <0-100> & pwm:r:<0-100> \\
+  Blanco   & pwm & : & w & : & <0-100> & w & pwm:w:<0-100>w \\
+  Verde    & pwm & : & g & : & <0-100> & g & pwm:g:<0-100>g \\
+  Amarillo & pwm & : & y & : & <0-100> & a & pwm:y:<0-100>a \\
+  Rojo     & pwm & : & r & : & <0-100> & r & pwm:r:<0-100>r \\
 }
 
 
@@ -247,7 +248,17 @@ requerida por la aplicación.
 
 
 \subsection{Diseño conjunto del sistema} \label{sec:design-comp}
+
 \imagenancho{componentes}{Diagrama de componentes del sistema}{!h}{1}
+
+
+\subsection{Diagramas de clases} \label{sec:design-comp}
+
+\imagenancho{pkg-controller}{Diagrama de clases de los paquetes
+\extranjerismo{controller} y \extranjerismo{controller.network}}{H}{0.9}
+
+\imagenalto{pkg-model}{Diagrama de clases del paquete
+\extranjerismo{model}}{H}{0.3}
 
 
 \subsection{Diseño de la interfaz} \label{sec:design-iface}
@@ -287,4 +298,11 @@ La interfaz completa se construye según lo definido en el siguiente diseño.
   \caption{Diseño de la interfaz} \label{fig:intefaz}
 \end{figure}
 
-\section{Diseño procedimental}
+\clearpage
+
+\section{Diseño procedimental} \label{sec:design-proc}
+El siguiente diagrama muestra las interacciones que se producen entre
+los componentes del sistema desde que el usuario solicita una función hasta que
+el sistema empotrado la realiza.
+
+\figuraApaisadaSinMarco{0.9}{secuencia}{Diagrama de secuencia}{fig:secuencia}{}
