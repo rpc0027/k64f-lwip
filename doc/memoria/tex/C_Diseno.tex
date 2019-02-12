@@ -45,7 +45,7 @@ reconocimiento (ACK), como se puede ver en \ref{fig:tcp}.
 
 Aprovechando que el protocolo TCP se encarga establecer una conexión fiable,
 se delega en él el establecimiento de la conexión y los comandos serán enviados
-después como segmentos dentro de un paquete TCP.
+después encapsulados dentro de segmentos TCP.
 
 
 \subsection{Comando LED} \label{sec:design-datos-led}
@@ -77,7 +77,7 @@ separador.
 
 \subsection{Comando MSG} \label{sec:design-datos-msg}
 Este comando indica al sistema empotrado que muestre una cadena de caracteres
-en la pantalla LCD. Como la pantalla tiene dos líneas se necesita indicar
+en la pantalla LCD. Como la pantalla tiene dos líneas, se necesita indicar
 la línea donde mostrar el texto.
 
 El nombre del comando refleja que trata con los mensajes de texto. El comando
@@ -109,7 +109,7 @@ indicar al sistema empotrado que ha finalizado el valor numérico.
 
 \tablaSmallSinColores{Comando PWM}{l c c c c c c c}{comando-pwm}
 {\multicolumn{1}{l}{LED} & Comando & S. & Arg. 1 & S.
-                           & Arg. 2 & Fin & Comando resultante\\}
+                           & Arg. 2 & Fin & Cmd. resultante\\}
 {
   Blanco   & pwm & : & w & : & <0-100> & w & pwm:w:<0-100>w \\
   Verde    & pwm & : & g & : & <0-100> & g & pwm:g:<0-100>g \\
